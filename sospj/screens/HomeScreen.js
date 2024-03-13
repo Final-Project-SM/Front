@@ -44,7 +44,7 @@ function HomeScreen({ navigation }) {
     </Pressable>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>이름이</Text>
+        <Text style={styles.label}>이름</Text>
         <Text style={styles.value}>: 이상용</Text>
       </View>
       <View style={styles.row}>
@@ -79,7 +79,6 @@ function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View> 
       <NfcScanner onTagFound={(tag) => console.log(tag)} />
-    
     </View>
   );
 }
