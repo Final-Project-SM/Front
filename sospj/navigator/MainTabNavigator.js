@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapScreen from '../screens/MapScreen';
 import HomeStackNavigator from './HomeStackNavigator';
 import SettingStackNavigator from './SettingStackNavigator';
-import SettingsScreen from '../screens/SettingsScreen';
 // 추가하고 싶은 다른 스크린을 import합니다.
 
 const Tab = createBottomTabNavigator();
