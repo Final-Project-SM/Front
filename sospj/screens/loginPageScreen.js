@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
 function LoginPageScreen({ navigation }) {
   const [username, setUsername] = useState('');
@@ -9,6 +9,7 @@ function LoginPageScreen({ navigation }) {
     // 회원가입 로직을 여기에 구현하세요.
     // 예: API 호출을 통해 백엔드 서버에 회원가입 정보 전송
     console.log(username, password);
+    navigation.navigate('Main')
     Alert.alert("Signup Clicked", `Username: ${username}, Password: ${password}`);
   };
   
