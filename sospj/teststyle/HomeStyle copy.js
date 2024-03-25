@@ -1,0 +1,61 @@
+// HomeStyle.js
+import { StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000', // 배경 검정색
+  },
+  headerImage: {
+    width: '100%',
+    marginTop: 10,
+    height: 170,
+    borderRadius: 20, // 모서리 둥근 처리
+    marginBottom: 20,
+  },
+  headerText: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#FFF', // 텍스트 하얀색
+    marginBottom: 20,
+  },
+  contactItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    width : '100%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#FFF', // 구분선 하얀색
+  },
+  contactText: {
+    color: '#FFF', // 텍스트 하얀색
+    fontSize : 20,
+  },
+  emergencyButton: {
+    marginVertical: 10,
+    padding: 15,
+    borderRadius: 10, // 모서리 둥근 처리
+    alignItems: 'center',
+  },
+  emergencyButtonText: {
+    color: '#FFF', // 텍스트 하얀색
+    fontWeight: 'bold',
+  },
+  police : {
+    flexDirection: 'row',
+    margin:10
+  },
+  callButton: {
+    backgroundColor: '#FFF', // 버튼 배경색
+    padding: 10,
+    borderRadius: 5,
+    marginLeft:10
+  },
+  callButtonText: {
+    color: 'black', // 텍스트 색상
+  },
+});
+
+export default styles;
