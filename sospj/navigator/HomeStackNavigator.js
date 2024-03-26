@@ -10,7 +10,17 @@ const Stack = createStackNavigator();
 function HomeStackNavigator() {
   return (
     <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'home' }} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Make World Safely',
+      headerStyle: { 
+        backgroundColor: '#212121',
+      },
+      // Header의 텍스트, 버튼 색상
+      headerTintColor: '#ffffff',
+      // 타이틀 텍스트의 스타일
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+      }, }} />
 
       {/* 여기에 다른 탭 스크린을 추가할 수 있습니다. */}
       </Stack.Navigator>

@@ -9,8 +9,8 @@ const Tab = createBottomTabNavigator();
 
 function MainTabNavigator() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeStackNavigator} options={{ headerShown: false  }}/>
+    <Tab.Navigator screenOptions={{ tabBarActiveTintColor: '#FFB2B2', tabBarActiveBackgroundColor:'white', tabBarShowLabel: false,tabBarInactiveBackgroundColor :'#212121' }}>
+      <Tab.Screen name="Home" component={HomeStackNavigator} options={{ headerShown: false}}/>
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Setting" component={SettingStackNavigator} options={{ headerShown: false  }} />
 
