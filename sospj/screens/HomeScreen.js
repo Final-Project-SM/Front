@@ -37,23 +37,24 @@ function HomeScreen({ navigation }) {
         style={styles.headerImage}
         source={{ uri: 'https://source.unsplash.com/random/400x200?emergency' }} // 예시 이미지 URL
       />
+      <View style={{borderTopColor:'white',borderTopWidth:1, borderBottomColor:'white', borderBottomWidth:1, margin:2, marginBottom:10, width:'100%'}}>
       <Text style={styles.headerText}>Make World Safely</Text>
+      </View>
+        <Text style={{color:'white'}}>비상연락망</Text>
         {contacts.map((contact, index) => (
           <View key={index} style={styles.contactItem}>
-          <View style={styles.contactInfo}>
+          
+          <TouchableOpacity
+            onPress={() => callNumber(contact.phone)}
+          >
+            <View style={styles.contactInfo2}>
             <Image 
               source={{uri: contact.ImageUrl}}
               style={styles.contactImage} 
             />
             <Text style={styles.contactText}>{contact.name}</Text>
             <Text style={styles.contactText2}>{contact.phone}</Text>
-
-          </View>
-          <TouchableOpacity
-            style={styles.callButton}
-            onPress={() => callNumber(contact.phone)}
-          >
-            <Text style={styles.callButtonText}>Call</Text>
+            </View>
           </TouchableOpacity>
         </View>
         ))}

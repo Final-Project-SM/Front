@@ -18,36 +18,36 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontWeight: 'bold',
     color: '#FFF', // 텍스트 하얀색
-    marginBottom: 20,
+    marginBottom: 10,
   },
   contactItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
     width: '95%',
     borderBottomWidth: 1,
     borderBottomColor: '#FFF', // 구분선 하얀색
   },
   contactText: {
     color: '#FFF', // 텍스트 하얀색
-    fontSize: 20,
+    fontSize: 15,
   },
   contactText2: {
     color: '#FFF', // 텍스트 하얀색
-    fontSize: 20,
+    fontSize: 15,
     marginLeft:30
   },
   callButton: {
     backgroundColor: '#FFF', // 버튼 배경색
-    padding: 10,
+    padding: 7,
     borderRadius: 5,
     marginLeft: 10,
   },
   callButtonText: {
     color: '#212121', // 텍스트 색상
   },
-  contactInfo: {
+  contactInfo2: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -58,10 +58,10 @@ const styles = StyleSheet.create({
   },  
   emergencyButton: {
     marginVertical: 10,
-    padding: 15,
+    padding: 10,
     borderRadius: 10, // 모서리 둥근 처리
     alignItems: 'center',
-    margin:10
+    margin:5
   },
   emergencyButtonText: {
     color: '#FFF', // 텍스트 하얀색
