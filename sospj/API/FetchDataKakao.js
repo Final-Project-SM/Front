@@ -1,6 +1,6 @@
-// FetchDataComponent.js
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
+import { REACT_APP_KAKAO_REST_KEY } from '@env';
 
 const FetchDataKakao = ({ apiUrl }) => {
   useEffect(() => {
@@ -13,7 +13,6 @@ const FetchDataKakao = ({ apiUrl }) => {
         console.error(error);
       });
   }, [apiUrl]);
-
   return (
     <View>
       <Text>Data fetched</Text>

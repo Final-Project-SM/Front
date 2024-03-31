@@ -4,7 +4,9 @@ import { View, Text, Button, ScrollView, Linking, Image, Alert, Pressable, Touch
 import styles from '../teststyle/HomeStyle copy';
 import NfcScanner from '../NFC/nfcScanner';
 import { BarChart } from 'react-native-chart-kit'; // 그래프를 위한 라이브러리
-
+import { REACT_APP_KAKAO_REST_KEY } from '@env';
+import {FetchDataKakao} from '../API/FetchDataKakao';
+import axios from 'axios';
 
 // 예시 그래프 데이터
 const graphData = {
@@ -23,6 +25,16 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({ navigation }) {
+
+  const asdsad = async () =>{
+    const response = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?y=37.14596&x=127.0672&radius=2000&query=%EC%86%8C%EB%B0%A9%EC%84%9C`, {
+            headers: {
+                Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`,
+            },
+            });
+            console.log(response.data)
+  }
+  asdsad()
   const contacts = [
     { name: '엄마', phone: '010-2680-9361' ,ImageUrl : 'https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/263/68b88ea1c2c2de21542c38c498564786_res.jpeg'},
     { name: '아빠', phone: '010-3643-5995', ImageUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa86TCWimid3nQI58oWcctSZ6sQa1Vx4g-chLGoi97yw&s' },
@@ -33,6 +45,7 @@ function HomeScreen({ navigation }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {/* <FetchDataKakao apiUrl={apiUrl} /> */}
       <Image
         style={styles.headerImage}
         source={{ uri: 'https://source.unsplash.com/random/400x200?emergency' }} // 예시 이미지 URL
