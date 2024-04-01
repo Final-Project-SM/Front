@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Button, ScrollView, Linking, Image, Alert, Pressable, TouchableOpacity } from 'react-native';
 //import styles from '../teststyle/HomeStyle';
 import styles from '../teststyle/HomeStyle copy';
@@ -25,15 +25,23 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({ navigation }) {
-
   const asdsad = async () =>{
-    const response = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?y=37.14596&x=127.0672&radius=2000&query=%EC%86%8C%EB%B0%A9%EC%84%9C`, {
-            headers: {
-                Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`,
-            },
-            });
-            console.log(response.data)
+    const query = encodeURIComponent('소방서'); // 검색할 키워드를 URL 인코딩
+  try {
+    const response = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?y=37.2635727&x=127.0286009&radius=2000&query=${query}`, {
+      headers: {
+        Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`, // 환경 변수에서 API 키를 가져옴
+      },
+    });
+
+    // 응답 데이터에서 각 위치의 위도와 경도 정보만 추출하여 로그에 출력
+    response.data.documents.forEach(document => {
+      console.log(`name : ${document.place_name}, Latitude: ${document.y}, Longitude: ${document.x}`);
+    });
+  } catch (error) {
+    console.error('Error fetching location data:', error);
   }
+};
   asdsad()
   const contacts = [
     { name: '엄마', phone: '010-2680-9361' ,ImageUrl : 'https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/263/68b88ea1c2c2de21542c38c498564786_res.jpeg'},
