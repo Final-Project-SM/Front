@@ -18,8 +18,6 @@ function MapScreen() {
   const [currentX, setCurrentX] = useState('null')
   const [currentY, setCurrentY] = useState('null')
   const [fireplacemarker, setFireplacemarker] = useState([]);
-  const [policemarker, setPolicemarker] = useState([]);
-  const [sotremarker, setStoreplacemarker] = useState([]);
 
   //const apiUrl = `http://openapi.seoul.go.kr:8088/${REACT_APP_API_KEY}/xml/TbGiWardP/1/10/`; // 수정된 부분
 
@@ -174,7 +172,7 @@ try {
       </View>
 
       <Text>Map Screen</Text>
-      <MapComponent x={currentX} y={currentY} markers={fireplacemarker} />
+      <MapComponent x={currentX} y={currentY} markers={fireplacemarker} currentX={currentX} currentY={currentY} />
       {/* <Text>test map2</Text>
       <MapComponent2/> */}
     </View>

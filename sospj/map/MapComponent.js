@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Dimensions, View, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { REACT_APP_KAKKO_KEY } from '@env'; // react-native-dotenv를 통해 환경 변수 불러오기
-const MapComponent = ({x,y,markers}) => {
+const MapComponent = ({x,y,markers,currentX, currentY}) => {
   // 마커를 추가하는 JavaScript 코드를 생성하는 함수
-  const createMarkerScript = (position, imageUrl, imageSize) => {
+  const createMarkerScript2 = (position, imageUrl, imageSize) => {
     console.log(markers)
     return `
       var markerPosition = new kakao.maps.LatLng(${position.lat}, ${position.lng});
@@ -28,10 +28,10 @@ const MapComponent = ({x,y,markers}) => {
       marker.setMap(map);
       
       // 마커에 클릭 이벤트를 등록합니다
-      kakao.maps.event.addListener(marker, 'click', function() {
-        // 클릭 시, 마커 이름 표시 (예시)
-        alert('${marker.name}');
-      });
+    kakao.maps.event.addListener(marker, 'click', function() {
+      // 클릭 시, 카카오맵으로 이동 (여기서는 장소 이름을 사용하여 카카오맵 검색 URL을 열도록 함)
+      window.open('https://map.kakao.com/link/search/' + '${marker.name}');
+    });
     `).join('');
   };
 
@@ -75,8 +75,7 @@ const MapComponent = ({x,y,markers}) => {
           }
           // 마커를 추가하는 코드를 여기에 삽입합니다
           ${createMarkersScript(markers)}
-          ${createMarkerScript({lat: 36.7991628, lng: 127.0760286}, 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', {width: 64, height: 69})}
-          ${createMarkerScript({lat: 36.7991628, lng: 127.0760286}, 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', {width: 64, height: 69})}
+          ${createMarkerScript2({lat: currentX, lng: currentY}, 'https://pbs.twimg.com/media/GAzwK91aAAAC-kl?format=jpg&name=360x360', {width: 84, height: 89})}
         </script>
       </body>
     </html>
