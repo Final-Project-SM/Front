@@ -26,13 +26,16 @@ function MapScreen() {
   useEffect(() => {
     const watchId = Geolocation.watchPosition(
       (position) => {
-        const { latitude, longitude } = position.coords
-        setCurrentLocation({ latitude, longitude })
-        setCurrentX(latitude);
-        setCurrentY(longitude);
+        const { latitude, longitude } = position.coords;
+        // 현재 위치가 변경되었는지 확인
+        if (latitude !== currentX || longitude !== currentY) {
+          setCurrentLocation({ latitude, longitude });
+          setCurrentX(latitude);
+          setCurrentY(longitude);
+        }
       },
       (error) => {
-        console.log(error)
+        console.log(error);
       },
       {
         enableHighAccuracy: true,
@@ -40,11 +43,11 @@ function MapScreen() {
         maximumAge: 0,
         distanceFilter: 1,
       }
-    )
+    );
     return () => {
-      Geolocation.clearWatch(watchId)
-    }
-  }, [])
+      Geolocation.clearWatch(watchId);
+    };
+  }, [currentX, currentY]); // 의존성 배열에 currentX와 currentY 추가
 
 
   const fireplace = async () =>{
@@ -129,19 +132,8 @@ try {
   console.error('Error fetching location data:', error);
   }
   };
-//   // 응답 데이터에서 각 위치의 위도와 경도 정보만 추출하여 로그에 출력
-//   response.data.documents.forEach(document => {
-//     console.log(`name : ${document.place_name}, Latitude: ${document.y}, Longitude: ${document.x}`);
-//   });
-// } catch (error) {
-//   console.error('Error fetching location data:', error);
-// }
-// };
-
-
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={styles.title}>Geolocation Tutorial</Text>
       {currentLocation ? (
         <Text style={styles.title}>
           {currentLocation.latitude} / {currentLocation.longitude}
@@ -185,7 +177,7 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 12,
     margin: 15,
     color: "black",
     fontWeight: "600",
