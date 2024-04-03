@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapScreen from '../screens/MapScreen';
 import HomeStackNavigator from './HomeStackNavigator';
 import SettingStackNavigator from './SettingStackNavigator';
+import MapScreen2 from '../screens/MapScreen2';
 // 추가하고 싶은 다른 스크린을 import합니다.
 
 const Tab = createBottomTabNavigator();
@@ -12,6 +13,7 @@ function MainTabNavigator() {
     <Tab.Navigator screenOptions={{ tabBarActiveTintColor: '#FFB2B2', tabBarActiveBackgroundColor:'white', tabBarShowLabel: false,tabBarInactiveBackgroundColor :'#212121' }}>
       <Tab.Screen name="Home" component={HomeStackNavigator} options={{ headerShown: false}}/>
       <Tab.Screen name="Map" component={MapScreen} />
+      <Tab.Screen name="Map2" component={MapScreen2} />
       <Tab.Screen name="Setting" component={SettingStackNavigator} options={{ headerShown: false  }} />
 
       {/* 여기에 다른 탭 스크린을 추가할 수 있습니다. */}

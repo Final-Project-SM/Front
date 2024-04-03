@@ -1,0 +1,23 @@
+<!-- tmap.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tmap Example</title>
+  <script src="https://apis.openapi.sk.com/tmap/js?version=1&appKey=여기에_당신의_Tmap_API_키를_입력"></script>
+</head>
+<body>
+  <div id="Tmap" style="width:100%;height:100%;"></div>
+  <script>
+    var map;
+    function initTmap() {
+      map = new Tmapv2.Map("Tmap", {
+        center: new Tmapv2.LatLng(37.566481622437934, 126.98502302169841),
+        width: "100%",
+        height: "100%",
+        zoom: 15,
+      });
+    }
+    initTmap();
+  </script>
+</body>
+</html>
