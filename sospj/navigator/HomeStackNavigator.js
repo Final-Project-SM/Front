@@ -12,10 +12,10 @@ function HomeStackNavigator() {
     <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Make World Safely',
       headerStyle: { 
-        backgroundColor: '#212121',
+        backgroundColor: 'white',
       },
       // Header의 텍스트, 버튼 색상
-      headerTintColor: '#ffffff',
+      headerTintColor: '#81C784',
       // 타이틀 텍스트의 스타일
       headerTitleStyle: {
         fontWeight: 'bold',

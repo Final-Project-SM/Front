@@ -5,7 +5,51 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#212121', // 배경 검정색
+    backgroundColor: 'white', // 배경 검정색
+  },
+  contentsContainer:{
+    flexDirection: 'row',
+    backgroundColor:'white',
+    width: '100%',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  contents1:{ //비상연락처
+    width:155,
+    height:155,
+    backgroundColor:'#E8F5E9',
+    borderColor:'black',
+    borderRadius:15,
+    marginTop:14,
+    marginRight:7,
+  },
+  contents11:{
+    width:50,
+    height:50,
+    borderRadius:15,
+    backgroundColor:'white',
+    margin:5,
+    marginTop:7,
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  contents21:{
+    width:110,
+    height:40,
+    borderRadius:15,
+    backgroundColor:'white',
+    margin:5,
+    marginTop:7,
+    padding:10
+  },
+  contents2:{ //긴급신고
+    width:155,
+    height:155,
+    backgroundColor:'#E8F5E9',
+    borderColor:'black',
+    borderRadius:15,
+    marginTop:14,
+    marginLeft:7,
   },
   headerImage: {
     width: '100%',
@@ -17,29 +61,33 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 48,
     fontWeight: 'bold',
-    color: '#FFF', // 텍스트 하얀색
+    color: '#212121', // 텍스트 하얀색
     marginBottom: 10,
   },
   contactItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     padding: 5,
-    width: '95%',
-    borderBottomWidth: 1,
-    borderBottomColor: '#FFF', // 구분선 하얀색
+    width: '60%',
+    height: 55,
+    borderWidth: 1,
+    margin:3,
+    borderRadius : 10,
+    borderBottomColor: '#212121', // 구분선 하얀색
   },
   contactText: {
-    color: '#FFF', // 텍스트 하얀색
-    fontSize: 15,
+    color: '#212121', // 텍스트 하얀색
+    fontSize: 10,
   },
   contactText2: {
-    color: '#FFF', // 텍스트 하얀색
+    color: '#212121', // 텍스트 하얀색
     fontSize: 15,
-    marginLeft:30
+
+  },
+  contactInfo2: {
+    justifyContent: 'space-between',
+
   },
   callButton: {
-    backgroundColor: '#FFF', // 버튼 배경색
+    backgroundColor: '#212121', // 버튼 배경색
     padding: 7,
     borderRadius: 5,
     marginLeft: 10,
@@ -47,10 +95,7 @@ const styles = StyleSheet.create({
   callButtonText: {
     color: '#212121', // 텍스트 색상
   },
-  contactInfo2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+  
   contactImage: {
     width: 25, // Adjust the size as needed
     height: 25, // Adjust the size as needed
@@ -64,8 +109,9 @@ const styles = StyleSheet.create({
     margin:5
   },
   emergencyButtonText: {
-    color: '#FFF', // 텍스트 하얀색
+    color: '#212121', // 텍스트 하얀색
     fontWeight: 'bold',
+    margin:5
   },
   police : {
     flexDirection: 'row',

@@ -3,10 +3,6 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  header: {
-    fontSize: 22,
-    margin: 10,
-  },
   scrollView: {
     width: '100%',
     marginBottom: 20,
@@ -63,6 +59,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontWeight: 'bold',
   },
+ 
 });
 
 export default styles;
