@@ -8,6 +8,7 @@ import { REACT_APP_KAKAO_REST_KEY } from '@env';
 import {FetchDataKakao} from '../API/FetchDataKakao';
 import ImageSlider from '../components/Imageslider';
 import Swiper from 'react-native-swiper';
+import CurrentLocation from '../components/currentLocation';
 
 import axios from 'axios';
 
@@ -19,7 +20,7 @@ const news = [
 
 // 예시 그래프 데이터
 const graphData = {
-  labels: ['강남', '은평', '마포', '수원', '광주', '부산'],
+  labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
   datasets: [
     {
       data: [7, 10, 7, 24, 3, 15], // 각 지역별 사고 횟수
@@ -141,7 +142,7 @@ function HomeScreen({ navigation }) {
       <View style={{borderTopColor:'white',borderTopWidth:1, borderBottomColor:'white', borderBottomWidth:1, margin:2, marginBottom:10, width:'100%'}}>
       
       </View>
-        
+      <CurrentLocation/>
       <Text style={styles.emergencyButtonText}>지역별 사고 현황 추이</Text>
       <View style={{ paddingRight: 20 }}>
         <BarChart
