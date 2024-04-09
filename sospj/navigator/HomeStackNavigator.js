@@ -18,8 +18,8 @@ function HomeStackNavigator() {
       headerTintColor: '#81C784',
       // 타이틀 텍스트의 스타일
       headerTitleStyle: {
-        fontWeight: 'bold',
         fontSize: 20,
+        fontFamily : 'SpoqaHanSansNeo-Bold'
       }, }} />
 
       {/* 여기에 다른 탭 스크린을 추가할 수 있습니다. */}

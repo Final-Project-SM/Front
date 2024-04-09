@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
+    
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -15,6 +15,7 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true"
+      android:hardwareAccelerated="true"
       >
       <meta-data android:name="com.kakao.sdk.AppKey" android:value="ee426050769da0603f8cee6899d8239e" />
       <activity
