@@ -32,6 +32,48 @@ const CurrentLocation = () => {
     }
   };
 
+  const changeToDoSi = (address) => {
+    const doMapping = {
+      '서울': '서울특별시',
+      '부산': '부산광역시',
+      '대구': '대구광역시',
+      '인천': '인천광역시',
+      '광주': '광주광역시',
+      '대전': '대전광역시',
+      '울산': '울산광역시',
+      '세종': '세종특별자치시',
+      '경기': '경기도',
+      '강원': '강원도',
+      '충북': '충청북도',
+      '충남': '충청남도',
+      '전북': '전라북도',
+      '전남': '전라남도',
+      '경북': '경상북도',
+      '경남': '경상남도',
+      '제주': '제주특별자치도'
+    };
+  
+    // '도'와 '시'를 포함하여 그 뒤의 주소까지 모두 추출합니다.
+    const regex = /^([가-힣]+)\s+([가-힣]+시)\s*(.*)/;
+    const match = address.match(regex);
+    
+    if (match) {
+      const stateShort = match[1]; // 줄임말 '도'
+      const city = match[2]; // '시'
+      
+      // '도' 부분을 매핑 테이블을 사용하여 전체 이름으로 변환합니다.
+      const fullStateName = doMapping[stateShort] || stateShort; 
+      
+      // 변환된 '도', '시', 그리고 나머지 주소를 결합합니다.
+      const fullAddress = `${fullStateName} ${city}`.trim();
+      
+      console.log(fullAddress); // 변환된 전체 주소를 출력합니다.
+    }
+  }
+  
+  
+
+
   const convertToAddress = async (latitude, longitude) => {
     // 카카오 API를 사용한 주소 변환 함수
     try {
@@ -72,11 +114,11 @@ const CurrentLocation = () => {
     }
   }, [position]); // position이 변경될 때마다 주소 변환
 
+  changeToDoSi(address)
   return (
     <View style={styles.container}>
-      <Text>현재 사용자 위치</Text>
+      <Text style={{fontFamily : 'SpoqaHanSansNeo-Medium'}}>현재 사용자 위치 : {address}</Text>
       {/* <Text>위도: {position?.coords.latitude}, 경도: {position?.coords.longitude}</Text> */}
-      <Text>주소: {address}</Text>
     </View>
   );
 };
@@ -86,6 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
 });
 

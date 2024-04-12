@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     borderRadius:15,
     marginTop:14,
     marginRight:7,
+    
   },
   contents11:{
     width:50,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     borderRadius:15,
     marginTop:14,
     marginLeft:7,
+    
   },
   headerImage: {
     width: '100%',
@@ -76,6 +78,7 @@ const styles = StyleSheet.create({
   contactText: {
     color: '#212121', // 텍스트 하얀색
     fontSize: 10,
+    fontFamily : 'SpoqaHanSansNeo-Bold'
   },
   contactText2: {
     color: '#212121', // 텍스트 하얀색
@@ -111,7 +114,8 @@ const styles = StyleSheet.create({
   emergencyButtonText: {
     color: '#212121', // 텍스트 하얀색
     fontWeight: 'bold',
-    margin:5
+    margin:5,
+    fontFamily : 'SpoqaHanSansNeo-Bold'
   },
   police : {
     flexDirection: 'row',
