@@ -333,8 +333,5 @@ xcuserdata/
 *.xccheckout
 
 ##assets
-*.mp4
-*.ttf
-*.png
 
 # End of https://www.toptal.com/developers/gitignore/api/node,reactnative
