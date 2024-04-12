@@ -10,7 +10,8 @@ import ImageSlider from '../components/Imageslider';
 import Swiper from 'react-native-swiper';
 import CurrentLocation from '../components/currentLocation';
 import axios from 'axios';
-
+import VideoPlayer from '../components/video';
+import { StatusBar } from 'react-native';
 const news = [
   { title: '눈앞에 가상의 횡단보도를 만드니 밤길 사고 걱정 덜겠네' ,Url : 'https://m.hankookilbo.com/News/Read/A2023052517110002977'},
   { title: '화물차가 탑차 들이받아 1명 사망…밤길 교통사고 잇따라' ,Url : 'https://news.kbs.co.kr/news/pc/view/view.do?ncd=7776903'},
@@ -33,6 +34,8 @@ function callNumber(phoneNumber) {
 
 function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+
   const handlePress = (newsUrl) => {
     Linking.openURL(newsUrl);
   };
@@ -40,6 +43,10 @@ function HomeScreen({ navigation }) {
   const callVideo = (phone) => {
     // 전화 걸기 로직 (여기서는 모달을 표시하는 것으로 대체)
     setModalVisible(true);
+  };
+  const callVideo2 = (phone) => {
+    // 전화 걸기 로직 (여기서는 모달을 표시하는 것으로 대체)
+    setModalVisible2(true);
   };
 
 
@@ -115,6 +122,7 @@ function HomeScreen({ navigation }) {
         </TouchableOpacity>
       ))}
     </Swiper>
+    
       </View>
       <View style ={styles.contentsContainer}>
         <View style={styles.contents1}>
@@ -152,12 +160,12 @@ function HomeScreen({ navigation }) {
       
       <View style ={styles.contentsContainer}>
         <View style={styles.contents1}>
-          <Text style={{margin:4,fontFamily : 'SpoqaHanSansNeo-Bold'}}>SOS도구(Fake)</Text>
+          <Text style={{margin:4,fontFamily : 'SpoqaHanSansNeo-Bold'}}>Fake전화</Text>
 
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <TouchableOpacity onPress={() => callVideo()}>
                   <View style={styles.contents21}>
-                    <Text style={styles.contactText}>전화수신!</Text>
+                    <Text style={styles.contactText}>112 가짜전화</Text>
                   </View>
                 </TouchableOpacity>
                 <Modal
@@ -167,29 +175,53 @@ function HomeScreen({ navigation }) {
                   onRequestClose={() => {
                     setModalVisible(!modalVisible);
                   }}>
-                    <Text>test</Text>
+                    <View style={{flex: 1,justifyContent: 'center', alignItems: 'center'}}>
+                      
+                      <VideoPlayer
+                        source={require('../assets/video/tetetete.mp4')} 
+                        style={styles2.fullScreenVideo}
+                        onEnd={() => setModalVisible(false)} // 비디오 재생이 끝나면 모달을 닫음
+                      />
+                    </View>
                     
                 </Modal>
-                <TouchableOpacity onPress={() => callNumber(contact.phone)}>
+                <TouchableOpacity onPress={() => callVideo2()}>
                   <View style={styles.contents21}>
-                    <Text style={styles.contactText}>통화중!</Text>
+                    <Text style={styles.contactText}>지인 가짜전화</Text>
                   </View>
                 </TouchableOpacity>
+                <Modal
+                  animationType="slide"
+                  transparent={false}
+                  visible={modalVisible2}
+                  onRequestClose={() => {
+                    setModalVisible2(!modalVisible2);
+                  }}>
+                    <View style={{flex: 1,justifyContent: 'center', alignItems: 'center'}}>
+                      
+                      <VideoPlayer
+                        source={require('../assets/video/videoTest.mp4')} 
+                        style={styles2.fullScreenVideo}
+                        onEnd={() => setModalVisible2(false)} // 비디오 재생이 끝나면 모달을 닫음
+                      />
+                    </View>
+                    
+                </Modal>
           </View>
         </View>
         <View style={styles.contents2}>
-        <Text style={{margin:4 ,fontFamily : 'SpoqaHanSansNeo-Bold'}}>긴급 신고</Text>
+        <Text style={{margin:4 ,fontFamily : 'SpoqaHanSansNeo-Bold'}}>SOS 도구</Text>
           <View style={{flexDirection:'row', alginItems:'center', justifyContent:'center'}}>
             <TouchableOpacity style={styles.contents11} onPress={() => callNumber('112')}>
-              <Text style={styles.contactText}>112</Text>
+              <Text style={styles.contactText}>일괄 문자 전송</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.contents11} onPress={() => callNumber('110')}>
-              <Text style={styles.contactText}>110</Text>
+              <Text style={styles.contactText}>미정</Text>
             </TouchableOpacity>
           </View>
           <View style={{flexDirection:'row', alginItems:'center', justifyContent:'center'}}>
             <TouchableOpacity style={styles.contents21} onPress={() => callNumber('119')}>
-              <Text style={styles.contactText}>119</Text>
+              <Text style={styles.contactText}>미정</Text>
             </TouchableOpacity>
           </View>
         </View>
