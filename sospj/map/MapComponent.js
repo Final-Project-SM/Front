@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, View, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { REACT_APP_KAKKO_KEY } from '@env'; // 환경 변수에서 카카오 API 키 가져오기
 
-const MapComponent = ({ x, y, markers, currentX, currentY }) => {
+const MapComponent = ({ x, y, markers, currentX, currentY, category }) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
 
   // WebView로부터 메시지를 받았을 때의 핸들러
@@ -41,40 +41,45 @@ const MapComponent = ({ x, y, markers, currentX, currentY }) => {
       marker.setMap(map);`;
 
   // 마커 생성 및 클릭 이벤트 처리 로직을 포함하는 함수입니다.
-  // 각 마커를 지도에 추가하고 클릭 시 거리를 계산하여 인포윈도우에 표시합니다.
-  const createMarkersScript = (markers) => {
-    return `
-      ${haversineDistance}
-      var infowindow = new kakao.maps.InfoWindow({zIndex:1}); // 인포윈도우를 미리 생성하고 재사용
-    ` + markers.map(marker => `
-      var markerPosition = new kakao.maps.LatLng(${marker.latitude}, ${marker.longitude});
-      var markerImage = new kakao.maps.MarkerImage('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', new kakao.maps.Size(64, 69));
-      var marker = new kakao.maps.Marker({
-        position: markerPosition,
-        image: markerImage
-      });
-      marker.setMap(map);
-      
-      // 마커에 클릭 이벤트를 등록합니다
-      kakao.maps.event.addListener(marker, 'click', function() {
-        // 현재 위치에서 마커까지의 거리 계산
-        var distance = haversineDistance(${currentX}, ${currentY}, ${marker.latitude}, ${marker.longitude});
-        distance = distance.toFixed(2); // 소수점 둘째 자리까지 표시
-  
-        // 인포윈도우에 표시할 내용 업데이트
-        var content = '<div style="padding:5px; min-width:150px; min-height:70px; position: relative;">' + 
-          '${marker.name}까지의 거리: ' + distance + 'km<br>' +
-          '<a href="https://map.kakao.com/link/search/' + encodeURIComponent('${marker.name}') + 
-          '" target="_blank" style="display:inline-block; margin-top:5px; color:blue; text-decoration:underline;">카카오맵에서 검색하기</a>' +
-          '<div style="position: absolute; top: 30px; right: 20px; font-size: 24px; padding: 4px; cursor: pointer;" onclick="infowindow.close();">닫기</div></div>';
-  
-        infowindow.setContent(content);
-  
-        // 현재 마커에 인포윈도우를 표시합니다
-        infowindow.open(map, marker);
-      });
-    `).join('');
+const createMarkersScript = (markers, category) => {
+  const categoryIcons = {
+    fire: 'https://cdn-icons-png.flaticon.com/128/4906/4906569.png',  // 예시: 소방서 마커 아이콘
+    police: 'https://cdn-icons-png.flaticon.com/128/2563/2563376.png', // 예시: 경찰서 마커 아이콘
+    store: 'https://cdn-icons-png.flaticon.com/128/11790/11790206.png'   // 예시: 편의점 마커 아이콘
   };
+
+  return `
+    ${haversineDistance}
+    var infowindow = new kakao.maps.InfoWindow({zIndex:1}); // 인포윈도우를 미리 생성하고 재사용
+  ` + markers.map(marker => `
+    var markerPosition = new kakao.maps.LatLng(${marker.latitude}, ${marker.longitude});
+    var markerImage = new kakao.maps.MarkerImage('${categoryIcons[category]}', new kakao.maps.Size(64, 69));
+    var marker = new kakao.maps.Marker({
+      position: markerPosition,
+      image: markerImage
+    });
+    marker.setMap(map);
+    
+    // 마커에 클릭 이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'click', function() {
+      // 현재 위치에서 마커까지의 거리 계산
+      var distance = haversineDistance(${currentX}, ${currentY}, ${marker.latitude}, ${marker.longitude});
+      distance = distance.toFixed(2); // 소수점 둘째 자리까지 표시
+
+      // 인포윈도우에 표시할 내용 업데이트
+      var content = '<div style="padding:5px; font-size:20px; min-width:150px; min-height:100px; position: relative;">' + 
+        '${marker.name}까지의 거리: ' + distance + 'km<br>' +
+        '<a href="https://map.kakao.com/link/search/' + encodeURIComponent('${marker.name}') + 
+        '" target="_blank" style="display:inline-block; margin-top:5px; color:blue; text-decoration:underline; font-size:30px;">카카오맵에서 검색하기</a>' +
+        '<div style="position: absolute; top: 30px; right: 20px; font-size: 24px; padding: 4px; cursor: pointer;" onclick="infowindow.close();">닫기</div></div>';
+
+      infowindow.setContent(content);
+
+      // 현재 마커에 인포윈도우를 표시합니다
+      infowindow.open(map, marker);
+    });
+  `).join('');
+};
 
   // HTML 템플릿에 JavaScript 코드를 삽입하여 지도를 초기화하고 마커를 추가합니다.
   const mapHtml = `
@@ -96,8 +101,8 @@ const MapComponent = ({ x, y, markers, currentX, currentY }) => {
             window.ReactNativeWebView.postMessage(JSON.stringify({type: 'zoom_changed', zoomLevel: zoomLevel}));
           });
 
-          ${createMarkersScript(markers)}
-          ${createMarkerScript2({lat: currentX, lng: currentY}, 'https://pbs.twimg.com/media/GAzwK91aAAAC-kl?format=jpg&name=360x360', {width: 84, height: 89})}
+          ${createMarkersScript(markers,category)}
+          ${createMarkerScript2({lat: currentX, lng: currentY}, 'https://cdn-icons-png.flaticon.com/128/7976/7976202.png', {width: 84, height: 89})}
         </script>
       </body>
     </html>`;

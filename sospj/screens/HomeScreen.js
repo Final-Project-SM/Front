@@ -68,10 +68,10 @@ function HomeScreen({ navigation }) {
 };
   asdsad()
   const contacts = [
-    { name: '엄마', phone: '010-2680-9361' ,ImageUrl : 'https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/263/68b88ea1c2c2de21542c38c498564786_res.jpeg'},
-    { name: '아빠', phone: '010-3643-5995', ImageUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa86TCWimid3nQI58oWcctSZ6sQa1Vx4g-chLGoi97yw&s' },
-    { name: '여자친구', phone: '555-555-5555' ,ImageUrl : 'https://img.vogue.co.kr/vogue/2023/12/style_657ff6f175a7f-1126x1400.jpg'},
-    { name: '친구1', phone: '666-666-6666' ,ImageUrl : 'https://i.namu.wiki/i/OO_8Mm_ASE9VmX7T-Bjeu0kvLcDBA6zA3yh7P6kW5tLQ2z5U5tY5adfw4m_1vSieSVf086YNp2s8jfw0_gfeig.webp'},
+    //  { name: '엄마', phone: '010-2680-9361' },
+    //  { name: '아빠', phone: '010-3643-5995'},
+    //  { name: '여자친구', phone: '555-555-5555'},
+    //  { name: '친구1', phone: '666-666-6666' },
   ];
 
 
@@ -126,18 +126,31 @@ function HomeScreen({ navigation }) {
       </View>
       <View style ={styles.contentsContainer}>
         <View style={styles.contents1}>
-          <Text style={{margin:4,fontFamily : 'SpoqaHanSansNeo-Bold'}}>비상연락처</Text>
-
+          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+            <Text style={{margin:4,fontFamily : 'SpoqaHanSansNeo-Bold'}}>비상연락처</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('SettingStackNavigator', {screen:'EditEmergenctContacts'})}>
+              <Text style={{margin:4,marginTop:8,marginRight:6,fontFamily : 'SpoqaHanSansNeo-Bold', fontSize:10}}>수정</Text>
+            </TouchableOpacity>
+          </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {contacts.map((contact, index) => (
-              <View key={index} style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
-                <TouchableOpacity onPress={() => callNumber(contact.phone)}>
-                  <View style={styles.contents11}>
-                    <Text style={styles.contactText}>{contact.name}</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ))}
+            {contacts.length === 0 ? (
+              <TouchableOpacity onPress={() => navigation.navigate('SettingStackNavigator', {screen:'EditEmergenctContacts'})}>
+                <View style={{ padding: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0' }}>
+                  <Text style={{ color: '#000', fontSize: 16 }}>비상연락처를 추가해주세요</Text>
+                </View>
+              </TouchableOpacity>
+            ) : (
+              contacts.map((contact, index) => (
+                <View key={index} style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
+              
+                  <TouchableOpacity onPress={() => callNumber(contact.phone)}>
+                    <View style={styles.contents11}>
+                      <Text style={styles.contactText}>{contact.name}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
           </View>
         </View>
         <View style={styles.contents2}>

@@ -18,6 +18,7 @@ function MapScreen() {
   const [currentX, setCurrentX] = useState('null')
   const [currentY, setCurrentY] = useState('null')
   const [fireplacemarker, setFireplacemarker] = useState([]);
+  const [category, setCategory] = useState('null');
 
   //const apiUrl = `http://openapi.seoul.go.kr:8088/${REACT_APP_API_KEY}/xml/TbGiWardP/1/10/`; // 수정된 부분
 
@@ -52,6 +53,7 @@ function MapScreen() {
 
   const fireplace = async () =>{
     const query = encodeURIComponent('소방서'); // 검색할 키워드를 URL 인코딩
+    setCategory('fire');
   try {
     const response = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?y=${currentLocation.latitude}&x=${currentLocation.longitude}&radius=2000&query=${query}`, {
       headers: {
@@ -83,6 +85,7 @@ function MapScreen() {
 
 const police = async () =>{
   const query = encodeURIComponent('경찰서'); // 검색할 키워드를 URL 인코딩
+  setCategory('police');
 try {
   const response = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?y=${currentLocation.latitude}&x=${currentLocation.longitude}&radius=2000&query=${query}`, {
     headers: {
@@ -113,6 +116,7 @@ try {
 
 const store = async () =>{
   const query = encodeURIComponent('편의점'); // 검색할 키워드를 URL 인코딩
+  setCategory('store');
 try {
   const response = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?y=${currentLocation.latitude}&x=${currentLocation.longitude}&radius=2000&query=${query}`, {
     headers: {
@@ -164,7 +168,7 @@ try {
       </View>
 
       <Text>Map Screen</Text>
-      <MapComponent x={currentX} y={currentY} markers={fireplacemarker} currentX={currentX} currentY={currentY} />
+      <MapComponent x={currentX} y={currentY} markers={fireplacemarker} currentX={currentX} currentY={currentY} category={category} />
       {/* <Text>test map2</Text>
       <MapComponent2/> */}
     </View>

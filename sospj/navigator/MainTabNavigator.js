@@ -33,7 +33,7 @@ function MainTabNavigator() {
           style={{ width: size, height: size}}
         />
       ),}} /> */}
-      <Tab.Screen name="Setting" component={SettingStackNavigator} options={{ headerShown: false, tabBarIcon: ({ focused, color, size }) => (
+      <Tab.Screen name="SettingStackNavigator" component={SettingStackNavigator} options={{ headerShown: false, tabBarIcon: ({ focused, color, size }) => (
         <Image
           source={require('../assets/images/setting.png')} // 이미지 경로를 설정하세요
           style={{ width: size, height: size}}
