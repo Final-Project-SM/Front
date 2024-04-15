@@ -5,6 +5,7 @@ import MapScreen from '../screens/MapScreen';
 import HomeStackNavigator from './HomeStackNavigator';
 import SettingStackNavigator from './SettingStackNavigator';
 import MapScreen2 from '../screens/MapScreen2';
+import EditEmergencyContacts from '../screens/setting/EditEmergencyContacts';
 // 추가하고 싶은 다른 스크린을 import합니다.
 
 const Tab = createBottomTabNavigator();
@@ -39,7 +40,8 @@ function MainTabNavigator() {
           style={{ width: size, height: size}}
         />
       ),}}/>
-
+      <Tab.Screen name="EditEmergencyContacts" component={EditEmergencyContacts} options={{ headerShown: false, tabBarButton: () => null }}/>
+      {/* tabBarButton을 null로 설정하여 탭 버튼 숨김 */}
       {/* 여기에 다른 탭 스크린을 추가할 수 있습니다. */}
     </Tab.Navigator>
   );

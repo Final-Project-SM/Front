@@ -1,6 +1,6 @@
 // MapScreen.js
 import React, {useEffect, useState} from 'react';
-import { View, Text, ScrollView, StyleSheet, Dimensions, button, TouchableOpacity,PermissionsAndroid  } from 'react-native';
+import { View, Text,Image, ScrollView, StyleSheet, Dimensions, button, TouchableOpacity,PermissionsAndroid  } from 'react-native';
 import MapComponent from '../map/MapComponent';
 import MapComponent2 from '../map/MapComponent copy';
 import {WebView} from 'react-native-webview';
@@ -10,6 +10,7 @@ import { REACT_APP_KAKKO_KEY } from '@env'; // react-native-dotenv를 통해 환
 import { REACT_APP_KAKAO_REST_KEY } from '@env';
 import axios from 'axios';
 import Geolocation from "react-native-geolocation-service"
+import CurrentLocation from '../components/currentLocation';
 
 
 
@@ -82,6 +83,39 @@ function MapScreen() {
     }
     };
 
+    const hospital = async () =>{
+      const query = encodeURIComponent('병원'); // 검색할 키워드를 URL 인코딩
+      setCategory('hospital');
+    try {
+      const response = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?y=${currentLocation.latitude}&x=${currentLocation.longitude}&radius=2000&query=${query}`, {
+        headers: {
+          Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`, // 환경 변수에서 API 키를 가져옴
+        },
+      });
+  
+  //     // 응답 데이터에서 각 위치의 위도와 경도 정보만 추출하여 로그에 출력
+  //     response.data.documents.forEach(document => {
+  //       console.log(`name : ${document.place_name}, Latitude: ${document.y}, Longitude: ${document.x}`);
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching location data:', error);
+  //   }
+  // };
+      // API 응답에서 위치 정보를 추출하여 상태에 저장
+      const markers = response.data.documents.map(document => ({
+        name: document.place_name,
+        latitude: parseFloat(document.y), // 문자열을 숫자로 변환
+        longitude: parseFloat(document.x),
+      }));
+      //console.log(markers);
+      setFireplacemarker(markers);
+      } catch (error) {
+      console.error('Error fetching location data:', error);
+      }
+      };
+
+
+
 
 const police = async () =>{
   const query = encodeURIComponent('경찰서'); // 검색할 키워드를 URL 인코딩
@@ -124,6 +158,7 @@ try {
     },
   });
 
+
   // API 응답에서 위치 정보를 추출하여 상태에 저장
   const markers = response.data.documents.map(document => ({
     name: document.place_name,
@@ -137,37 +172,29 @@ try {
   }
   };
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      {currentLocation ? (
-        <Text style={styles.title}>
-          {currentLocation.latitude} / {currentLocation.longitude}
-        </Text>
-      ) : (
-        <Text style={styles.title}>location undefined</Text>
-      )}
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,backgroundColor:'white'}}>
+      <Text style={styles.titleStyle}>내 근처 안전쉼터 맵</Text>
+      <CurrentLocation />
 
-      <View style={{flexDirection:'row'}}>
-        <TouchableOpacity
-        onPress={fireplace}
-        style={{backgroundColor:'white', height:30, width:50, borderColor:'black', borderWidth:3}}
-        >
-          <Text>소방서</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        onPress={police}
-        style={{backgroundColor:'white', height:30, width:50, borderColor:'black', borderWidth:3}}
-        >
-          <Text>경찰서</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        onPress={store}
-        style={{backgroundColor:'white', height:30, width:50, borderColor:'black', borderWidth:3}}
-        >
-          <Text>편의점</Text>
-        </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={fireplace} style={styles.button}>
+              <Image source={require('../assets/images/fire.png')} style={styles.icon} />
+              <Text>소방서</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={police} style={styles.button}>
+              <Image source={require('../assets/images/police.png')} style={styles.icon} />
+              <Text>경찰서</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={store} style={styles.button}>
+              <Image source={require('../assets/images/store.png')} style={styles.icon} />
+              <Text>편의점</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={hospital} style={styles.button}>
+              <Image source={require('../assets/images/hospital.png')} style={styles.icon} />
+              <Text>병원</Text>
+          </TouchableOpacity>
       </View>
 
-      <Text>Map Screen</Text>
       <MapComponent x={currentX} y={currentY} markers={fireplacemarker} currentX={currentX} currentY={currentY} category={category} />
       {/* <Text>test map2</Text>
       <MapComponent2/> */}
@@ -175,6 +202,12 @@ try {
   );
 }
 const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20
+  },
   mapView: {
     width: Dimensions.get('window').width,
     height: 750, // 높이를 350px로 설정
@@ -186,6 +219,25 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "600",
   },
+  button: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50, // Set width to fit the image size
+    height: 50, // Set height to fit the image size
+    marginHorizontal: 10
+  },
+  icon: {
+      width: 30, // Set as needed based on your design preference
+      height: 30, // Maintain aspect ratio
+      marginBottom: 5  // Space between icon and text
+  },
+  titleStyle:{
+    color: '#81C784',
+    fontSize:20,
+    fontFamily : 'SpoqaHanSansNeo-Bold',
+    margin:11,
+  }
 });
 
 export default MapScreen;

@@ -68,10 +68,10 @@ function HomeScreen({ navigation }) {
 };
   asdsad()
   const contacts = [
-    //  { name: '엄마', phone: '010-2680-9361' },
-    //  { name: '아빠', phone: '010-3643-5995'},
-    //  { name: '여자친구', phone: '555-555-5555'},
-    //  { name: '친구1', phone: '666-666-6666' },
+     { name: '엄마', phone: '010-2680-9361' },
+     { name: '아빠', phone: '010-3643-5995'},
+     { name: '여자친구', phone: '555-555-5555'},
+     { name: '친구1', phone: '666-666-6666' },
   ];
 
 
@@ -134,7 +134,7 @@ function HomeScreen({ navigation }) {
           </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
             {contacts.length === 0 ? (
-              <TouchableOpacity onPress={() => navigation.navigate('SettingStackNavigator', {screen:'EditEmergenctContacts'})}>
+              <TouchableOpacity onPress={() => navigation.navigate('EditEmergencyContacts')}>
                 <View style={{ padding: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0' }}>
                   <Text style={{ color: '#000', fontSize: 16 }}>비상연락처를 추가해주세요</Text>
                 </View>
@@ -222,19 +222,18 @@ function HomeScreen({ navigation }) {
                 </Modal>
           </View>
         </View>
-        <View style={styles.contents2}>
-        <Text style={{margin:4 ,fontFamily : 'SpoqaHanSansNeo-Bold'}}>SOS 도구</Text>
-          <View style={{flexDirection:'row', alginItems:'center', justifyContent:'center'}}>
-            <TouchableOpacity style={styles.contents11} onPress={() => callNumber('112')}>
-              <Text style={styles.contactText}>일괄 문자 전송</Text>
+        <View style={styles.contents3}>
+          <View style={{flexDirection:'row', alginItems:'center', justifyContent:'space-between'}}>
+            <TouchableOpacity style={styles.contents111} onPress={() => callNumber('112')}>
+              <Text style={styles.contactText3}>일괄 문자 전송</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.contents11} onPress={() => callNumber('110')}>
-              <Text style={styles.contactText}>미정</Text>
+            <TouchableOpacity style={styles.contents111} onPress={() => callNumber('110')}>
+              <Text style={styles.contactText3}>미정</Text>
             </TouchableOpacity>
           </View>
           <View style={{flexDirection:'row', alginItems:'center', justifyContent:'center'}}>
-            <TouchableOpacity style={styles.contents21} onPress={() => callNumber('119')}>
-              <Text style={styles.contactText}>미정</Text>
+            <TouchableOpacity style={styles.contents112} onPress={() => callNumber('119')}>
+              <Text style={styles.contactText3}>미정</Text>
             </TouchableOpacity>
           </View>
         </View>

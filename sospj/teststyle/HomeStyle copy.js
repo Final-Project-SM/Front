@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems:'center',
     justifyContent:'center'
+    
   },
   contents1:{ //비상연락처
     width:155,
@@ -23,9 +24,11 @@ const styles = StyleSheet.create({
     marginTop:14,
     marginRight:7,
     
+    
+    
   },
   contents11:{
-    width:50,
+    width:60,
     height:50,
     borderRadius:15,
     backgroundColor:'white',
@@ -33,15 +36,37 @@ const styles = StyleSheet.create({
     marginTop:7,
     alignItems:'center',
     justifyContent:'center',
+    elevation: 8,
+
+  },
+  contents111:{
+    width:70,
+    height:75,
+    borderRadius:15,
+    backgroundColor:'#D6F6A4',
+    alignItems:'center',
+    justifyContent:'center',
+    elevation: 8,
+  },
+  contents112:{
+    width:155,
+    height:60,
+    borderRadius:15,
+    backgroundColor:'#D6F6A4',
+    alignItems:'center',
+    justifyContent:'center',
+    elevation: 8,
   },
   contents21:{
-    width:110,
+    width:130,
     height:40,
     borderRadius:15,
     backgroundColor:'white',
-    margin:5,
+    margin:9,
     marginTop:7,
-    padding:10
+    padding:10,
+    elevation: 8,
+
   },
   contents2:{ //긴급신고
     width:155,
@@ -51,7 +76,15 @@ const styles = StyleSheet.create({
     borderRadius:15,
     marginTop:14,
     marginLeft:7,
-    
+  },
+  contents3:{ //SOS도구
+    width:155,
+    height:155,
+    borderColor:'black',
+    borderRadius:15,
+    marginTop:14,
+    marginLeft:7,
+    justifyContent:'space-between',
   },
   headerImage: {
     width: '100%',
@@ -83,6 +116,13 @@ const styles = StyleSheet.create({
   contactText2: {
     color: '#212121', // 텍스트 하얀색
     fontSize: 15,
+    fontFamily : 'SpoqaHanSansNeo-Bold'
+
+  },
+  contactText3: {
+    color: 'grey', // 텍스트 하얀색
+    fontSize: 10,
+    fontFamily : 'SpoqaHanSansNeo-Bold'
 
   },
   contactInfo2: {
