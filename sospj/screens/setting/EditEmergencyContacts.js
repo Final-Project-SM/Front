@@ -10,7 +10,9 @@ function EditEmergencyContacts({ navigation }) {
       // 가상의 데이터 가져오기 로직 (실제 데이터 가져오기 로직으로 교체 필요)
       const fetchedContacts = [
         { id: 1, name: 'John Doe', phone: '123-456-7890' },
-        { id: 2, name: 'Jane Smith', phone: '987-654-3210' }
+        { id: 2, name: 'Jane Smith', phone: '987-654-3210' },
+        { id: 3, name: 'John Doe', phone: '123-456-7890' },
+        { id: 4, name: 'John Doe', phone: '123-456-7890' },
       ];
       setContacts(fetchedContacts);
     };

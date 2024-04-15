@@ -1,18 +1,25 @@
 import React, {memo, useState, useEffect, useRef} from 'react';
-import { StyleSheet, Dimensions, View, Text,TouchableOpacity, Image  } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { REACT_APP_KAKKO_KEY } from '@env'; // 환경 변수에서 카카오 API 키 가져오기
-import Geolocation from "react-native-geolocation-service"
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import {WebView} from 'react-native-webview';
+import {REACT_APP_KAKKO_KEY} from '@env'; // 환경 변수에서 카카오 API 키 가져오기
+import Geolocation from 'react-native-geolocation-service';
 
-const MapComponent = ({ x, y, markers, currentX, currentY, category }) => {
+const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
-  const [currentLocation, setCurrentLocation] = useState({ x, y });
-  
-   // WebView로부터 메시지를 받았을 때의 핸들러
-   const onMessage = (event) => {
-    const { data } = event.nativeEvent;
-    const message = JSON.parse(data); 
-    
+  const [currentLocation, setCurrentLocation] = useState({x, y});
+
+  // WebView로부터 메시지를 받았을 때의 핸들러
+  const onMessage = event => {
+    const {data} = event.nativeEvent;
+    const message = JSON.parse(data);
+
     if (message.type === 'zoom_changed') {
       setZoomLevel(message.zoomLevel);
     }
@@ -46,40 +53,41 @@ const MapComponent = ({ x, y, markers, currentX, currentY, category }) => {
       var marker = new kakao.maps.Marker({ position: markerPosition, image: markerImage });
       marker.setMap(map);`;
 
- // 위치 갱신 버튼의 핸들러
- const updateLocation = () => {
-  Geolocation.getCurrentPosition(
-    (position) => {
-      setCurrentLocation({
-        x: position.coords.latitude,
-        y: position.coords.longitude
-      });
-    },
-    (error) => {
-      console.error(error);
-    },
-    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-  );
-};
-
-
-
-  // 마커 생성 및 클릭 이벤트 처리 로직을 포함하는 함수입니다.
-const createMarkersScript = (markers, category) => {
-  const categoryIcons = {
-    fire: 'https://cdn-icons-png.flaticon.com/128/4906/4906569.png',  // 예시: 소방서 마커 아이콘
-    police: 'https://cdn-icons-png.flaticon.com/128/2563/2563376.png', // 예시: 경찰서 마커 아이콘
-    store: 'https://cdn-icons-png.flaticon.com/128/11790/11790206.png',   // 예시: 편의점 마커 아이콘
-    hospital: 'https://cdn-icons-png.flaticon.com/128/527/527034.png'
+  // 위치 갱신 버튼의 핸들러
+  const updateLocation = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        setCurrentLocation({
+          x: position.coords.latitude,
+          y: position.coords.longitude,
+        });
+      },
+      error => {
+        console.error(error);
+      },
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    );
   };
 
-  return `
+  // 마커 생성 및 클릭 이벤트 처리 로직을 포함하는 함수입니다.
+  const createMarkersScript = (markers, category) => {
+    const categoryIcons = {
+      fire: 'https://cdn-icons-png.flaticon.com/128/4906/4906569.png', // 예시: 소방서 마커 아이콘
+      police: 'https://cdn-icons-png.flaticon.com/128/2563/2563376.png', // 예시: 경찰서 마커 아이콘
+      store: 'https://cdn-icons-png.flaticon.com/128/11790/11790206.png', // 예시: 편의점 마커 아이콘
+      hospital: 'https://cdn-icons-png.flaticon.com/128/527/527034.png',
+    };
+
+    return (
+      `
     ${haversineDistance}
     var infowindow = new kakao.maps.InfoWindow({zIndex:1, removable: true});
 
-  ` + markers.map(marker => {
-    const distance = `haversineDistance(${currentX}, ${currentY}, ${marker.latitude}, ${marker.longitude}).toFixed(2)`;
-    return `
+  ` +
+      markers
+        .map(marker => {
+          const distance = `haversineDistance(${currentX}, ${currentY}, ${marker.latitude}, ${marker.longitude}).toFixed(2)`;
+          return `
       var markerPosition = new kakao.maps.LatLng(${marker.latitude}, ${marker.longitude});
       var markerImage = new kakao.maps.MarkerImage('${categoryIcons[category]}', new kakao.maps.Size(80, 85));
       var marker = new kakao.maps.Marker({
@@ -107,9 +115,10 @@ const createMarkersScript = (markers, category) => {
         infowindow.open(map, marker);
       });
     `;
-  }).join('');
-};
-
+        })
+        .join('')
+    );
+  };
 
   // HTML 템플릿에 JavaScript 코드를 삽입하여 지도를 초기화하고 마커를 추가합니다.
   const mapHtml = `
@@ -121,7 +130,9 @@ const createMarkersScript = (markers, category) => {
     <body>
       <div id="map" style="width:100%;height:100%;"></div>
       <script>
-        var mapContainer = document.getElementById('map'), mapOption = { center: new kakao.maps.LatLng(${currentLocation.x}, ${currentLocation.y}), level: ${zoomLevel} };
+        var mapContainer = document.getElementById('map'), mapOption = { center: new kakao.maps.LatLng(${
+          currentLocation.x
+        }, ${currentLocation.y}), level: ${zoomLevel} };
         var map = new kakao.maps.Map(mapContainer, mapOption);
 
         // Zoom Level 변경 시 이벤트 핸들러
@@ -132,22 +143,28 @@ const createMarkersScript = (markers, category) => {
         });
 
         ${createMarkersScript(markers, category)}
-        ${createMarkerScript2({lat: currentLocation.x, lng: currentLocation.y}, 'https://cdn-icons-png.flaticon.com/128/7976/7976202.png', {width: 84, height: 89})}
+        ${createMarkerScript2(
+          {lat: currentLocation.x, lng: currentLocation.y},
+          'https://cdn-icons-png.flaticon.com/128/7976/7976202.png',
+          {width: 84, height: 89},
+        )}
       </script>
     </body>
   </html>`;
 
   return (
     <View style={styles.container}>
-     
       <WebView
         originWhitelist={['*']}
-        source={{ html: mapHtml }}
+        source={{html: mapHtml}}
         style={styles.webview}
         onMessage={onMessage}
       />
-       <TouchableOpacity onPress={updateLocation} style={styles.updateButton}>
-        <Image source={require('../assets/images/gps.png')} style={styles.buttonIcon} />
+      <TouchableOpacity onPress={updateLocation} style={styles.updateButton}>
+        <Image
+          source={require('../assets/images/gps.png')}
+          style={styles.buttonIcon}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -157,7 +174,6 @@ const styles = StyleSheet.create({
   webview: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-    
   },
   container: {
     flex: 1,
@@ -168,22 +184,22 @@ const styles = StyleSheet.create({
     width: 35, // 버튼 크기 조정
     height: 35, // 버튼 크기 조정
     borderRadius: 25, // 원형 버튼
-    position:'absolute',
-    bottom:20,
-    left:10,
+    position: 'absolute',
+    bottom: 20,
+    left: 10,
     backgroundColor: '#FFFFFF',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    alignItems:'center',
-    justifyContent:'center'
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonIcon: {
     width: 25, // 이미지 크기
-    height: 25  // 이미지 크기
-  }
+    height: 25, // 이미지 크기
+  },
 });
 
 export default memo(MapComponent);

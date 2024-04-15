@@ -11,6 +11,8 @@ function HomeStackNavigator() {
   return (
     <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Make World Safely',
+      headerLeft: null, // 뒤로 가기 버튼 제거
+      headerTitleAlign: 'center', // 타이틀을 중앙으로 정렬
       headerStyle: { 
         backgroundColor: 'white',
       },
