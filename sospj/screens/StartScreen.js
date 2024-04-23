@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, PermissionsAndroid } from 'react-native';
-
+import messaging from '@react-native-firebase/messaging';
 /**
  * 애플리케이션의 시작 화면을 나타내는 컴포넌트입니다. 사용자에게 회원가입 및 로그인을 할 수 있는 옵션을 제공합니다.
  * 
@@ -14,6 +14,9 @@ function StartScreen({ navigation }) {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       )
     }
+    messaging().onMessage(async remoteMessage => {
+      navigation.navigate("Sos")
+    })
   }, [])
   return (
     <View style={styles.container}>

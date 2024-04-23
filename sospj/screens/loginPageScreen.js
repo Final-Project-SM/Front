@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-
+import {TEST} from "@env"
 function LoginPageScreen({ navigation }) {
+  Alert.alert(TEST)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
