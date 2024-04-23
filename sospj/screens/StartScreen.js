@@ -9,6 +9,7 @@ import messaging from '@react-native-firebase/messaging';
  */
 function StartScreen({ navigation }) {
   useEffect(() => {
+
     if (Platform.OS === "android") {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION

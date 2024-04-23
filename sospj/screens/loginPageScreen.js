@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import {TEST} from "@env"
+import {useUser} from '../components/public/UserContext';
 function LoginPageScreen({ navigation }) {
-  Alert.alert(TEST)
+
+  const {user,setUser} = useUser(); //사용방범 console.log(user.id) && setUser({id:response.id})
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const handleLogin = () => {
-    // 회원가입 로직을 여기에 구현하세요.
-    // 예: API 호출을 통해 백엔드 서버에 회원가입 정보 전송
+    
     console.log(username, password);
     navigation.navigate('Main')
     Alert.alert("Signup Clicked", `Username: ${username}, Password: ${password}`);
@@ -33,7 +32,6 @@ function LoginPageScreen({ navigation }) {
       />
       <Button title="로그인" onPress={handleLogin} />
       <Button title="회원가입" onPress={() => navigation.navigate('Register')} />
-
       <Button title="Back" onPress={() => navigation.goBack()} />
     </View>
   );
