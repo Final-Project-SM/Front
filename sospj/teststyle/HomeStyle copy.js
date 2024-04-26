@@ -35,24 +35,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     elevation: 8,
   },
-  contents111: {
-    width: 70,
-    height: 75,
-    borderRadius: 15,
-    backgroundColor: '#D6F6A4',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
-  },
-  contents112: {
-    width: 155,
-    height: 60,
-    borderRadius: 15,
-    backgroundColor: '#D6F6A4',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
-  },
   contents21: {
     width: 130,
     height: 40,
@@ -72,16 +54,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 14,
     marginLeft: 7,
-  },
-  contents3: {
-    //SOS도구
-    width: 155,
-    height: 155,
-    borderColor: 'black',
-    borderRadius: 15,
-    marginTop: 14,
-    marginLeft: 7,
-    justifyContent: 'space-between',
   },
   headerImage: {
     width: '100%',

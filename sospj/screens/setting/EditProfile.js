@@ -18,7 +18,7 @@ const EditProfile = () => {
 
   const handleSave = () => {
     console.log('Profile Saved', {name, email});
-    // 여기에 프로필 저장 로직을 추가하세요. 예를 들어 서버로 데이터를 전송하는 코드 등
+    // Add logic here for saving profile data, like sending it to a server, etc.
   };
 
   return (
@@ -31,7 +31,13 @@ const EditProfile = () => {
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name</Text>
-        <TextInput value={name} onChangeText={setName} style={styles.input} />
+        <TextInput
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+          placeholder="Enter your name"
+          placeholderTextColor="#aaa"
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
@@ -40,9 +46,13 @@ const EditProfile = () => {
           onChangeText={setEmail}
           style={styles.input}
           keyboardType="email-address"
+          placeholder="Enter your email"
+          placeholderTextColor="#aaa"
         />
       </View>
-      <Button title="Save Changes" onPress={handleSave} />
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveButtonText}>Save Changes</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -51,7 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#E8F5E9', // Matching the background color
   },
   profileImageContainer: {
     alignItems: 'center',
@@ -61,30 +71,48 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
+    borderColor: '#388E3C', // Adding a green border for consistency
+    borderWidth: 2,
   },
   changeProfileButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#007BFF', // Maintained the blue color for buttons
     padding: 10,
     marginTop: 10,
     borderRadius: 5,
   },
   changeProfileButtonText: {
     color: 'white',
+    fontSize: 14,
   },
   inputContainer: {
     marginBottom: 15,
   },
   label: {
     fontSize: 16,
+    fontWeight: 'bold', // Adding bold for better readability
+    color: '#2E7D32', // Matching the title color from previous component
     marginBottom: 5,
-    color: '#333',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#B0BEC5', // Light gray border
+    borderRadius: 5,
     padding: 10,
     fontSize: 16,
-    borderRadius: 5,
+    backgroundColor: 'white', // Ensure input background is white
+    color: '#424242', // Consistent text color
+  },
+  saveButton: {
+    backgroundColor: '#388E3C', // Deep green for the Save button
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  saveButtonText: {
+    color: 'white',
+    fontSize: 16, // Consistent font size for buttons
+    fontWeight: 'bold',
   },
 });
 

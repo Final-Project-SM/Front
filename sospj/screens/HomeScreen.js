@@ -313,22 +313,25 @@ function HomeScreen({navigation}) {
             </Modal>
           </View>
         </View>
-        <View style={styles.contents3}>
+        <View style={styles.contents2}>
+          <Text style={{margin: 4, fontFamily: 'SpoqaHanSansNeo-Bold'}}>
+            SOS 도구
+          </Text>
           <View
             style={{
               flexDirection: 'row',
               alginItems: 'center',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
             }}>
             <TouchableOpacity
-              style={styles.contents111}
+              style={styles.contents11}
               onPress={() => callNumber('112')}>
-              <Text style={styles.contactText3}>일괄 문자 전송</Text>
+              <Text style={styles.contactText}>일괄 문자 전송</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.contents111}
+              style={styles.contents11}
               onPress={() => callNumber('110')}>
-              <Text style={styles.contactText3}>미정</Text>
+              <Text style={styles.contactText}>미정</Text>
             </TouchableOpacity>
           </View>
           <View
@@ -338,9 +341,9 @@ function HomeScreen({navigation}) {
               justifyContent: 'center',
             }}>
             <TouchableOpacity
-              style={styles.contents112}
+              style={styles.contents21}
               onPress={() => callNumber('119')}>
-              <Text style={styles.contactText3}>미정</Text>
+              <Text style={styles.contactText}>미정</Text>
             </TouchableOpacity>
           </View>
         </View>
