@@ -8,8 +8,8 @@ import messaging from '@react-native-firebase/messaging';
  * @param {Object} props.navigation - 네비게이션 객체, 화면 이동에 사용됩니다.
  */
 function StartScreen({ navigation }) {
-  useEffect(() => {
 
+  useEffect(() => {
     if (Platform.OS === "android") {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
