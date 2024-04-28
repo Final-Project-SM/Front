@@ -1,5 +1,15 @@
 import React, {useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, PermissionsAndroid } from 'react-native';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  PermissionsAndroid,
+  Platform,
+} from 'react-native';
+
 import messaging from '@react-native-firebase/messaging';
 /**
  * 애플리케이션의 시작 화면을 나타내는 컴포넌트입니다. 사용자에게 회원가입 및 로그인을 할 수 있는 옵션을 제공합니다.
@@ -10,10 +20,10 @@ import messaging from '@react-native-firebase/messaging';
 function StartScreen({ navigation }) {
 
   useEffect(() => {
-    if (Platform.OS === "android") {
+    if (Platform.OS === 'android') {
       PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      )
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
     }
     messaging().onMessage(async remoteMessage => {
       navigation.navigate("Sos")
@@ -21,55 +31,97 @@ function StartScreen({ navigation }) {
   }, [])
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>환영합니다!</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.buttonText}>회원가입</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, styles.buttonOutline]}
-        onPress={() => navigation.navigate('Login')}>
-        <Text style={[styles.buttonText, styles.buttonOutlineText]}>로그인하기</Text>
-      </TouchableOpacity>
+      {/* Centered Logo */}
+      <Image
+        source={require('../assets/images/logo2.png')}
+        style={styles.logo}
+      />
+
+      {/* App Name */}
+      <Text style={styles.appName}>MakeWorldSafely</Text>
+
+      {/* Slogan */}
+      <Text style={styles.slogan}>세상을 조금은 더 안전하게</Text>
+
+      {/* Buttons at the bottom */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.primaryButton}
+          onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.primaryButtonText}>회원가입</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.secondaryButtonText}>아이디로 로그인하기</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
-// 스타일 정의
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center', // Center content vertically
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#E8F5E9', // Light green background
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  logo: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
     marginBottom: 20,
   },
-  button: {
-    backgroundColor: '#007bff',
-    width: '100%',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
+  appName: {
+    fontSize: 24,
     fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#388E3C', // Dark green
+    marginBottom: 10,
+    fontFamily: 'SpoqaHanSansNeo-Bold',
   },
-  buttonOutline: {
+  slogan: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#666', // Gray color for the slogan
+    marginBottom: 20,
+    fontFamily: 'SpoqaHanSansNeo-Bold',
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  primaryButton: {
+    backgroundColor: '#388E3C', // Dark green button
+    width: '70%',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  primaryButtonText: {
+    color: '#ffffff', // White text
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'SpoqaHanSansNeo-Bold',
+  },
+  secondaryButton: {
     backgroundColor: 'transparent',
-    borderColor: '#007bff',
+    borderColor: '#388E3C', // Dark green border
     borderWidth: 2,
+    width: '70%',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
   },
-  buttonOutlineText: {
-    color: '#007bff',
+  secondaryButtonText: {
+    color: '#388E3C',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'SpoqaHanSansNeo-Bold',
   },
 });
 

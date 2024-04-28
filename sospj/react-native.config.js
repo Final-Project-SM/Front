@@ -1,5 +1,5 @@
-// react-native.config.js 
+// react-native.config.js
 
 module.exports = {
-    assets:['./assets/fonts/'], // 폰트 폴더
-}
+  assets: ['./assets/fonts/'], // 폰트 폴더
+};
