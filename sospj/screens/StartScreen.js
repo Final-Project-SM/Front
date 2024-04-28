@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+
 import {
   View,
   Text,
@@ -9,15 +10,25 @@ import {
   Platform,
 } from 'react-native';
 
-function StartScreen({navigation}) {
+import messaging from '@react-native-firebase/messaging';
+/**
+ * 애플리케이션의 시작 화면을 나타내는 컴포넌트입니다. 사용자에게 회원가입 및 로그인을 할 수 있는 옵션을 제공합니다.
+ * 
+ * @param {Object} props - 컴포넌트에 전달된 props
+ * @param {Object} props.navigation - 네비게이션 객체, 화면 이동에 사용됩니다.
+ */
+function StartScreen({ navigation }) {
+
   useEffect(() => {
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
     }
-  }, []);
-
+    messaging().onMessage(async remoteMessage => {
+      navigation.navigate("Sos")
+    })
+  }, [])
   return (
     <View style={styles.container}>
       {/* Centered Logo */}
