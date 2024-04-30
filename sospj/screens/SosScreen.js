@@ -1,5 +1,5 @@
 import React, {useEffect,useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity,Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity,Alert,Button } from 'react-native';
 import axios from 'axios';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFS from 'react-native-fs';
@@ -15,7 +15,7 @@ SosScreen = ({ navigation }) => {
             console.log(result);
             setTimeout(async () => {
                 const result2 = await audioRecorderPlayer.stopRecorder();
-                console.log(result2+"47Line")
+
                 audioRecorderPlayer.removeRecordBackListener();
                 console.log('Recording stopped after 10 seconds');
                 console.log(result2)
@@ -26,13 +26,14 @@ SosScreen = ({ navigation }) => {
                     type:"audio/aac"
                 });
                 formData.append('file',result2)
-                setLoading(false)
-                const response = await axios.post(AI_PATH, formData, {
+                console.log("axios")
+                const response = await axios.post("http://192.168.0.137:5000/upload", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
                 });
-                
+                console.log(response.data)
+                setLoading(false)
             }, 10000); // 10초를 밀리초로 변환하여 전달
         } catch (error) {
             console.error('Failed to start recording: ', error);
@@ -41,7 +42,9 @@ SosScreen = ({ navigation }) => {
     useEffect(()=>{
         startrecord()
     },[])
-
+    test = async () => {
+        navigation.navigate('Main')
+    }
     if (loading){
         return (
             <View stylele = {styles.container}>
@@ -52,6 +55,7 @@ SosScreen = ({ navigation }) => {
     return (
         <View stylele = {styles.container}>
             <Text> 음성 녹음 끝 </Text>
+            <Button title="로그인" onPress={test} />
         </View>
     );
 }

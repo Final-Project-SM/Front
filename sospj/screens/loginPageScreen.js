@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import {useUser} from '../components/public/UserContext';
 import { userAxios } from '../API/requestNode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 function LoginPageScreen({ navigation }) {
 
   const {user,setUser} = useUser(); //사용방범 console.log(user.id) && setUser({id:response.id})
@@ -13,12 +14,16 @@ function LoginPageScreen({ navigation }) {
     const response = await userAxios.login(data)
     if (response.sc == 200){
       Alert.alert("로그인 성공 ");
+      const testu = {id:"12345"}
+      setUser({id:"222"})
+      await AsyncStorage.setItem('user',JSON.stringify(testu))
+      navigation.navigate('Main')
     }else{
       Alert.alert("아이디 혹은 패스워드 잘못됨 ");
     }
     setUsername("")
     setPassword("")
-    navigation.navigate('Main')
+    
     
   };
   
