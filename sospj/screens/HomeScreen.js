@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 //import styles from '../teststyle/HomeStyle';
 import styles from '../teststyle/HomeStyle copy';
-import NfcScanner from '../NFC/nfcScanner';
 import {BarChart} from 'react-native-chart-kit'; // 그래프를 위한 라이브러리
 import {REACT_APP_KAKAO_REST_KEY} from '@env';
 import {FetchDataKakao} from '../API/FetchDataKakao';
@@ -27,7 +26,7 @@ import axios from 'axios';
 import VideoPlayer from '../components/video';
 import {StatusBar} from 'react-native';
 import {useUser} from '../components/public/UserContext';
-  
+
 const news = [
   {
     title: '눈앞에 가상의 횡단보도를 만드니 밤길 사고 걱정 덜겠네',
@@ -66,11 +65,25 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({navigation}) {
-  const {user,setUser} = useUser(); 
-  Alert.alert(user.id)
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
-
+  const [modalVisible3, setModalVisible3] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState(0);
+  const screens = [
+    require('../assets/images/rway1.png'),
+    require('../assets/images/rway2.png'),
+    require('../assets/images/rway3.png'),
+    require('../assets/images/rway4.png'),
+    require('../assets/images/rway5.png'),
+    require('../assets/images/rway6.png'),
+  ];
+  const handleModalToggle = visible => {
+    setModalVisible3(visible);
+    setCurrentScreen(0); // 모달을 열 때 항상 첫 번째 스크린으로 초기화
+  };
+  const howToReport = () => {
+    setModalVisible3(true);
+  };
   const handlePress = newsUrl => {
     Linking.openURL(newsUrl);
   };
@@ -84,28 +97,6 @@ function HomeScreen({navigation}) {
     setModalVisible2(true);
   };
 
-  const asdsad = async () => {
-    const query = encodeURIComponent('소방서'); // 검색할 키워드를 URL 인코딩
-    try {
-      const response = await axios.get(
-        `https://dapi.kakao.com/v2/local/search/keyword.json?y=37.2635727&x=127.0286009&radius=2000&query=${query}`,
-        {
-          headers: {
-            Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`, // 환경 변수에서 API 키를 가져옴
-          },
-        },
-      );
-      // 응답 데이터에서 각 위치의 위도와 경도 정보만 추출하여 로그에 출력
-      response.data.documents.forEach(document => {
-        console.log(
-          `name : ${document.place_name}, Latitude: ${document.y}, Longitude: ${document.x}`,
-        );
-      });
-    } catch (error) {
-      console.error('Error fetching location data:', error);
-    }
-  };
-  asdsad();
   const contacts = [
     {name: '엄마', phone: '010-2680-9361'},
     {name: '아빠', phone: '010-3643-5995'},
@@ -238,11 +229,19 @@ function HomeScreen({navigation}) {
             <TouchableOpacity
               style={styles.contents11}
               onPress={() => callNumber('112')}>
+              <Image
+                source={require('../assets/images/police.png')} // 이미지 URL을 여기에 넣으세요.
+                style={styles.image}
+              />
               <Text style={styles.contactText}>112</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.contents11}
               onPress={() => callNumber('110')}>
+              <Image
+                source={require('../assets/images/110.png')} // 이미지 URL을 여기에 넣으세요.
+                style={styles.image}
+              />
               <Text style={styles.contactText}>110</Text>
             </TouchableOpacity>
           </View>
@@ -253,29 +252,79 @@ function HomeScreen({navigation}) {
               justifyContent: 'center',
             }}>
             <TouchableOpacity
-              style={styles.contents21}
+              style={styles.contents11}
               onPress={() => callNumber('119')}>
+              <Image
+                source={require('../assets/images/fire.png')} // 이미지 URL을 여기에 넣으세요.
+                style={styles.image}
+              />
               <Text style={styles.contactText}>119</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.contents11}
+              onPress={() => howToReport()}>
+              <Image
+                source={require('../assets/images/report.png')} // 이미지 URL을 여기에 넣으세요.
+                style={styles.image}
+              />
+              <Text style={styles.contactText}>신고방법</Text>
+            </TouchableOpacity>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible3}
+              onRequestClose={() => handleModalToggle(!modalVisible3)}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Image
+                    style={styles.image2}
+                    source={screens[currentScreen]}
+                  />
+                  <View style={{flexDirection: 'row'}}>
+                    {currentScreen > 0 && (
+                      <TouchableOpacity
+                        style={styles.navigationButton}
+                        onPress={() => setCurrentScreen(currentScreen - 1)}>
+                        <Text style={styles.navigationButtonText}>이전</Text>
+                      </TouchableOpacity>
+                    )}
+
+                    {currentScreen < screens.length - 1 && (
+                      <TouchableOpacity
+                        style={styles.navigationButton}
+                        onPress={() => setCurrentScreen(currentScreen + 1)}>
+                        <Text style={styles.navigationButtonText}>다음</Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => handleModalToggle(false)}>
+                    <Text style={styles.cancelButtonText}>닫기</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
 
       <View style={styles.contentsContainer}>
-        <View style={styles.contents1}>
+        <View style={styles.contents3}>
           <Text style={{margin: 4, fontFamily: 'SpoqaHanSansNeo-Bold'}}>
-            Fake전화
+            SOS 도구
           </Text>
-
           <View
             style={{
-              flexDirection: 'row',
               flexWrap: 'wrap',
-              justifyContent: 'center',
             }}>
             <TouchableOpacity onPress={() => callVideo()}>
               <View style={styles.contents21}>
-                <Text style={styles.contactText}>112 가짜전화</Text>
+                <Text style={styles.contactText}>112 가짜전화(통화)</Text>
+                <Image
+                  source={require('../assets/images/police.png')} // 이미지 URL을 여기에 넣으세요.
+                  style={styles.image3}
+                />
               </View>
             </TouchableOpacity>
             <Modal
@@ -300,7 +349,11 @@ function HomeScreen({navigation}) {
             </Modal>
             <TouchableOpacity onPress={() => callVideo2()}>
               <View style={styles.contents21}>
-                <Text style={styles.contactText}>지인 가짜전화</Text>
+                <Text style={styles.contactText}>지인 가짜전화(통화)</Text>
+                <Image
+                  source={require('../assets/images/fakecall.png')} // 이미지 URL을 여기에 넣으세요.
+                  style={styles.image3}
+                />
               </View>
             </TouchableOpacity>
             <Modal
@@ -323,39 +376,15 @@ function HomeScreen({navigation}) {
                 />
               </View>
             </Modal>
-          </View>
-        </View>
-        <View style={styles.contents2}>
-          <Text style={{margin: 4, fontFamily: 'SpoqaHanSansNeo-Bold'}}>
-            SOS 도구
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alginItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <TouchableOpacity
-              style={styles.contents11}
-              onPress={() => callNumber('112')}>
-              <Text style={styles.contactText}>일괄 문자 전송</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.contents11}
-              onPress={() => callNumber('110')}>
-              <Text style={styles.contactText}>미정</Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alginItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <TouchableOpacity
-              style={styles.contents21}
-              onPress={() => callNumber('119')}>
-              <Text style={styles.contactText}>미정</Text>
+            <TouchableOpacity onPress={() => callVideo2()}>
+              <View style={styles.contents31}>
+                <Image
+                  source={require('../assets/images/sendmessage.png')} // 이미지 URL을 여기에 넣으세요.
+                  style={styles.image4}
+                />
+                <Text style={styles.contactText}>비상연락처</Text>
+                <Text style={styles.contactText}>일괄 문자전송</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -372,7 +401,7 @@ function HomeScreen({navigation}) {
           width: '100%',
         }}></View>
       <CurrentLocation />
-      <Text style={styles.emergencyButtonText}>지역별 사고 현황 추이</Text>
+      <Text style={styles.graphText}>지역별 사고 현황 추이</Text>
       <View style={{paddingRight: 20}}>
         <BarChart
           data={graphData}
@@ -398,7 +427,6 @@ function HomeScreen({navigation}) {
           verticalLabelRotation={0} // 라벨 회전 각도
         />
       </View>
-      <NfcScanner onTagFound={tag => console.log(tag)} />
     </ScrollView>
   );
 }

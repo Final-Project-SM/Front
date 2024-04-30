@@ -16,13 +16,16 @@ function RegisterPageScreen({navigation}) {
   const [name, setName] = useState('');
   const [birthdate, setBirthdate] = useState(new Date());
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [gender, setGender] = useState(null); // 성별 상태 추가
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleSignUp = () => {
-    console.log({username, password, name, birthdate, phoneNumber});
+    console.log({username, password, name, birthdate, phoneNumber, gender});
     Alert.alert(
       'Signup Clicked',
-      `Username: ${username}, Password: ${password}, Name: ${name}, Birthdate: ${birthdate.toLocaleDateString()}, Phone Number: ${phoneNumber}`,
+      `Username: ${username}, Password: ${password}, Name: ${name}, Birthdate: ${
+        birthdate.toISOString().split('T')[0]
+      }, Phone Number: ${phoneNumber}, Gender: ${gender}`,
     );
     navigation.navigate('RegisterNumber');
   };
@@ -58,6 +61,25 @@ function RegisterPageScreen({navigation}) {
         onChangeText={setName}
         style={styles.input}
       />
+      <Text style={styles.label}>성별</Text>
+      <View style={styles.genderContainer}>
+        <TouchableOpacity
+          style={[
+            styles.genderButton,
+            gender === 'male' && styles.selectedGender,
+          ]}
+          onPress={() => setGender('male')}>
+          <Text style={styles.genderText}>남자</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.genderButton,
+            gender === 'female' && styles.selectedGender,
+          ]}
+          onPress={() => setGender('female')}>
+          <Text style={styles.genderText}>여자</Text>
+        </TouchableOpacity>
+      </View>
       <Text style={styles.label}>전화번호</Text>
       <TextInput
         placeholder="Phone Number"
@@ -98,6 +120,7 @@ function RegisterPageScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
+  // 기존 스타일 유지
   container: {
     flex: 1,
     alignItems: 'center',
@@ -112,8 +135,8 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    margin: 10,
     padding: 10,
+    marginBottom: 6,
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 5,
@@ -143,8 +166,27 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 5,
   },
-  buttonContainer: {
-    marginBottom: 20,
+  genderContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    marginBottom: 10,
+  },
+  genderButton: {
+    width: '45%',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  selectedGender: {
+    backgroundColor: '#4CAF50',
+    borderColor: '#4CAF50',
+    color: 'white',
+  },
+  genderText: {
+    fontSize: 16,
   },
 });
 

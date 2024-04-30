@@ -24,6 +24,16 @@ const styles = StyleSheet.create({
     marginTop: 14,
     marginRight: 7,
   },
+  contents3: {
+    //비상연락처
+    width: 325,
+    height: 170,
+    backgroundColor: '#E8F5E9',
+    borderColor: 'black',
+    borderRadius: 15,
+    marginTop: 14,
+    alignItems: 'center',
+  },
   contents11: {
     width: 60,
     height: 50,
@@ -37,13 +47,28 @@ const styles = StyleSheet.create({
   },
   contents21: {
     width: 130,
-    height: 40,
+    height: 50,
     borderRadius: 15,
     backgroundColor: 'white',
     margin: 9,
     marginTop: 7,
     padding: 10,
     elevation: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  contents31: {
+    width: 120,
+    height: 120,
+    borderRadius: 15,
+    backgroundColor: 'white',
+    margin: 9,
+    marginTop: 7,
+    padding: 10,
+    elevation: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   contents2: {
     //긴급신고
@@ -68,57 +93,15 @@ const styles = StyleSheet.create({
     color: '#212121', // 텍스트 하얀색
     marginBottom: 10,
   },
-  contactItem: {
-    padding: 5,
-    width: '60%',
-    height: 55,
-    borderWidth: 1,
-    margin: 3,
-    borderRadius: 10,
-    borderBottomColor: '#212121', // 구분선 하얀색
-  },
+
   contactText: {
     color: '#212121', // 텍스트 하얀색
     fontSize: 10,
     fontFamily: 'SpoqaHanSansNeo-Bold',
   },
-  contactText2: {
-    color: '#212121', // 텍스트 하얀색
-    fontSize: 15,
-    fontFamily: 'SpoqaHanSansNeo-Bold',
-  },
-  contactText3: {
-    color: 'grey', // 텍스트 하얀색
-    fontSize: 10,
-    fontFamily: 'SpoqaHanSansNeo-Bold',
-  },
-  contactInfo2: {
-    justifyContent: 'space-between',
-  },
-  callButton: {
-    backgroundColor: '#212121', // 버튼 배경색
-    padding: 7,
-    borderRadius: 5,
-    marginLeft: 10,
-  },
-  callButtonText: {
-    color: '#212121', // 텍스트 색상
-  },
 
-  contactImage: {
-    width: 25, // Adjust the size as needed
-    height: 25, // Adjust the size as needed
-    marginRight: 10,
-  },
-  emergencyButton: {
-    marginVertical: 10,
-    padding: 10,
-    borderRadius: 10, // 모서리 둥근 처리
-    alignItems: 'center',
-    margin: 5,
-  },
-  emergencyButtonText: {
-    color: '#212121', // 텍스트 하얀색
+  graphText: {
+    color: '#212121',
     fontWeight: 'bold',
     margin: 5,
     fontFamily: 'SpoqaHanSansNeo-Bold',
@@ -126,6 +109,73 @@ const styles = StyleSheet.create({
   police: {
     flexDirection: 'row',
     margin: 10,
+  },
+  image: {
+    width: 40,
+    height: 40,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  image2: {
+    width: 200,
+    height: 450,
+    marginBottom: 20, // 이미지 아래에 여유 공간 추가
+  },
+  cancelButton: {
+    backgroundColor: '#FF6347',
+    borderRadius: 5,
+    padding: 10,
+  },
+  cancelButtonText: {
+    color: '#fff',
+    fontSize: 13,
+  },
+  navigationButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'green', // 이쁜 파란색 배경
+    borderRadius: 5, // 원형 버튼
+    width: 50, // 버튼 크기
+    height: 30, // 버튼 크기
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
+  navigationButtonText: {
+    color: 'white', // 텍스트 색상
+  },
+  image3: {
+    width: 30,
+    height: 30,
+  },
+  image4: {
+    width: 70,
+    height: 70,
   },
 });
 

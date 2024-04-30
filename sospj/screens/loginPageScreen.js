@@ -1,33 +1,37 @@
-
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import {useUser} from '../components/public/UserContext';
-import { userAxios } from '../API/requestNode';
+import {userAxios} from '../API/requestNode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-function LoginPageScreen({ navigation }) {
-
 
 function LoginPageScreen({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const {user, setUser} = useUser();
 
   const handleLogin = async () => {
     const data = {id: username, password: password};
     console.log(username, password);
-    const response = await userAxios.login(data)
-    if (response.sc == 200){
-      Alert.alert("로그인 성공 ");
-      const testu = {id:"12345"}
-      setUser({id:"222"})
-      await AsyncStorage.setItem('user',JSON.stringify(testu))
-      navigation.navigate('Main')
-    }else{
-      Alert.alert("아이디 혹은 패스워드 잘못됨 ");
+    const response = await userAxios.login(data);
+    if (response.sc == 200) {
+      Alert.alert('로그인 성공 ');
+      const testu = {id: '12345'};
+      setUser({id: '222'});
+      await AsyncStorage.setItem('user', JSON.stringify(testu));
+      navigation.navigate('Main');
+    } else {
+      Alert.alert('아이디 혹은 패스워드 잘못됨 ');
     }
-    setUsername("")
-    setPassword("")
-    
-    
+    setUsername('');
+    setPassword('');
   };
 
   return (
