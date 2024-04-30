@@ -41,6 +41,14 @@ const news = [
     title: '함평군, 밤길 활주로형 횡단보도 설치',
     Url: 'https://www.gjdream.com/news/articleView.html?idxno=636887',
   },
+  {
+    title: '함평군, 밤길 활주로형 횡단보도 설치',
+    Url: 'https://www.gjdream.com/news/articleView.html?idxno=636887',
+  },
+  {
+    title: '함평군, 밤길 활주로형 횡단보도 설치',
+    Url: 'https://www.gjdream.com/news/articleView.html?idxno=636887',
+  },
 ];
 
 // 예시 그래프 데이터
@@ -125,14 +133,14 @@ function HomeScreen({navigation}) {
             height: 8,
             borderRadius: 4,
             margin: 3,
-            backgroundColor: 'green',
+            backgroundColor: 'grey',
           }}
           activeDotStyle={{
             width: 8,
             height: 8,
             borderRadius: 4,
             margin: 3,
-            backgroundColor: 'black',
+            backgroundColor: 'green',
           }}
           paginationStyle={{
             position: 'absolute',

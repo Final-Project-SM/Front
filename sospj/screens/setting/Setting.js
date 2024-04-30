@@ -35,7 +35,7 @@ const Setting = () => {
               }}
               style={styles.icon}
             />
-            <Text style={styles.itemText}>알림 받기</Text>
+            <Text style={styles.itemText}>미정</Text>
           </View>
           <Switch
             trackColor={{false: '#767577', true: '#81b0ff'}}
@@ -53,7 +53,7 @@ const Setting = () => {
               }}
               style={styles.icon}
             />
-            <Text style={styles.itemText}>밤에 알림 받기</Text>
+            <Text style={styles.itemText}>미정</Text>
           </View>
           <Switch
             trackColor={{false: '#767577', true: '#81b0ff'}}
@@ -131,7 +131,7 @@ const Setting = () => {
             }}
             style={styles.icon}
           />
-          <Text style={styles.itemText}>계정 삭제</Text>
+          <Text style={styles.itemText}>로그아웃</Text>
         </TouchableOpacity>
       </View>
     </View>
