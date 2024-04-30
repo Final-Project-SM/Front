@@ -8,26 +8,39 @@ import {
   Image,
   PermissionsAndroid,
   Platform,
+  Alert
 } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
+import {useUser} from '../components/public/UserContext';
+  
 /**
  * 애플리케이션의 시작 화면을 나타내는 컴포넌트입니다. 사용자에게 회원가입 및 로그인을 할 수 있는 옵션을 제공합니다.
  * 
  * @param {Object} props - 컴포넌트에 전달된 props
  * @param {Object} props.navigation - 네비게이션 객체, 화면 이동에 사용됩니다.
  */
+import PermissionUtil, {
+  APP_PERMISSION_CODE,
+} from '../util/permission/PermissionUtil';
+import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 function StartScreen({ navigation }) {
-
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
+  const {user,setUser} = useUser(); 
+  const readData = async () => {
+    const jsonString = await AsyncStorage.getItem('user');
+    if(jsonString){
+      const data = JSON.parse(jsonString)
+      setUser({id:data.id})
+      navigation.navigate('Main')
     }
+  }
+  useEffect(() => {
+    PermissionUtil.cmmReqPermis([...APP_PERMISSION_CODE.android]);
     messaging().onMessage(async remoteMessage => {
       navigation.navigate("Sos")
     })
+    readData()
+    
   }, [])
   return (
     <View style={styles.container}>

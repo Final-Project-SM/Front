@@ -26,6 +26,8 @@ import CurrentLocation from '../components/currentLocation';
 import axios from 'axios';
 import VideoPlayer from '../components/video';
 import {StatusBar} from 'react-native';
+import {useUser} from '../components/public/UserContext';
+  
 const news = [
   {
     title: '눈앞에 가상의 횡단보도를 만드니 밤길 사고 걱정 덜겠네',
@@ -64,6 +66,8 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({navigation}) {
+  const {user,setUser} = useUser(); 
+  Alert.alert(user.id)
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
 

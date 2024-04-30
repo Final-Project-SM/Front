@@ -8,7 +8,7 @@ import {
   Image,
   Linking,
 } from 'react-native';
-
+import { removeStorage } from '../../util/function/asyncStorage';
 const Setting = () => {
   const [isEnabledNotification, setIsEnabledNotification] = useState(false);
   const [isEnabledNightMode, setIsEnabledNightMode] = useState(false);
@@ -124,7 +124,7 @@ const Setting = () => {
 
         <TouchableOpacity
           style={styles.itemContainer}
-          onPress={() => alert('Delete Account')}>
+          onPress={() => removeStorage('user')}>
           <Image
             source={{
               uri: 'https://cdn-icons-png.flaticon.com/128/3683/3683211.png',
