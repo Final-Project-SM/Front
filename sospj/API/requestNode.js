@@ -22,6 +22,7 @@ export const userAxios = {
     signUp: async (data) => {
         try{
             const request = await axios.post(BACK_API_PATH + "/signUp",data);
+            console.log("requestNode 25 Line : "+request.data)
             return request.data;
         }catch(err){
             return {sc:400}
@@ -46,9 +47,20 @@ export const userAxios = {
         }
     },
 
-    sosUpdate: async (data) => {
+    sosChange: async (data) => {
         try{
-            const request = await axios.post(BACK_API_PATH + "/sos/update",data);
+            const request = await axios.post(BACK_API_PATH + "/sos/change",data);
+            return request.data;
+        }catch(err){
+            return {sc:400}
+        }
+    },
+
+    logList: async (data) => {
+        try{
+            const request = await axios.post(BACK_API_PATH + "/log",data);
+
+            console.log(request.data)
             return request.data;
         }catch(err){
             return {sc:400}

@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import { userAxios } from '../API/requestNode';
 function RegisterPageScreen({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,15 +19,14 @@ function RegisterPageScreen({navigation}) {
   const [gender, setGender] = useState(null); // 성별 상태 추가
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const handleSignUp = () => {
-    console.log({username, password, name, birthdate, phoneNumber, gender});
-    Alert.alert(
-      'Signup Clicked',
-      `Username: ${username}, Password: ${password}, Name: ${name}, Birthdate: ${
-        birthdate.toISOString().split('T')[0]
-      }, Phone Number: ${phoneNumber}, Gender: ${gender}`,
-    );
-    navigation.navigate('RegisterNumber');
+  const handleSignUp = async () => {
+    console.log(gender)
+    const response = await userAxios.signUp({id:username,password:password,name:name,age:birthdate,gender:gender,phone:phoneNumber})
+    if(response.sc == 200){
+      navigation.navigate('RegisterNumber',{id:username});
+    }else{
+      Alert.alert("해당아이디 이미 사용중")
+    }
   };
 
   const onChangeDate = (event, selectedDate) => {

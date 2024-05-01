@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,31 +8,21 @@ import {
   Alert,
 } from 'react-native';
 import Sound from 'react-native-sound';
-
+import { userAxios } from '../../API/requestNode';
+import { useUser } from '../../components/public/UserContext';
 const VoiceData = ({navigation}) => {
-  const [voiceData, setVoiceData] = useState([
-    {
-      id: '1',
-      length: '30초',
-      date: '2024-01-01',
-      time: '12:00',
-      uri: 'path_to_audio1.mp3',
-    },
-    {
-      id: '2',
-      length: '45초',
-      date: '2024-01-02',
-      time: '14:30',
-      uri: 'path_to_audio2.mp3',
-    },
-    {
-      id: '3',
-      length: '60초',
-      date: '2024-01-03',
-      time: '16:45',
-      uri: 'path_to_audio3.mp3',
-    },
-  ]);
+  const [voiceData, setVoiceData] = useState([])
+  const {user} = useUser()
+  const loadData = async()=> {
+    const response =await userAxios.logList({id:user.id})
+    if(response.sc == 200){
+      setVoiceData(response.log)
+    }
+  }
+  useEffect(()=>{
+    loadData()
+  },[])
+
 
   const playSound = uri => {
     const sound = new Sound(uri, Sound.MAIN_BUNDLE, error => {
@@ -52,12 +42,12 @@ const VoiceData = ({navigation}) => {
   const renderItem = ({item}) => (
     <View style={styles.item}>
       <Text style={styles.description}>
-        {item.date} {item.time} - {item.length}
+        {item.create_at.split('T')[0]} {item.create_at.split('T')[1].slice(0,5)} {item.location}
       </Text>
       <View style={styles.buttons}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => playSound(item.uri)}>
+          onPress={() => playSound("./voide")}>
           <Text style={styles.buttonText}>재생</Text>
         </TouchableOpacity>
       </View>
@@ -69,7 +59,7 @@ const VoiceData = ({navigation}) => {
       <FlatList
         data={voiceData}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.seq}
       />
     </View>
   );
