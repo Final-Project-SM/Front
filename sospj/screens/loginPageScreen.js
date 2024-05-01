@@ -19,7 +19,6 @@ function LoginPageScreen({navigation}) {
   const {user,setUser} = useUser()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const {setUser} = useUser();
 
   const handleLogin = async () => {
     const data = {id: username, password: password};

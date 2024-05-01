@@ -100,5 +100,9 @@ class PermissionUtil {
 export default new PermissionUtil();
 
 export const APP_PERMISSION_CODE = {
-  android: [],
+  android: [
+    PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+    PERMISSIONS.ANDROID.RECORD_AUDIO,
+    PERMISSIONS.ANDROID.POST_NOTIFICATIONS
+  ],
 };
