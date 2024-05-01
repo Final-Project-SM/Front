@@ -26,7 +26,7 @@ function MainTabNavigator() {
           headerShown: false,
           tabBarIcon: ({focused, color, size}) => (
             <Image
-              source={require('../assets/images/telephone.png')} // 이미지 경로를 설정하세요
+              source={require('../assets/images/phoneTab.png')} // 이미지 경로를 설정하세요
               style={{width: size, height: size}}
             />
           ),
@@ -59,7 +59,7 @@ function MainTabNavigator() {
           headerShown: false,
           tabBarIcon: ({focused, color, size}) => (
             <Image
-              source={require('../assets/images/user2.png')} // 이미지 경로를 설정하세요
+              source={require('../assets/images/mypage.png')} // 이미지 경로를 설정하세요
               style={{width: size, height: size}}
             />
           ),

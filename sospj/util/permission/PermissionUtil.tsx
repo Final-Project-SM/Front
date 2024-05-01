@@ -65,8 +65,6 @@ class PermissionUtil {
    * @returns
    */
   cmmReqPermis = async (permsArr: Permission[]): Promise<void> => {
-    
-
     // [CASE1] 모든 권한에 대해 디바이스 플랫폼을 체크합니다. (해당 되지 않는 경우 종료합니다.)
     if (!this.cmmAccessDevicePlatformCheck()) return;
 
@@ -102,9 +100,5 @@ class PermissionUtil {
 export default new PermissionUtil();
 
 export const APP_PERMISSION_CODE = {
-    android: [
-      PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-      PERMISSIONS.ANDROID.RECORD_AUDIO,
-      PERMISSIONS.ANDROID.POST_NOTIFICATIONS
-    ],
+  android: [],
 };

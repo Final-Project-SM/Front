@@ -8,8 +8,8 @@ import {
   Image,
   Linking,
 } from 'react-native';
-import { removeStorage } from '../../util/function/asyncStorage';
-const Setting = () => {
+import {removeStorage} from '../../util/function/asyncStorage';
+const Setting = ({navigation}) => {
   const [isEnabledNotification, setIsEnabledNotification] = useState(false);
   const [isEnabledNightMode, setIsEnabledNightMode] = useState(false);
 
@@ -22,7 +22,10 @@ const Setting = () => {
       }
     });
   };
-
+  const logOut = () => {
+    removeStorage('user');
+    navigation.navigate('Login');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.section}>
@@ -122,9 +125,7 @@ const Setting = () => {
           </View>
         </View>
 
-        <TouchableOpacity
-          style={styles.itemContainer}
-          onPress={() => removeStorage('user')}>
+        <TouchableOpacity style={styles.itemContainer} onPress={() => logOut()}>
           <Image
             source={{
               uri: 'https://cdn-icons-png.flaticon.com/128/3683/3683211.png',
