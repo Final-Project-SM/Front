@@ -7,36 +7,36 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-
+import { useUser } from '../../components/public/UserContext';
+import { userAxios } from '../../API/requestNode';
 function EditEmergencyContacts({navigation}) {
   const [contacts, setContacts] = useState([]);
-
+  const {user, setUser} = useUser();
   // Simulate fetching data from a database upon component mounting
+  const loadData = async() =>{
+    const response =await userAxios.sosList({id:user.id})
+    if(response.sc == 200){
+      setContacts(response.data)
+    }
+  }
   useEffect(() => {
-    const fetchContacts = async () => {
-      // Simulated fetching logic (replace with actual data fetching logic)
-      const fetchedContacts = [
-        {id: 1, name: 'John Doe', phone: '123-456-7890'},
-        {id: 2, name: 'Jane Smith', phone: '987-654-3210'},
-        {id: 3, name: 'Michael Brown', phone: '111-222-3333'},
-        {id: 4, name: 'Emily Davis', phone: '444-555-6666'},
-      ];
-      setContacts(fetchedContacts);
-    };
-
-    fetchContacts();
+    loadData()
   }, []);
 
-  const handleSave = () => {
-    // Simulate saving data to a database (replace with actual save logic)
-    console.log('Saved contacts:', contacts);
-    // Optionally, navigate to another page or display a confirmation message
+  const handleSave = async () => {
+    const newContacts = contacts.map((contact) => {
+      return { name: contact.name ,phone:contact.phone}; // t2 값만 추출하여 새로운 객체 생성
+    });
+    console.log(newContacts)
+    const response = await userAxios.sosChange({id:user.id,sos:newContacts})
   };
 
   const handleChange = (index, field, value) => {
     const newContacts = [...contacts];
     newContacts[index][field] = value;
     setContacts(newContacts);
+
+    
   };
 
   return (
@@ -44,7 +44,7 @@ function EditEmergencyContacts({navigation}) {
       <Text style={styles.title}>Edit Emergency Contacts</Text>
       <ScrollView>
         {contacts.map((contact, index) => (
-          <View key={contact.id} style={styles.inputContainer}>
+          <View key={contact.seq} style={styles.inputContainer}>
             <TextInput
               style={styles.input}
               value={contact.name}

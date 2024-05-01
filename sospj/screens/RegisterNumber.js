@@ -9,8 +9,11 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import { userAxios } from '../API/requestNode';
 
-function RegisterNumber({navigation}) {
+function RegisterNumber({navigation,route}) {
+  const username = route?.params?.id || 'Unknown User';
+  
   const [contacts, setContacts] = useState([{name: '', phone: ''}]);
 
   const handleAddContact = () => {
@@ -21,11 +24,9 @@ function RegisterNumber({navigation}) {
     }
   };
 
-  const handleToLogin = () => {
-    const contactInfo = contacts
-      .map(contact => `이름: ${contact.name}, 전화번호: ${contact.phone}`)
-      .join('\n');
-    Alert.alert('등록된 비상 연락망', contactInfo);
+  const handleToLogin = async () => {
+    const response = await userAxios.sosChange({id:username,sos:contacts})
+    console.log(response.sc)
     navigation.navigate('Login');
   };
 
