@@ -38,15 +38,14 @@ function RegisterPageScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>회원가입</Text>
-      <Text style={styles.label}>아이디</Text>
+      <Text style={styles.label2}>아이디</Text>
       <TextInput
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
         style={styles.input}
       />
-      <Text style={styles.label}>비밀번호</Text>
+      <Text style={styles.label2}>비밀번호</Text>
       <TextInput
         placeholder="Password"
         value={password}
@@ -54,14 +53,14 @@ function RegisterPageScreen({navigation}) {
         secureTextEntry={true}
         style={styles.input}
       />
-      <Text style={styles.label}>이름</Text>
+      <Text style={styles.label2}>이름</Text>
       <TextInput
         placeholder="Name"
         value={name}
         onChangeText={setName}
         style={styles.input}
       />
-      <Text style={styles.label}>성별</Text>
+      <Text style={styles.label2}>성별</Text>
       <View style={styles.genderContainer}>
         <TouchableOpacity
           style={[
@@ -80,7 +79,7 @@ function RegisterPageScreen({navigation}) {
           <Text style={styles.genderText}>여자</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.label}>전화번호</Text>
+      <Text style={styles.label2}>전화번호</Text>
       <TextInput
         placeholder="Phone Number"
         value={phoneNumber}
@@ -88,8 +87,7 @@ function RegisterPageScreen({navigation}) {
         keyboardType="phone-pad"
         style={styles.input}
       />
-      <Text style={styles.smallText}>*Only numbers</Text>
-      <Text style={styles.label}>생년월일</Text>
+      <Text style={styles.label2}>생년월일</Text>
       <TouchableOpacity
         style={styles.input}
         onPress={() => setShowDatePicker(true)}>
@@ -128,34 +126,29 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#E8F5E9',
   },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   input: {
-    width: '100%',
-    padding: 10,
-    marginBottom: 6,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
+    width: '90%',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    backgroundColor: '#FFFFFF', // 배경색을 하얗게 설정
+    borderWidth: 0, // 테두리 너비 제거
+    borderRadius: 8, // 둥근 테두리 설정
+    fontSize: 16, // 폰트 사이즈 증가
+    color: '#333', // 텍스트 색상 설정
+    shadowColor: '#000', // 그림자 색상
+    shadowOffset: {width: 0, height: 2}, // 그림자 방향
+    shadowOpacity: 0.1, // 그림자 투명도
+    shadowRadius: 8, // 그림자 블러 반경
+    elevation: 2, // 안드로이드 전용 그림자 설정
   },
-  smallText: {
-    fontSize: 12,
-    color: 'red',
-    alignSelf: 'flex-start',
-    marginBottom: 10,
-    marginLeft: 20,
-  },
+
   button: {
-    minWidth: 150,
+    minWidth: 300,
     paddingVertical: 10,
+    borderRadius: 20,
+    alignItems: 'center',
     marginBottom: 10,
     backgroundColor: '#4CAF50',
-    borderRadius: 5,
-    alignItems: 'center',
-    width: '60%',
   },
   buttonText: {
     color: 'white',
@@ -165,6 +158,16 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: 20,
     marginBottom: 5,
+  },
+  label2: {
+    fontSize: 14, // 적절한 글꼴 크기
+    color: '#FFFFFF', // 짙은 회색으로 텍스트 색상 설정
+    fontWeight: '500', // 폰트 두께를 중간 정도로 설정
+    paddingHorizontal: 15, // 좌우 패딩, 인풋 필드와 동일하게 맞춤
+    padding: 3,
+    marginRight: 200,
+    backgroundColor: '#4CAF50',
+    borderRadius: 5,
   },
   genderContainer: {
     flexDirection: 'row',
