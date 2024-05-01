@@ -7,20 +7,40 @@ import {
   Image,
   Modal,
 } from 'react-native';
-
+import NfcManager, {NfcTech, Ndef} from 'react-native-nfc-manager';
+import {useUser} from '../components/public/UserContext';
+import { nfcAxios } from '../API/requestNode';
+import { generateRandomString } from '../util/function/random';
 function MypageScreen({navigation}) {
+  const {user} = useUser()
   const userName = '이상용'; // 사용자 이름은 변수로 관리하거나 props, state 등으로 받을 수 있습니다.
   const [modalVisible, setModalVisible] = useState(false);
   const [status, setStatus] = useState('');
-  const handleRegisterNFC = () => {
+  const handleRegisterNFC = async () => {
     setModalVisible(true);
     setStatus('NFC 등록 중...');
-    setTimeout(() => {
-      setStatus('NFC 스캔 완료!');
+    try {
+      const random = generateRandomString()
+      await NfcManager.requestTechnology(NfcTech.Ndef);
+
+      const bytes = Ndef.encodeMessage([Ndef.uriRecord('sospj://test/nfc?param1='+random)]);
+
+      if (bytes) {
+        await NfcManager.ndefHandler // STEP 2
+          .writeNdefMessage(bytes); // STEP 3
+      }
+      setStatus("성공")
+      await nfcAxios.nfcInsert({id:user.id,nfcid:random})
+    } catch (ex) {
+      setStatus("다시 시도해주세요")
+      console.log(ex);
+    } finally {
+      NfcManager.cancelTechnologyRequest();
       setTimeout(() => {
         setModalVisible(false); // NFC 스캔 완료 후 모달 자동 닫기
-      }, 2000); // 스캔 완료 메시지를 2초간 표시
-    }, 10000); // 10초 후에 메시지 변경
+      }, 5000); // 스캔 완료 메시지를 2초간 표시
+    }
+    
   };
   return (
     <View style={styles.container}>

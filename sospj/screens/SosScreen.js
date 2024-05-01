@@ -4,13 +4,15 @@ import axios from 'axios';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFS from 'react-native-fs';
 import {AI_PATH} from "@env"
-
+import { useIsFocused } from '@react-navigation/native';
 const audioRecorderPlayer = new AudioRecorderPlayer();
 const audioPath = RNFS.CachesDirectoryPath+ '/test.mp4'
 SosScreen = ({ navigation }) => {
+    const isFocused = useIsFocused()
     const [loading,setLoading] = useState(true);
     const startrecord = async () => {
         try {
+            setLoading(true)
             const result = await audioRecorderPlayer.startRecorder();
             console.log(result);
             setTimeout(async () => {
@@ -27,23 +29,29 @@ SosScreen = ({ navigation }) => {
                 });
                 formData.append('file',result2)
                 console.log("axios")
-                const response = await axios.post("http://192.168.0.137:5000/upload", formData, {
+                setLoading(false)
+                const response = await axios.post("http://43.202.64.160:5000/predict", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
                 });
                 console.log(response.data)
-                setLoading(false)
+                
             }, 10000); // 10초를 밀리초로 변환하여 전달
         } catch (error) {
+            
             console.error('Failed to start recording: ', error);
         }
     }
     useEffect(()=>{
-        startrecord()
-    },[])
-    test = async () => {
-        navigation.navigate('Main')
+        if(isFocused){
+            startrecord()
+        }
+        
+    },[isFocused])
+
+    const test = async () => {
+        await navigation.navigate('Main')
     }
     if (loading){
         return (
