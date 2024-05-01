@@ -11,6 +11,7 @@ import {
   Alert
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getStorage } from '../util/function/asyncStorage';
 import messaging from '@react-native-firebase/messaging';
 import {useUser} from '../components/public/UserContext';
   
@@ -27,7 +28,7 @@ import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 function StartScreen({ navigation }) {
   const {user,setUser} = useUser(); 
   const readData = async () => {
-    const jsonString = await AsyncStorage.getItem('user');
+    const jsonString = await getStorage('user');
     if(jsonString){
       const data = JSON.parse(jsonString)
       setUser({id:data.id})
