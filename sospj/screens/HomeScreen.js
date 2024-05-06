@@ -27,7 +27,7 @@ import VideoPlayer from '../components/video';
 import {StatusBar} from 'react-native';
 import {useUser} from '../components/public/UserContext';
 import { userAxios } from '../API/requestNode'
-
+import { useIsFocused } from '@react-navigation/native';
 // 예시 그래프 데이터
 const graphData = {
   labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
@@ -43,6 +43,7 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({navigation}) {
+  const isFocused = useIsFocused()
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
@@ -51,12 +52,13 @@ function HomeScreen({navigation}) {
   const loadData = async () => {
     const data = await userAxios.main()
     if (data.sc == 200){
+      console.log(data.news)
       setNews(data.news)
     }
   }
   useEffect(()=>{
     loadData()
-  },[])
+  },[isFocused])
   const screens = [
     require('../assets/images/rway1.png'),
     require('../assets/images/rway2.png'),
