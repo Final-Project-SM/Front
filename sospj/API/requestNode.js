@@ -3,10 +3,14 @@ import axios from "axios";
 import { getDeviceInfo } from "../util/function/androidId";
 import { getFcmToken } from "../util/function/fcmToken";
 export const userAxios = {
-    // input : {         
-    //     id: id 
-    //     password: password 
-    // }
+    main: async (data) => {
+        try{ 
+            const request = await axios.post(BACK_API_PATH+"/main",data);
+            return request.data
+        }catch(err){
+            return {sc:400}
+        }
+    }
     login: async (data) => {
         try{
             console.log(BACK_API_PATH)
