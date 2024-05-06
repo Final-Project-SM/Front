@@ -27,28 +27,6 @@ import VideoPlayer from '../components/video';
 import {StatusBar} from 'react-native';
 import {useUser} from '../components/public/UserContext';
 
-const news = [
-  {
-    title: '눈앞에 가상의 횡단보도를 만드니 밤길 사고 걱정 덜겠네',
-    Url: 'https://m.hankookilbo.com/News/Read/A2023052517110002977',
-  },
-  {
-    title: '화물차가 탑차 들이받아 1명 사망…밤길 교통사고 잇따라',
-    Url: 'https://news.kbs.co.kr/news/pc/view/view.do?ncd=7776903',
-  },
-  {
-    title: '함평군, 밤길 활주로형 횡단보도 설치',
-    Url: 'https://www.gjdream.com/news/articleView.html?idxno=636887',
-  },
-  {
-    title: '함평군, 밤길 활주로형 횡단보도 설치',
-    Url: 'https://www.gjdream.com/news/articleView.html?idxno=636887',
-  },
-  {
-    title: '함평군, 밤길 활주로형 횡단보도 설치',
-    Url: 'https://www.gjdream.com/news/articleView.html?idxno=636887',
-  },
-];
 
 // 예시 그래프 데이터
 const graphData = {
@@ -69,6 +47,7 @@ function HomeScreen({navigation}) {
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(0);
+  const [news,setNews] = useState([]);
   const screens = [
     require('../assets/images/rway1.png'),
     require('../assets/images/rway2.png'),
@@ -142,7 +121,7 @@ function HomeScreen({navigation}) {
           {news.map((news, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => Linking.openURL(news.Url)}
+              onPress={() => Linking.openURL(news.url)}
               style={{flex: 1}}>
               <ImageBackground
                 source={require('../assets/images/news.png')}
