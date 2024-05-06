@@ -10,7 +10,7 @@ export const userAxios = {
         }catch(err){
             return {sc:400}
         }
-    }
+    },
     login: async (data) => {
         try{
             console.log(BACK_API_PATH)

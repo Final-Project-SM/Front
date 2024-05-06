@@ -26,7 +26,7 @@ import axios from 'axios';
 import VideoPlayer from '../components/video';
 import {StatusBar} from 'react-native';
 import {useUser} from '../components/public/UserContext';
-
+import { userAxios } from '../API/requestNode'
 
 // 예시 그래프 데이터
 const graphData = {
@@ -48,6 +48,15 @@ function HomeScreen({navigation}) {
   const [modalVisible3, setModalVisible3] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(0);
   const [news,setNews] = useState([]);
+  const loadData = async () => {
+    const data = await userAxios.main()
+    if (data.sc == 200){
+      setNews(data.news)
+    }
+  }
+  useEffect(()=>{
+    loadData()
+  },[])
   const screens = [
     require('../assets/images/rway1.png'),
     require('../assets/images/rway2.png'),
