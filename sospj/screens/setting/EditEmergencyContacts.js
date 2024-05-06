@@ -7,36 +7,68 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import { useUser } from '../../components/public/UserContext';
-import { userAxios } from '../../API/requestNode';
+import {useUser} from '../../components/public/UserContext';
+import {userAxios} from '../../API/requestNode';
+
 function EditEmergencyContacts({navigation}) {
   const [contacts, setContacts] = useState([]);
   const {user, setUser} = useUser();
-  // Simulate fetching data from a database upon component mounting
-  const loadData = async() =>{
-    const response =await userAxios.sosList({id:user.id})
-    if(response.sc == 200){
-      setContacts(response.data)
+
+  const loadData = async () => {
+    const response = await userAxios.sosList({id: user.id});
+    if (response.sc === 200) {
+      setContacts(response.data);
     }
-  }
+  };
+
   useEffect(() => {
-    loadData()
+    loadData();
   }, []);
 
   const handleSave = async () => {
-    const newContacts = contacts.map((contact) => {
-      return { name: contact.name ,phone:contact.phone}; // t2 값만 추출하여 새로운 객체 생성
+    const newContacts = contacts.map(contact => ({
+      name: contact.name,
+      phone: contact.phone,
+    }));
+    console.log(newContacts);
+    const response = await userAxios.sosChange({
+      id: user.id,
+      sos: newContacts,
     });
-    console.log(newContacts)
-    const response = await userAxios.sosChange({id:user.id,sos:newContacts})
+  };
+
+  const formatPhoneNumber = text => {
+    let cleaned = ('' + text).replace(/\D/g, '');
+    if (cleaned.length > 11) {
+      cleaned = cleaned.substring(0, 11);
+    }
+    let parts = [];
+    if (cleaned.length > 7) {
+      parts.push(
+        cleaned.substring(0, 3),
+        cleaned.substring(3, 7),
+        cleaned.substring(7, 11),
+      );
+    } else if (cleaned.length > 3) {
+      parts.push(cleaned.substring(0, 3), cleaned.substring(3));
+    } else {
+      parts.push(cleaned);
+    }
+    return parts.join('-');
   };
 
   const handleChange = (index, field, value) => {
     const newContacts = [...contacts];
+    if (field === 'phone') {
+      value = formatPhoneNumber(value);
+    }
     newContacts[index][field] = value;
     setContacts(newContacts);
+  };
 
-    
+  const addContact = () => {
+    const newContact = {name: '', phone: '', seq: Date.now()};
+    setContacts([...contacts, newContact]);
   };
 
   return (
@@ -63,6 +95,11 @@ function EditEmergencyContacts({navigation}) {
           </View>
         ))}
       </ScrollView>
+      {contacts.length < 4 && (
+        <TouchableOpacity style={styles.buttonStyle} onPress={addContact}>
+          <Text style={styles.buttonText}>Add New Contact</Text>
+        </TouchableOpacity>
+      )}
       <TouchableOpacity style={styles.buttonStyle} onPress={handleSave}>
         <Text style={styles.buttonText}>Save Changes</Text>
       </TouchableOpacity>
@@ -73,42 +110,42 @@ function EditEmergencyContacts({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F5E9', // Applying the specified color code as the background
+    backgroundColor: '#E8F5E9',
     padding: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#2E7D32', // A darker green for contrast
+    color: '#2E7D32',
     marginBottom: 20,
     textAlign: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 15, // Adjusting the margin for spacing
+    marginBottom: 15,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#B0BEC5', // Light gray border
+    borderColor: '#B0BEC5',
     borderRadius: 5,
     padding: 10,
     flex: 1,
-    backgroundColor: 'white', // Ensure the text input is easy to read
-    color: '#424242', // Darker text color for contrast
+    backgroundColor: 'white',
+    color: '#424242',
   },
   buttonStyle: {
-    backgroundColor: '#388E3C', // Deep green for buttons
+    backgroundColor: '#388E3C',
     borderRadius: 10,
     justifyContent: 'center',
-    alignItems: 'center', // Ensure text is centered
+    alignItems: 'center',
     height: 50,
     marginTop: 20,
   },
   buttonText: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 18, // Slightly smaller font size
+    fontSize: 18,
   },
 });
 

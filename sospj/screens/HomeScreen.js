@@ -26,8 +26,8 @@ import axios from 'axios';
 import VideoPlayer from '../components/video';
 import {StatusBar} from 'react-native';
 import {useUser} from '../components/public/UserContext';
-import { userAxios } from '../API/requestNode'
-import { useIsFocused } from '@react-navigation/native';
+import {userAxios} from '../API/requestNode';
+import {useIsFocused} from '@react-navigation/native';
 // 예시 그래프 데이터
 const graphData = {
   labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
@@ -43,22 +43,22 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({navigation}) {
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(0);
-  const [news,setNews] = useState([]);
+  const [news, setNews] = useState([]);
   const loadData = async () => {
-    const data = await userAxios.main()
-    if (data.sc == 200){
-      console.log(data.news)
-      setNews(data.news)
+    const data = await userAxios.main();
+    if (data.sc == 200) {
+      console.log(data.news);
+      setNews(data.news);
     }
-  }
-  useEffect(()=>{
-    loadData()
-  },[isFocused])
+  };
+  useEffect(() => {
+    loadData();
+  }, [isFocused]);
   const screens = [
     require('../assets/images/rway1.png'),
     require('../assets/images/rway2.png'),
@@ -353,7 +353,8 @@ function HomeScreen({navigation}) {
               onRequestClose={() => {
                 setModalVisible2(!modalVisible2);
               }}>
-              <View
+              <Text>hello</Text>
+              {/* <View
                 style={{
                   flex: 1,
                   justifyContent: 'center',
@@ -364,7 +365,7 @@ function HomeScreen({navigation}) {
                   style={styles2.fullScreenVideo}
                   onEnd={() => setModalVisible2(false)} // 비디오 재생이 끝나면 모달을 닫음
                 />
-              </View>
+              </View> */}
             </Modal>
             <TouchableOpacity onPress={() => callVideo2()}>
               <View style={styles.contents31}>
