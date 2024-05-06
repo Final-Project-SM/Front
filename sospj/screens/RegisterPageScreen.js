@@ -16,7 +16,7 @@ function RegisterPageScreen({navigation}) {
   const [name, setName] = useState('');
   const [birthdate, setBirthdate] = useState(new Date());
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [gender, setGender] = useState(null); // 성별 상태 추가
+  const [gender, setGender] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleSignUp = async () => {
@@ -33,6 +33,32 @@ function RegisterPageScreen({navigation}) {
     const currentDate = selectedDate || birthdate;
     setShowDatePicker(Platform.OS === 'ios');
     setBirthdate(currentDate);
+  };
+
+  const formatPhoneNumber = text => {
+    // Remove all non-numeric characters
+    let cleaned = ('' + text).replace(/\D/g, '');
+
+    // Check the length of cleaned numbers
+    if (cleaned.length > 11) {
+      cleaned = cleaned.substring(0, 11);
+    }
+
+    // Split the numbers into parts and reformat
+    let parts = [];
+    if (cleaned.length <= 3) {
+      parts.push(cleaned);
+    } else if (cleaned.length <= 7) {
+      parts.push(cleaned.slice(0, 3), cleaned.slice(3));
+    } else {
+      parts.push(cleaned.slice(0, 3), cleaned.slice(3, 7), cleaned.slice(7));
+    }
+    return parts.join('-');
+  };
+
+  const handlePhoneNumberChange = text => {
+    const formatted = formatPhoneNumber(text);
+    setPhoneNumber(formatted);
   };
 
   return (
@@ -82,7 +108,7 @@ function RegisterPageScreen({navigation}) {
       <TextInput
         placeholder="Phone Number"
         value={phoneNumber}
-        onChangeText={setPhoneNumber}
+        onChangeText={handlePhoneNumberChange}
         keyboardType="phone-pad"
         style={styles.input}
       />
@@ -117,7 +143,7 @@ function RegisterPageScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  // 기존 스타일 유지
+  // 스타일 유지
   container: {
     flex: 1,
     alignItems: 'center',
@@ -129,18 +155,17 @@ const styles = StyleSheet.create({
     width: '90%',
     paddingVertical: 12,
     paddingHorizontal: 15,
-    backgroundColor: '#FFFFFF', // 배경색을 하얗게 설정
-    borderWidth: 0, // 테두리 너비 제거
-    borderRadius: 8, // 둥근 테두리 설정
-    fontSize: 16, // 폰트 사이즈 증가
-    color: '#333', // 텍스트 색상 설정
-    shadowColor: '#000', // 그림자 색상
-    shadowOffset: {width: 0, height: 2}, // 그림자 방향
-    shadowOpacity: 0.1, // 그림자 투명도
-    shadowRadius: 8, // 그림자 블러 반경
-    elevation: 2, // 안드로이드 전용 그림자 설정
+    backgroundColor: '#FFFFFF',
+    borderWidth: 0,
+    borderRadius: 8,
+    fontSize: 16,
+    color: '#333',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 2,
   },
-
   button: {
     minWidth: 300,
     paddingVertical: 10,
@@ -159,10 +184,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   label2: {
-    fontSize: 14, // 적절한 글꼴 크기
-    color: '#FFFFFF', // 짙은 회색으로 텍스트 색상 설정
-    fontWeight: '500', // 폰트 두께를 중간 정도로 설정
-    paddingHorizontal: 15, // 좌우 패딩, 인풋 필드와 동일하게 맞춤
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '500',
+    paddingHorizontal: 15,
     padding: 3,
     marginRight: 200,
     backgroundColor: '#4CAF50',
