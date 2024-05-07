@@ -44,17 +44,24 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({navigation}) {
-  const isFocused = useIsFocused();
+
+  const {user} = useUser()
+  const isFocused = useIsFocused()
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(0);
-  const [news, setNews] = useState([]);
+
+  const [news,setNews] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const loadData = async () => {
-    const data = await userAxios.main();
-    if (data.sc == 200) {
-      console.log(data.news);
-      setNews(data.news);
+    const data = await userAxios.main({id:user.id})
+    if (data.sc == 200){
+      console.log(data.list)
+      setNews(data.news)
+      setContacts(data.list)
+
     }
   };
   useEffect(() => {
@@ -87,13 +94,6 @@ function HomeScreen({navigation}) {
     // 전화 걸기 로직 (여기서는 모달을 표시하는 것으로 대체)
     setModalVisible2(true);
   };
-
-  const contacts = [
-    {name: '엄마', phone: '010-2680-9361'},
-    {name: '아빠', phone: '010-3643-5995'},
-    {name: '여자친구', phone: '555-555-5555'},
-    {name: '친구1', phone: '666-666-6666'},
-  ];
 
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
