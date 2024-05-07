@@ -26,8 +26,9 @@ import axios from 'axios';
 import VideoPlayer from '../components/video';
 import {StatusBar} from 'react-native';
 import {useUser} from '../components/public/UserContext';
-import { userAxios } from '../API/requestNode'
-import { useIsFocused } from '@react-navigation/native';
+import {userAxios} from '../API/requestNode';
+import {useIsFocused} from '@react-navigation/native';
+import Graph from '../components/graph';
 // 예시 그래프 데이터
 const graphData = {
   labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
@@ -43,12 +44,15 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({navigation}) {
+
   const {user} = useUser()
   const isFocused = useIsFocused()
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(0);
+
   const [news,setNews] = useState([]);
   const [contacts, setContacts] = useState([]);
   const loadData = async () => {
@@ -57,11 +61,12 @@ function HomeScreen({navigation}) {
       console.log(data.list)
       setNews(data.news)
       setContacts(data.list)
+
     }
-  }
-  useEffect(()=>{
-    loadData()
-  },[isFocused])
+  };
+  useEffect(() => {
+    loadData();
+  }, [isFocused]);
   const screens = [
     require('../assets/images/rway1.png'),
     require('../assets/images/rway2.png'),
@@ -294,7 +299,6 @@ function HomeScreen({navigation}) {
           </View>
         </View>
       </View>
-
       <View style={styles.contentsContainer}>
         <View style={styles.contents3}>
           <Text style={{margin: 4, fontFamily: 'SpoqaHanSansNeo-Bold'}}>
@@ -349,6 +353,7 @@ function HomeScreen({navigation}) {
               onRequestClose={() => {
                 setModalVisible2(!modalVisible2);
               }}>
+              <Text>hello</Text>
               <View
                 style={{
                   flex: 1,
@@ -375,7 +380,6 @@ function HomeScreen({navigation}) {
           </View>
         </View>
       </View>
-
       <View
         style={{
           borderTopColor: 'white',
@@ -386,33 +390,7 @@ function HomeScreen({navigation}) {
           marginBottom: 10,
           width: '100%',
         }}></View>
-      <CurrentLocation />
-      <Text style={styles.graphText}>지역별 사고 현황 추이</Text>
-      <View style={{paddingRight: 20}}>
-        <BarChart
-          data={graphData}
-          width={380} // 그래프의 너비
-          height={220} // 그래프의 높이
-          yAxisLabel="" // Y축 라벨
-          chartConfig={{
-            backgroundColor: '#FFFFFF',
-            backgroundGradientFrom: '#F0F0F0',
-            backgroundGradientTo: '#E8F5E9',
-            decimalPlaces: 0, // 소수점 자리수
-            color: (opacity = 1) => `rgba(0, 200, 83, ${opacity})`, // 연두색을 포함한 데이터 라인 색상을 더 진하게 조정
-            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // 검은색 라벨로 변경하여 흰색 계열 배경과 대비
-            style: {
-              borderRadius: 16,
-            },
-            propsForDots: {
-              r: '6',
-              strokeWidth: '2',
-              stroke: '#009688', // 데이터 포인트에 사용될 더 진한 연두색 조정
-            },
-          }}
-          verticalLabelRotation={0} // 라벨 회전 각도
-        />
-      </View>
+      <Graph />
     </ScrollView>
   );
 }
