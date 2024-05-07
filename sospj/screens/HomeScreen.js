@@ -44,24 +44,22 @@ function callNumber(phoneNumber) {
 }
 
 function HomeScreen({navigation}) {
-
-  const {user} = useUser()
-  const isFocused = useIsFocused()
+  const {user} = useUser();
+  const isFocused = useIsFocused();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(0);
 
-  const [news,setNews] = useState([]);
+  const [news, setNews] = useState([]);
   const [contacts, setContacts] = useState([]);
   const loadData = async () => {
-    const data = await userAxios.main({id:user.id})
-    if (data.sc == 200){
-      console.log(data.list)
-      setNews(data.news)
-      setContacts(data.list)
-
+    const data = await userAxios.main({id: user.id});
+    if (data.sc == 200) {
+      console.log(data.list);
+      setNews(data.news);
+      setContacts(data.list);
     }
   };
   useEffect(() => {
