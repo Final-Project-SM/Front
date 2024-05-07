@@ -13,7 +13,7 @@ import { nfcAxios } from '../API/requestNode';
 import { generateRandomString } from '../util/function/random';
 function MypageScreen({navigation}) {
   const {user} = useUser()
-  const userName = '이상용'; // 사용자 이름은 변수로 관리하거나 props, state 등으로 받을 수 있습니다.
+  const userName = user.name; // 사용자 이름은 변수로 관리하거나 props, state 등으로 받을 수 있습니다.
   const [modalVisible, setModalVisible] = useState(false);
   const [status, setStatus] = useState('');
   const handleRegisterNFC = async () => {
