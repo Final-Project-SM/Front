@@ -26,8 +26,8 @@ function LoginPageScreen({navigation}) {
     console.log(username, password);
     const response = await userAxios.login(data)
     if (response.sc == 200){
-      setUser({id:response.user.id})
-      await setStorage('user',JSON.stringify({id:response.user.id}))
+      setUser({id:response.user.id,name:response.user.name})
+      await setStorage('user',JSON.stringify({id:response.user.id,name:response.user.name}))
       await fcmAxios.fcmUpdate(response.user.id)
       navigation.navigate('Main')
     }else{

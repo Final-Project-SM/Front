@@ -31,7 +31,7 @@ function StartScreen({navigation}) {
     const jsonString = await getStorage('user');
     if(jsonString){
       const data = JSON.parse(jsonString)
-      setUser({id:data.id})
+      setUser({id:data.id,name:data.name})
       navigation.navigate('Main')
 
     }

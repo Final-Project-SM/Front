@@ -1,5 +1,5 @@
 import React, {useEffect,useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity,Alert,Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity,Alert,Button,Image, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFS from 'react-native-fs';
@@ -55,8 +55,13 @@ SosScreen = ({ navigation }) => {
     }
     if (loading){
         return (
-            <View stylele = {styles.container}>
-                <Text> 음성 녹음 중 </Text>
+            <View style={styles.container}>
+                <Image
+                    source={require('../assets/images/telephone.png')} // gif 이미지 경로
+                    style={styles.image}
+                />
+                <Text style={styles.loadingText}>음성 녹음 중...</Text>
+                <ActivityIndicator size="large" color="#ff4d4f" style={styles.spinner} />
             </View>
         )
     }
@@ -69,31 +74,24 @@ SosScreen = ({ navigation }) => {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-        backgroundColor: '#fff',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#f5f5f5', // 배경 색상
     },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
+    image: {
+      width: 100, // 이미지 너비
+      height: 100, // 이미지 높이
     },
-    button: {
-        backgroundColor: '#007bff',
-        width: '100%',
-        padding: 15,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginBottom: 10,
+    loadingText: {
+      fontSize: 24,
+      color: '#ff4d4f', // 텍스트 색상
+      fontWeight: 'bold', // 텍스트 굵기
+      marginVertical: 16, // 수직 마진
     },
-    buttonOutline: {
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 2,
+    spinner: {
+      marginTop: 20, // 상단 마진
     },
   });
-
 
 export default SosScreen;
