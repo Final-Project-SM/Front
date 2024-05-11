@@ -93,7 +93,9 @@ function HomeScreen({navigation}) {
     // 전화 걸기 로직 (여기서는 모달을 표시하는 것으로 대체)
     setModalVisible2(true);
   };
-
+  const changeService = () => {
+    setIsActive(!isActive);
+  };
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const handleVideoLoad = () => {
@@ -305,7 +307,7 @@ function HomeScreen({navigation}) {
       </View>
       <TouchableOpacity
         style={styles.contents4}
-        onPress={() => setIsActive(!isActive)}>
+        onPress={() => changeService()}>
         <View>
           <Text
             style={isActive ? styles.activeServiceTitle : styles.serviceTitle}>
