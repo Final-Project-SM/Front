@@ -10,9 +10,10 @@ import {
   button,
   TouchableOpacity,
   PermissionsAndroid,
+  TextInput,
+  Modal,
 } from 'react-native';
 import MapComponent from '../map/MapComponent';
-import MapComponent2 from '../map/MapComponent copy';
 import {WebView} from 'react-native-webview';
 import FetchDataComponent from '../API/FetchDataComponent';
 import {REACT_APP_API_KEY} from '@env';
@@ -27,6 +28,7 @@ function MapScreen() {
   const [currentY, setCurrentY] = useState('null');
   const [fireplacemarker, setFireplacemarker] = useState([]);
   const [category, setCategory] = useState('null');
+  const [modalVisible, setModalVisible] = useState(false);
 
   //const apiUrl = `http://openapi.seoul.go.kr:8088/${REACT_APP_API_KEY}/xml/TbGiWardP/1/10/`; // 수정된 부분
 
@@ -222,6 +224,35 @@ function MapScreen() {
           />
           <Text>병원</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.button}>
+          <Image
+            source={require('../assets/images/redicon.png')}
+            style={styles.icon}
+          />
+          <Text>주의</Text>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text>
+                최근 30일 동안의 신고가 들어온 지역을 표시하고 있습니다.
+              </Text>
+              <TouchableOpacity
+                style={styles.buttonClose}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text>숨기기</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
 
       <MapComponent
@@ -273,6 +304,34 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'SpoqaHanSansNeo-Bold',
     margin: 11,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    margin: 4,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
 });
 

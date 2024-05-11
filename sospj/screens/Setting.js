@@ -7,11 +7,34 @@ import {
   Switch,
   Image,
   Linking,
+  Modal,
 } from 'react-native';
-import {removeStorage} from '../../util/function/asyncStorage';
+import {removeStorage} from '../util/function/asyncStorage';
 const Setting = ({navigation}) => {
   const [isEnabledNotification, setIsEnabledNotification] = useState(false);
   const [isEnabledNightMode, setIsEnabledNightMode] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+
+  const [currentScreen, setCurrentScreen] = useState(0);
+
+  const handleModalToggle = visible => {
+    setModalVisible(visible);
+    setCurrentScreen(0); // 모달을 열 때 항상 첫 번째 스크린으로 초기화
+  };
+  const handleModalToggle2 = visible => {
+    setModalVisible2(visible);
+    setCurrentScreen(0); // 모달을 열 때 항상 첫 번째 스크린으로 초기화
+  };
+
+  const screens = [require('../assets/images/suports.png')];
+  const screens2 = [
+    // require('../assets/images//help/001.png'),
+    // require('../assets/images//help/002.png'),
+    // require('../assets/images//help/003.png'),
+    // require('../assets/images//help/004.png'),
+    // require('../assets/images//help/005.png'),
+  ];
 
   const openLink = url => {
     Linking.canOpenURL(url).then(supported => {
@@ -71,7 +94,7 @@ const Setting = ({navigation}) => {
         <Text style={styles.sectionTitle}>Additional Options</Text>
         <TouchableOpacity
           style={styles.itemContainer}
-          onPress={() => alert('Premium Service')}>
+          onPress={() => handleModalToggle()}>
           <Image
             source={{
               uri: 'https://cdn-icons-png.flaticon.com/128/4400/4400740.png',
@@ -80,10 +103,42 @@ const Setting = ({navigation}) => {
           />
           <Text style={styles.itemText}>프리미엄 서비스</Text>
         </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => handleModalToggle(!modalVisible)}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Image style={styles.image2} source={screens[currentScreen]} />
+              <View style={{flexDirection: 'row'}}>
+                {currentScreen > 0 && (
+                  <TouchableOpacity
+                    style={styles.navigationButton}
+                    onPress={() => setCurrentScreen(currentScreen - 1)}>
+                    <Text style={styles.navigationButtonText}>이전</Text>
+                  </TouchableOpacity>
+                )}
 
+                {currentScreen < screens.length - 1 && (
+                  <TouchableOpacity
+                    style={styles.navigationButton}
+                    onPress={() => setCurrentScreen(currentScreen + 1)}>
+                    <Text style={styles.navigationButtonText}>다음</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => handleModalToggle(false)}>
+                <Text style={styles.cancelButtonText}>닫기</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
         <TouchableOpacity
           style={styles.itemContainer}
-          onPress={() => alert('Help')}>
+          onPress={() => handleModalToggle2()}>
           <Image
             source={{
               uri: 'https://cdn-icons-png.flaticon.com/128/4502/4502682.png',
@@ -92,7 +147,39 @@ const Setting = ({navigation}) => {
           />
           <Text style={styles.itemText}>도움말</Text>
         </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible2}
+          onRequestClose={() => handleModalToggle(!modalVisible2)}>
+          <View style={styles.centeredView2}>
+            <View style={styles.modalView2}>
+              <Image style={styles.image22} source={screens2[currentScreen]} />
+              <View style={{flexDirection: 'row'}}>
+                {currentScreen > 0 && (
+                  <TouchableOpacity
+                    style={styles.navigationButton}
+                    onPress={() => setCurrentScreen(currentScreen - 1)}>
+                    <Text style={styles.navigationButtonText}>이전</Text>
+                  </TouchableOpacity>
+                )}
 
+                {currentScreen < screens2.length - 1 && (
+                  <TouchableOpacity
+                    style={styles.navigationButton}
+                    onPress={() => setCurrentScreen(currentScreen + 1)}>
+                    <Text style={styles.navigationButtonText}>다음</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => handleModalToggle2(false)}>
+                <Text style={styles.cancelButtonText}>닫기</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.itemContainer2}>
           <View style={{flexDirection: 'row'}}>
             <Image
@@ -187,6 +274,87 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginLeft: 10,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  image2: {
+    width: 250,
+    height: 400,
+    marginBottom: 20, // 이미지 아래에 여유 공간 추가
+  },
+  cancelButton: {
+    backgroundColor: '#FF6347',
+    borderRadius: 5,
+    padding: 10,
+  },
+  cancelButtonText: {
+    color: '#fff',
+    fontSize: 13,
+  },
+  navigationButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'green', // 이쁜 파란색 배경
+    borderRadius: 5, // 원형 버튼
+    width: 50, // 버튼 크기
+    height: 30, // 버튼 크기
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
+  navigationButtonText: {
+    color: 'white', // 텍스트 색상
+  },
+  centeredView2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView2: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  image22: {
+    width: 250,
+    height: 250,
+    marginBottom: 20, // 이미지 아래에 여유 공간 추가
   },
 });
 

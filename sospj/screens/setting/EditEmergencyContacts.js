@@ -35,6 +35,7 @@ function EditEmergencyContacts({navigation}) {
       id: user.id,
       sos: newContacts,
     });
+    navigation.goBack();
   };
 
   const formatPhoneNumber = text => {
@@ -73,7 +74,10 @@ function EditEmergencyContacts({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Emergency Contacts</Text>
+      <View style={styles.inputTitle}>
+        <Text>이름</Text>
+        <Text>전화번호</Text>
+      </View>
       <ScrollView>
         {contacts.map((contact, index) => (
           <View key={contact.seq} style={styles.inputContainer}>
@@ -101,7 +105,7 @@ function EditEmergencyContacts({navigation}) {
         </TouchableOpacity>
       )}
       <TouchableOpacity style={styles.buttonStyle} onPress={handleSave}>
-        <Text style={styles.buttonText}>Save Changes</Text>
+        <Text style={styles.buttonText}>수정하기</Text>
       </TouchableOpacity>
     </View>
   );
@@ -112,13 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E8F5E9',
     padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2E7D32',
-    marginBottom: 20,
-    textAlign: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -133,6 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     color: '#424242',
+    margin: 2,
   },
   buttonStyle: {
     backgroundColor: '#388E3C',
@@ -146,6 +144,11 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 18,
+  },
+  inputTitle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 5,
   },
 });
 
