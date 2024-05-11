@@ -29,7 +29,8 @@ SosScreen = ({ navigation }) => {
                 });
                 formData.append('file',result2)
                 console.log("axios")
-                setLoading(false)
+                // setLoading(false)
+                console.log("1")
                 const response = await axios.post("http://43.202.64.160:5000/predict", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -38,10 +39,13 @@ SosScreen = ({ navigation }) => {
                 console.log(response.data)
                 
             }, 10000); // 10초를 밀리초로 변환하여 전달
+            setTimeout(()=>{navigation.navigate('Main')},11000)
         } catch (error) {
             
             console.error('Failed to start recording: ', error);
+            navigation.navigate('Main')
         }
+        
     }
     useEffect(()=>{
         if(isFocused){

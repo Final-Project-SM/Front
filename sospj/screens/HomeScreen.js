@@ -85,7 +85,6 @@ function HomeScreen({navigation}) {
   const handlePress = newsUrl => {
     Linking.openURL(newsUrl);
   };
-
   const callVideo = phone => {
     // 전화 걸기 로직 (여기서는 모달을 표시하는 것으로 대체)
     setModalVisible(true);
@@ -101,7 +100,10 @@ function HomeScreen({navigation}) {
     console.log('Video loaded!');
     setIsVideoLoaded(true); // 비디오가 로드되었음을 상태로 설정
   };
-
+  const sendSosMessage = async () => {
+    await userAxios.sns({id:user.id})
+    Alert.alert("일괄문자 전송 완료")
+  }
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* <FetchDataKakao apiUrl={apiUrl} /> */}
@@ -331,7 +333,7 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                 }}>
                 <VideoPlayer
-                  source={require('../assets/video/tetetete.mp4')}
+                  source={{ uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/tetetete.mp4' }}
                   style={styles2.fullScreenVideo}
                   onEnd={() => setModalVisible(false)} // 비디오 재생이 끝나면 모달을 닫음
                 />
@@ -361,13 +363,13 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                 }}>
                 <VideoPlayer
-                  source={require('../assets/video/videoTest.mp4')}
+                  source={{ uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/videoTest.mp4' }}
                   style={styles2.fullScreenVideo}
                   onEnd={() => setModalVisible2(false)} // 비디오 재생이 끝나면 모달을 닫음
                 />
               </View>
             </Modal>
-            <TouchableOpacity onPress={() => callVideo2()}>
+            <TouchableOpacity onPress={sendSosMessage}>
               <View style={styles.contents31}>
                 <Image
                   source={require('../assets/images/sendmessage.png')} // 이미지 URL을 여기에 넣으세요.
