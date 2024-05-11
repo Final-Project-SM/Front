@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { userAxios } from '../API/requestNode';
+import {userAxios} from '../API/requestNode';
 function RegisterPageScreen({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -20,12 +20,19 @@ function RegisterPageScreen({navigation}) {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleSignUp = async () => {
-    console.log(gender)
-    const response = await userAxios.signUp({id:username,password:password,name:name,age:birthdate,gender:gender,phone:phoneNumber})
-    if(response.sc == 200){
-      navigation.navigate('RegisterNumber',{id:username});
-    }else{
-      Alert.alert("해당아이디 이미 사용중")
+    console.log(gender);
+    const response = await userAxios.signUp({
+      id: username,
+      password: password,
+      name: name,
+      age: birthdate,
+      gender: gender,
+      phone: phoneNumber,
+    });
+    if (response.sc == 200) {
+      navigation.navigate('RegisterNumber', {id: username});
+    } else {
+      Alert.alert('해당아이디 이미 사용중');
     }
   };
 
@@ -130,14 +137,16 @@ function RegisterPageScreen({navigation}) {
           onChange={onChangeDate}
         />
       )}
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>비상연락망 등록하기</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.goBack()}>
-        <Text style={styles.buttonText}>초기화면으로 돌아가기</Text>
-      </TouchableOpacity>
+      <View style={{marginTop: 10}}>
+        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>비상연락망 등록하기</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.goBack()}>
+          <Text style={styles.buttonText}>초기화면으로 돌아가기</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -153,18 +162,19 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '90%',
-    paddingVertical: 12,
+    paddingVertical: 9,
     paddingHorizontal: 15,
     backgroundColor: '#FFFFFF',
     borderWidth: 0,
     borderRadius: 8,
-    fontSize: 16,
+    fontSize: 13,
     color: '#333',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 2,
+    marginBottom: 6,
   },
   button: {
     minWidth: 300,
@@ -172,6 +182,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     marginBottom: 10,
+    marginTop: 3,
     backgroundColor: '#4CAF50',
   },
   buttonText: {
@@ -195,17 +206,17 @@ const styles = StyleSheet.create({
   },
   genderContainer: {
     flexDirection: 'row',
-    width: '100%',
+    width: '90%',
     justifyContent: 'space-evenly',
     marginBottom: 10,
+    marginTop: 4,
   },
   genderButton: {
     width: '45%',
     padding: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
     borderRadius: 5,
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   selectedGender: {
     backgroundColor: '#4CAF50',

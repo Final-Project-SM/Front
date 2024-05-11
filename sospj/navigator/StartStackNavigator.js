@@ -7,6 +7,7 @@ import StartScreen from '../screens/StartScreen';
 import SosScreen from '../screens/SosScreen';
 import MainTabNavigator from './MainTabNavigator';
 import RegisterNumber from '../screens/RegisterNumber';
+import StartingHelpScreen from '../screens/StartingHelpScreen';
 // 추가하고 싶은 다른 스크린을 import합니다.
 
 const Stack = createStackNavigator();
@@ -47,6 +48,11 @@ function StartStackNavigator({navigation}) {
       <Stack.Screen
         name="RegisterNumber"
         component={RegisterNumber}
+        options={{headerShown: false, tabBarStyle: {display: 'none'}}}
+      />
+      <Stack.Screen
+        name="StartingHelp"
+        component={StartingHelpScreen}
         options={{headerShown: false, tabBarStyle: {display: 'none'}}}
       />
 

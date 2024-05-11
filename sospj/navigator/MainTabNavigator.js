@@ -4,7 +4,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MapScreen from '../screens/MapScreen';
 import HomeStackNavigator from './HomeStackNavigator';
 import SettingStackNavigator from './SettingStackNavigator';
-import MapScreen2 from '../screens/MapScreen2';
 import EditEmergencyContacts from '../screens/setting/EditEmergencyContacts';
 // 추가하고 싶은 다른 스크린을 import합니다.
 
@@ -45,13 +44,6 @@ function MainTabNavigator() {
           ),
         }}
       />
-      {/* <Tab.Screen name="Map2" component={MapScreen2}
-      options={{ headerShown: false, tabBarIcon: ({ focused, color, size }) => (
-        <Image
-          source={require('../assets/images/mapIcon.png')} // 이미지 경로를 설정하세요
-          style={{ width: size, height: size}}
-        />
-      ),}} /> */}
       <Tab.Screen
         name="SettingStackNavigator"
         component={SettingStackNavigator}

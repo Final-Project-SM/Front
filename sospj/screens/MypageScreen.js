@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import NfcManager, {NfcTech, Ndef} from 'react-native-nfc-manager';
 import {useUser} from '../components/public/UserContext';
-import { nfcAxios } from '../API/requestNode';
-import { generateRandomString } from '../util/function/random';
+import {nfcAxios} from '../API/requestNode';
+import {generateRandomString} from '../util/function/random';
 function MypageScreen({navigation}) {
-  const {user} = useUser()
+  const {user} = useUser();
   const userName = user.name; // 사용자 이름은 변수로 관리하거나 props, state 등으로 받을 수 있습니다.
   const [modalVisible, setModalVisible] = useState(false);
   const [status, setStatus] = useState('');
@@ -20,19 +20,21 @@ function MypageScreen({navigation}) {
     setModalVisible(true);
     setStatus('NFC 등록 중...');
     try {
-      const random = generateRandomString()
+      const random = generateRandomString();
       await NfcManager.requestTechnology(NfcTech.Ndef);
 
-      const bytes = Ndef.encodeMessage([Ndef.uriRecord('sospj://test/nfc?param1='+random)]);
+      const bytes = Ndef.encodeMessage([
+        Ndef.uriRecord('sospj://test/nfc?param1=' + random),
+      ]);
 
       if (bytes) {
         await NfcManager.ndefHandler // STEP 2
           .writeNdefMessage(bytes); // STEP 3
       }
-      setStatus("성공")
-      await nfcAxios.nfcInsert({id:user.id,nfcid:random})
+      setStatus('성공');
+      await nfcAxios.nfcInsert({id: user.id, nfcid: random});
     } catch (ex) {
-      setStatus("다시 시도해주세요")
+      setStatus('다시 시도해주세요');
       console.log(ex);
     } finally {
       NfcManager.cancelTechnologyRequest();
@@ -40,7 +42,6 @@ function MypageScreen({navigation}) {
         setModalVisible(false); // NFC 스캔 완료 후 모달 자동 닫기
       }, 5000); // 스캔 완료 메시지를 2초간 표시
     }
-    
   };
   return (
     <View style={styles.container}>
@@ -62,7 +63,7 @@ function MypageScreen({navigation}) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.buttonStyle}
+          style={styles.buttonStyle3}
           onPress={() => navigation.navigate('VoiceData')}>
           <Image
             style={styles.buttonImage}
@@ -74,7 +75,7 @@ function MypageScreen({navigation}) {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={styles.buttonStyle}
+          style={styles.buttonStyle1}
           onPress={() => navigation.navigate('CaseStore')}>
           <Image
             style={styles.buttonImage}
@@ -92,7 +93,7 @@ function MypageScreen({navigation}) {
           <Text style={styles.buttonText}>NFC 등록하기</Text>
         </TouchableOpacity> */}
         <TouchableOpacity
-          style={styles.buttonStyle}
+          style={styles.buttonStyle2}
           onPress={handleRegisterNFC}>
           <Image
             style={styles.buttonImage}
@@ -152,6 +153,33 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: '#E8F5E9',
+    borderRadius: 10,
+    flex: 1,
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center', // 중앙 정렬
+    height: 200,
+  },
+  buttonStyle1: {
+    backgroundColor: '#ADD8E6',
+    borderRadius: 10,
+    flex: 1,
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center', // 중앙 정렬
+    height: 200,
+  },
+  buttonStyle2: {
+    backgroundColor: '#FFFDD0',
+    borderRadius: 10,
+    flex: 1,
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center', // 중앙 정렬
+    height: 200,
+  },
+  buttonStyle3: {
+    backgroundColor: '#FFD1DC',
     borderRadius: 10,
     flex: 1,
     marginHorizontal: 10,

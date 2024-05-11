@@ -25,16 +25,30 @@ const styles = StyleSheet.create({
     marginRight: 7,
   },
   contents3: {
-    //비상연락처
+    //SOS도구
     width: 325,
     height: 170,
-    backgroundColor: '#E8F5E9',
+    backgroundColor: '#FFFDD0',
     borderColor: 'black',
     borderRadius: 15,
     marginTop: 14,
     alignItems: 'center',
   },
+  contents4: {
+    //SOS도구
+    width: 325,
+    height: 80,
+    backgroundColor: '#FFD1DC',
+    borderColor: 'black',
+    borderRadius: 15,
+    marginTop: 14,
+    alignItems: 'center',
+    flexDirection: 'row', // 가로로 텍스트와 버튼 배치
+    justifyContent: 'space-between', // 요소들 사이에 공간을 균등하게 분배
+    paddingHorizontal: 20, // 좌우 패딩 추가
+  },
   contents11: {
+    //긴급신고 내부 버튼
     width: 60,
     height: 50,
     borderRadius: 15,
@@ -46,6 +60,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   contents21: {
+    //SOS도구 내부 버튼
     width: 130,
     height: 50,
     borderRadius: 15,
@@ -59,6 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   contents31: {
+    //일괄 문자 전송
     width: 120,
     height: 120,
     borderRadius: 15,
@@ -74,7 +90,7 @@ const styles = StyleSheet.create({
     //긴급신고
     width: 155,
     height: 155,
-    backgroundColor: '#E8F5E9',
+    backgroundColor: '#ADD8E6',
     borderColor: 'black',
     borderRadius: 15,
     marginTop: 14,
@@ -176,6 +192,42 @@ const styles = StyleSheet.create({
   image4: {
     width: 70,
     height: 70,
+  },
+  //안심귀가 서비스
+  serviceText: {
+    fontSize: 10, // 텍스트 크기 조정
+    fontWeight: 'bold', // 굵은 글씨로 표시
+    margin: 5,
+  },
+  activeServiceTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#F44336', // 활성화 상태일 때의 텍스트 색상 변경
+  },
+  serviceTitle: {
+    fontSize: 16, // 텍스트 크기 조정
+    fontWeight: 'bold', // 굵은 글씨로 표시
+  },
+  startButton: {
+    backgroundColor: 'skyblue', // 시작하기 버튼 색상
+    width: 60, // 버튼 폭
+    height: 60, // 버튼 높이
+    justifyContent: 'center', // 내부 텍스트 중앙 정렬
+    alignItems: 'center', // 내부 텍스트 중앙 정렬
+    borderRadius: 10, // 버튼 모서리 둥글게
+  },
+  stopButton: {
+    backgroundColor: '#F44336', // 중단하기 버튼 색상
+    width: 60, // 버튼 폭
+    height: 60, // 버튼 높이
+    justifyContent: 'center', // 내부 텍스트 중앙 정렬
+    alignItems: 'center', // 내부 텍스트 중앙 정렬
+    borderRadius: 10, // 버튼 모서리 둥글게
+  },
+  statusImage: {
+    width: 50, // 이미지 크기 설정
+    height: 50, // 이미지 높이 설정
+    marginBottom: 5, // 이미지 아래쪽 여백
   },
 });
 

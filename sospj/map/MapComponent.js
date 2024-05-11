@@ -14,7 +14,6 @@ import Geolocation from 'react-native-geolocation-service';
 const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
   const [currentLocation, setCurrentLocation] = useState({x, y});
-
   // WebView로부터 메시지를 받았을 때의 핸들러
   const onMessage = event => {
     const {data} = event.nativeEvent;
@@ -23,6 +22,50 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     if (message.type === 'zoom_changed') {
       setZoomLevel(message.zoomLevel);
     }
+  };
+
+  const [locations] = useState([
+    {id: 1, lat: 36.8107, lng: 127.0789},
+    {id: 2, lat: 36.8135, lng: 127.0815},
+    {id: 3, lat: 36.8001, lng: 127.0762},
+    {id: 4, lat: 36.812, lng: 127.0763},
+    {id: 5, lat: 36.7994, lng: 127.081},
+    {id: 6, lat: 36.8061, lng: 127.0636},
+    {id: 7, lat: 36.8051, lng: 127.0758},
+    {id: 8, lat: 36.8042, lng: 127.0811},
+    {id: 9, lat: 36.8076, lng: 127.0814},
+    {id: 10, lat: 36.7976, lng: 127.0817},
+  ]);
+  // 원을 생성하는 JavaScript 코드
+  const createCirclesScript = locations => {
+    return locations
+      .map(
+        location => `
+      var center = new kakao.maps.LatLng(${location.lat}, ${location.lng});
+      var circleOptions = {
+        center: center,
+        radius: 30, // 반지름 100m
+        strokeWeight: 5,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        fillColor: '#FF0000',
+        fillOpacity: 0.4
+      };
+      var circle = new kakao.maps.Circle(circleOptions);
+      circle.setMap(map);
+
+      // 원 중앙에 텍스트 추가
+        var content = '<div style=" width: 30px; height: 30px; line-height: 30px; text-align: center; font-size: 22px; color: white; font-weight: bold;">${location.id}</div>';
+        var customOverlay = new kakao.maps.CustomOverlay({
+          content: content,
+          position: center,
+          xAnchor: 0.5,
+          yAnchor: 0.5
+        });
+        customOverlay.setMap(map);
+    `,
+      )
+      .join('');
   };
 
   useEffect(() => {
@@ -148,6 +191,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
           'https://cdn-icons-png.flaticon.com/128/7976/7976202.png',
           {width: 84, height: 89},
         )}
+        ${createCirclesScript(locations)}
       </script>
     </body>
   </html>`;

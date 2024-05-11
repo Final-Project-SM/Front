@@ -9,11 +9,11 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { userAxios } from '../API/requestNode';
+import {userAxios} from '../API/requestNode';
 
-function RegisterNumber({navigation,route}) {
+function RegisterNumber({navigation, route}) {
   const username = route?.params?.id || 'Unknown User';
-  
+
   const [contacts, setContacts] = useState([{name: '', phone: ''}]);
 
   const handleAddContact = () => {
@@ -25,8 +25,8 @@ function RegisterNumber({navigation,route}) {
   };
 
   const handleToLogin = async () => {
-    const response = await userAxios.sosChange({id:username,sos:contacts})
-    console.log(response.sc)
+    const response = await userAxios.sosChange({id: username, sos: contacts});
+    console.log(response.sc);
     navigation.navigate('Login');
   };
 
@@ -81,13 +81,14 @@ function RegisterNumber({navigation,route}) {
           />
         </TouchableOpacity>
       )}
-      <Button title="뒤로 가기" onPress={() => navigation.goBack()} />
-      <Button
-        title="로그인하기"
-        onPress={handleToLogin}
-        color="#4CAF50"
-        style={styles.button}
-      />
+      <TouchableOpacity
+        style={styles.secondaryButton}
+        onPress={() => navigation.navigate('StartingHelp')}>
+        <Text style={styles.secondaryButtonText}>도움말(필독)</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.primaryButton} onPress={handleToLogin}>
+        <Text style={styles.primaryButtonText}>로그인하기</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -124,6 +125,37 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginVertical: 10,
+  },
+  secondaryButton: {
+    backgroundColor: 'transparent',
+    borderColor: '#388E3C', // Dark green border
+    borderWidth: 2,
+    width: '70%',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    margin: 10,
+  },
+  secondaryButtonText: {
+    color: '#388E3C',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'SpoqaHanSansNeo-Bold',
+  },
+  primaryButton: {
+    backgroundColor: '#388E3C', // Dark green button
+    width: '70%',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 15,
+    margin: 10,
+  },
+  primaryButtonText: {
+    color: '#ffffff', // White text
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'SpoqaHanSansNeo-Bold',
   },
 });
 

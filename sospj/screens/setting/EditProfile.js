@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {useUser} from '../../components/public/UserContext';
 
-const EditProfile = () => {
+const EditProfile = ({navigation}) => {
   const {user, setUser} = useUser();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,6 +19,9 @@ const EditProfile = () => {
 
   const handleSave = () => {
     console.log('Profile Saved', {name, email});
+    setUser({id: user.id, name: name});
+    navigation.goBack();
+
     // 프로필 데이터 저장 로직 추가
   };
 
@@ -30,7 +33,7 @@ const EditProfile = () => {
         </View>
         <View style={styles.inputContainer}>
           <View style={styles.IDBox}>
-            <Text style={styles.IDlabel}>{user.id}</Text>
+            <Text style={styles.IDlabel}>ID : {user.id}</Text>
           </View>
           <Text style={styles.label}>이름</Text>
           <TextInput

@@ -29,6 +29,8 @@ import {useUser} from '../components/public/UserContext';
 import {userAxios} from '../API/requestNode';
 import {useIsFocused} from '@react-navigation/native';
 import Graph from '../components/graph';
+import CurrentTime from '../components/CurrentTime';
+import LottieView from 'lottie-react-native';
 // 예시 그래프 데이터
 const graphData = {
   labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
@@ -51,7 +53,7 @@ function HomeScreen({navigation}) {
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(0);
-
+  const [isActive, setIsActive] = useState(false); // 버튼 상태 관리
   const [news, setNews] = useState([]);
   const [contacts, setContacts] = useState([]);
   const loadData = async () => {
@@ -180,6 +182,8 @@ function HomeScreen({navigation}) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     backgroundColor: '#f0f0f0',
+                    borderRadius: 25,
+                    marginTop: 10,
                   }}>
                   <Text style={{color: '#000', fontSize: 16}}>
                     비상연락처를 추가해주세요
@@ -297,6 +301,35 @@ function HomeScreen({navigation}) {
           </View>
         </View>
       </View>
+      <TouchableOpacity
+        style={styles.contents4}
+        onPress={() => setIsActive(!isActive)}>
+        <View>
+          <Text
+            style={isActive ? styles.activeServiceTitle : styles.serviceTitle}>
+            {isActive ? '현재 위치를 공유중입니다.' : '안심귀가 서비스'}
+          </Text>
+          <Text style={styles.serviceText}>
+            {isActive
+              ? '집에 도착하시면 반드시 서비스를 종료하세요'
+              : '안전하게 귀가하세요!'}
+          </Text>
+        </View>
+        <LottieView
+          style={{
+            width: 70,
+            height: 70,
+          }}
+          source={
+            isActive
+              ? require('../assets/lottie/process.json')
+              : require('../assets/lottie/gps.json')
+          }
+          autoPlay
+          loop={true}
+        />
+      </TouchableOpacity>
+
       <View style={styles.contentsContainer}>
         <View style={styles.contents3}>
           <Text style={{margin: 4, fontFamily: 'SpoqaHanSansNeo-Bold'}}>
@@ -384,7 +417,7 @@ function HomeScreen({navigation}) {
           borderTopWidth: 1,
           borderBottomColor: 'white',
           borderBottomWidth: 1,
-          margin: 2,
+          margin: 20,
           marginBottom: 10,
           width: '100%',
         }}></View>

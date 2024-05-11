@@ -29,11 +29,11 @@ const Setting = ({navigation}) => {
 
   const screens = [require('../assets/images/suports.png')];
   const screens2 = [
-    require('../assets/images//help/001.png'),
-    require('../assets/images//help/002.png'),
-    require('../assets/images//help/003.png'),
-    require('../assets/images//help/004.png'),
-    require('../assets/images//help/005.png'),
+    // require('../assets/images//help/001.png'),
+    // require('../assets/images//help/002.png'),
+    // require('../assets/images//help/003.png'),
+    // require('../assets/images//help/004.png'),
+    // require('../assets/images//help/005.png'),
   ];
 
   const openLink = url => {
