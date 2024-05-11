@@ -8,6 +8,7 @@ import SosScreen from '../screens/SosScreen';
 import MainTabNavigator from './MainTabNavigator';
 import RegisterNumber from '../screens/RegisterNumber';
 import StartingHelpScreen from '../screens/StartingHelpScreen';
+import HiddenKeywordSet from '../screens/HiddenKeywordSet';
 // 추가하고 싶은 다른 스크린을 import합니다.
 
 const Stack = createStackNavigator();
@@ -53,6 +54,11 @@ function StartStackNavigator({navigation}) {
       <Stack.Screen
         name="StartingHelp"
         component={StartingHelpScreen}
+        options={{headerShown: false, tabBarStyle: {display: 'none'}}}
+      />
+      <Stack.Screen
+        name="HiddenKeyword"
+        component={HiddenKeywordSet}
         options={{headerShown: false, tabBarStyle: {display: 'none'}}}
       />
 

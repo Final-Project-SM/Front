@@ -11,11 +11,11 @@ import {BarChart} from 'react-native-chart-kit';
 import {request, PERMISSIONS} from 'react-native-permissions'; // 위치 권한 요청을 위한 import
 import axios from 'axios';
 import {REACT_APP_KAKAO_REST_KEY} from '@env';
-import { userAxios } from '../API/requestNode';
+import {userAxios} from '../API/requestNode';
 const graph = () => {
   const [position, setPosition] = useState(null);
   const [address, setAddress] = useState('주소를 불러오는 중...');
-  const [graphData,setGraphData]= useState({
+  const [graphData, setGraphData] = useState({
     labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
     datasets: [
       {
@@ -69,8 +69,10 @@ const graph = () => {
       const addressName = response.data.documents[0].address
         ? response.data.documents[0].address.address_name
         : '주소를 찾을 수 없습니다.';
-      const graph = await userAxios.graph({location:response.data.documents[0].address.region_1depth_name}) 
-      setGraphData(graph)
+      const graph = await userAxios.graph({
+        location: response.data.documents[0].address.region_1depth_name,
+      });
+      setGraphData(graph);
       setAddress(addressName);
     } catch (error) {
       console.error('주소 변환 중 오류 발생:', error);

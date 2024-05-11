@@ -101,9 +101,9 @@ function HomeScreen({navigation}) {
     setIsVideoLoaded(true); // 비디오가 로드되었음을 상태로 설정
   };
   const sendSosMessage = async () => {
-    await userAxios.sns({id:user.id})
-    Alert.alert("일괄문자 전송 완료")
-  }
+    await userAxios.sns({id: user.id});
+    Alert.alert('일괄문자 전송 완료');
+  };
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* <FetchDataKakao apiUrl={apiUrl} /> */}
@@ -364,7 +364,9 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                 }}>
                 <VideoPlayer
-                  source={{ uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/tetetete.mp4' }}
+                  source={{
+                    uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/tetetete.mp4',
+                  }}
                   style={styles2.fullScreenVideo}
                   onEnd={() => setModalVisible(false)} // 비디오 재생이 끝나면 모달을 닫음
                 />
@@ -394,7 +396,9 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                 }}>
                 <VideoPlayer
-                  source={{ uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/videoTest.mp4' }}
+                  source={{
+                    uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/videoTest.mp4',
+                  }}
                   style={styles2.fullScreenVideo}
                   onEnd={() => setModalVisible2(false)} // 비디오 재생이 끝나면 모달을 닫음
                 />

@@ -51,7 +51,7 @@ function RegisterNumber({navigation, route}) {
 
   return (
     <View style={styles.container}>
-      <Text>비상 연락망 등록</Text>
+      <Text style={{fontSize: 18, color: 'black'}}>비상 연락망 등록</Text>
       {contacts.map((contact, index) => (
         <View key={index} style={styles.contactContainer}>
           <TextInput
@@ -85,6 +85,11 @@ function RegisterNumber({navigation, route}) {
         style={styles.secondaryButton}
         onPress={() => navigation.navigate('StartingHelp')}>
         <Text style={styles.secondaryButtonText}>도움말(필독)</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.secondaryButton}
+        onPress={() => navigation.navigate('HiddenKeyword')}>
+        <Text style={styles.secondaryButtonText}>신고키워드 설정하기</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.primaryButton} onPress={handleToLogin}>
         <Text style={styles.primaryButtonText}>로그인하기</Text>
