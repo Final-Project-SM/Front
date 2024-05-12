@@ -52,46 +52,7 @@ const Setting = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>General Settings</Text>
-        <View style={styles.itemContainer2}>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              source={{
-                uri: 'https://cdn-icons-png.flaticon.com/128/12328/12328821.png',
-              }}
-              style={styles.icon}
-            />
-            <Text style={styles.itemText}>미정</Text>
-          </View>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isEnabledNotification ? '#f5dd4b' : '#f4f3f4'}
-            onValueChange={newValue => setIsEnabledNotification(newValue)}
-            value={isEnabledNotification}
-          />
-        </View>
-
-        <View style={styles.itemContainer2}>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              source={{
-                uri: 'https://cdn-icons-png.flaticon.com/128/7531/7531649.png',
-              }}
-              style={styles.icon}
-            />
-            <Text style={styles.itemText}>미정</Text>
-          </View>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isEnabledNightMode ? '#f5dd4b' : '#f4f3f4'}
-            onValueChange={newValue => setIsEnabledNightMode(newValue)}
-            value={isEnabledNightMode}
-          />
-        </View>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Additional Options</Text>
+        <Text style={styles.sectionTitle}>Options</Text>
         <TouchableOpacity
           style={styles.itemContainer}
           onPress={() => handleModalToggle()}>

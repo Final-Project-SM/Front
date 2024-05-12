@@ -101,7 +101,7 @@ function EditEmergencyContacts({navigation}) {
       </ScrollView>
       {contacts.length < 4 && (
         <TouchableOpacity style={styles.buttonStyle} onPress={addContact}>
-          <Text style={styles.buttonText}>Add New Contact</Text>
+          <Text style={styles.buttonText}>새로운 연락처 추가하기</Text>
         </TouchableOpacity>
       )}
       <TouchableOpacity style={styles.buttonStyle} onPress={handleSave}>

@@ -45,6 +45,7 @@ export const userAxios = {
   sosList: async data => {
     try {
       const request = await axios.post(BACK_API_PATH + '/sos/list', data);
+
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -53,6 +54,7 @@ export const userAxios = {
   userChange:async data => {
     try {
       const request = await axios.post(BACK_API_PATH + '/update', data);
+
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -78,6 +80,7 @@ export const userAxios = {
     }
   },
   graph: async data => {
+
     try{
       const request = await axios.post(BACK_API_PATH + '/graph', data )
       return request.data 
@@ -103,7 +106,7 @@ export const userAxios = {
     }catch(err){
       return {sc:400}
     }
-  }
+  },
 };
 
 export const nfcAxios = {

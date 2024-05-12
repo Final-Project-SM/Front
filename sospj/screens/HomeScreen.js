@@ -94,13 +94,16 @@ function HomeScreen({navigation}) {
     // 전화 걸기 로직 (여기서는 모달을 표시하는 것으로 대체)
     setModalVisible2(true);
   };
-
+  const changeService = () => {
+    setIsActive(!isActive);
+  };
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const handleVideoLoad = () => {
     console.log('Video loaded!');
     setIsVideoLoaded(true); // 비디오가 로드되었음을 상태로 설정
   };
+
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -117,6 +120,7 @@ function HomeScreen({navigation}) {
     await userAxios.sns({id:user.id,lat:lat,lon:lon})
     Alert.alert("일괄문자 전송 완료")
   }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* <FetchDataKakao apiUrl={apiUrl} /> */}
@@ -318,7 +322,7 @@ function HomeScreen({navigation}) {
       </View>
       <TouchableOpacity
         style={styles.contents4}
-        onPress={() => setIsActive(!isActive)}>
+        onPress={() => changeService()}>
         <View>
           <Text
             style={isActive ? styles.activeServiceTitle : styles.serviceTitle}>
@@ -377,7 +381,9 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                 }}>
                 <VideoPlayer
-                  source={{ uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/tetetete.mp4' }}
+                  source={{
+                    uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/tetetete.mp4',
+                  }}
                   style={styles2.fullScreenVideo}
                   onEnd={() => setModalVisible(false)} // 비디오 재생이 끝나면 모달을 닫음
                 />
@@ -406,7 +412,9 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                 }}>
                 <VideoPlayer
-                  source={{ uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/videoTest.mp4' }}
+                  source={{
+                    uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/videoTest.mp4',
+                  }}
                   style={styles2.fullScreenVideo}
                   onEnd={() => setModalVisible2(false)} // 비디오 재생이 끝나면 모달을 닫음
                 />
