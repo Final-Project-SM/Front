@@ -8,18 +8,18 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useUser} from '../../components/public/UserContext';
-
+import { userAxios } from '../../API/requestNode';
 const EditProfile = ({navigation}) => {
   const {user, setUser} = useUser();
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [profileImage, setProfileImage] = useState(
     'https://example.com/default_profile.jpg',
   );
 
-  const handleSave = () => {
-    console.log('Profile Saved', {name, email});
-    setUser({id: user.id, name: name});
+  const handleSave = async () => {
+    setUser({id: user.id, name: name, password:password});
+    await userAxios.userChange({id: user.id, name: name, password:password})
     navigation.goBack();
 
     // 프로필 데이터 저장 로직 추가
@@ -47,8 +47,8 @@ const EditProfile = ({navigation}) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>비밀번호</Text>
           <TextInput
-            value={email}
-            onChangeText={setEmail}
+            value={password}
+            onChangeText={setPassword}
             style={styles.input}
             keyboardType="email-address"
             placeholder="비밀번호"
