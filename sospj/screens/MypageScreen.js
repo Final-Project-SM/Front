@@ -83,15 +83,15 @@ function MypageScreen({navigation}) {
           />
           <Text style={styles.buttonText}>케이스 구매</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={styles.buttonStyle}
-          onPress={() => navigation.navigate('registerNFC')}>
+          onPress={() => navigation.navigate('ContactList')}>
           <Image
             style={styles.buttonImage}
             source={require('../assets/images/singo.png')}
           />
           <Text style={styles.buttonText}>NFC 등록하기</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonStyle2}
           onPress={handleRegisterNFC}>

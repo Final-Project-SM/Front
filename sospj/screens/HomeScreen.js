@@ -13,6 +13,7 @@ import {
   Alert,
   Pressable,
   TouchableOpacity,
+  PermissionsAndroid,
 } from 'react-native';
 //import styles from '../teststyle/HomeStyle';
 import styles from '../teststyle/HomeStyle copy';
@@ -32,6 +33,8 @@ import Geolocation from 'react-native-geolocation-service';
 import Graph from '../components/graph';
 import CurrentTime from '../components/CurrentTime';
 import LottieView from 'lottie-react-native';
+import Torch from 'react-native-torch';
+import Sound from 'react-native-sound';
 // 예시 그래프 데이터
 const graphData = {
   labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
@@ -49,7 +52,7 @@ function callNumber(phoneNumber) {
 function HomeScreen({navigation}) {
   const {user} = useUser();
   const isFocused = useIsFocused();
-
+  const [isTorchOn, setIsTorchOn] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
@@ -57,6 +60,8 @@ function HomeScreen({navigation}) {
   const [isActive, setIsActive] = useState(false); // 버튼 상태 관리
   const [news, setNews] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [soundInstance, setSoundInstance] = useState(null);
   const loadData = async () => {
     const data = await userAxios.main({id: user.id});
     if (data.sc == 200) {
@@ -65,6 +70,10 @@ function HomeScreen({navigation}) {
       setContacts(data.list);
     }
   };
+  useEffect(() => {
+    return () => Torch.switchState(false);
+    sirenSound.release(); // 컴포넌트 언마운트 시 후레쉬 끄기
+  }, []);
   useEffect(() => {
     loadData();
   }, [isFocused]);
@@ -76,6 +85,19 @@ function HomeScreen({navigation}) {
     require('../assets/images/rway5.png'),
     require('../assets/images/rway6.png'),
   ];
+  const sirenSound = new Sound(
+    require('../assets/video/policeSiren.mp3'),
+    error => {
+      if (error) {
+        console.log('Failed to load the sound', error);
+        return;
+      }
+      // 파일 로드가 성공했을 때 실행할 코드
+      console.log('Sound is loaded successfully');
+      // 무한 반복 설정 (-1은 무한 반복을 의미)
+      sirenSound.setVolume(1.0); // 최대 음량 설정
+    },
+  );
   const handleModalToggle = visible => {
     setModalVisible3(visible);
     setCurrentScreen(0); // 모달을 열 때 항상 첫 번째 스크린으로 초기화
@@ -103,23 +125,83 @@ function HomeScreen({navigation}) {
     console.log('Video loaded!');
     setIsVideoLoaded(true); // 비디오가 로드되었음을 상태로 설정
   };
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message: 'App needs camera permission to use the flashlight',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  };
+
+  const toggleTorch = async () => {
+    const hasPermission = await requestCameraPermission();
+    if (hasPermission) {
+      setIsTorchOn(!isTorchOn);
+      Torch.switchState(!isTorchOn);
+    } else {
+      Alert.alert(
+        'Permissions required',
+        'Camera permission is required to use flashlight',
+      );
+    }
+  };
+
+  const toggleSound = () => {
+    if (isPlaying) {
+      if (soundInstance) {
+        soundInstance.stop();
+        setSoundInstance(null);
+      }
+    } else {
+      const sound = new Sound(
+        require('../assets/video/policeSiren.mp3'),
+        error => {
+          if (error) {
+            console.log('Failed to load', error);
+            return;
+          }
+          console.log('Sound good');
+
+          sound.play(success => {
+            if (success) {
+              console.log('Sound good');
+            } else {
+              console.log('playback');
+            }
+          });
+          setSoundInstance(sound);
+        },
+      );
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   const getLocation = () => {
     Geolocation.getCurrentPosition(
-      (position) => {
+      position => {
         sendSosMessage(position.coords.latitude, position.coords.longitude);
       },
-      (error) => {
+      error => {
         console.log(error);
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     );
-  }
-  const sendSosMessage = async (lat,lon) => {
-    
-    await userAxios.sns({id:user.id,lat:lat,lon:lon})
-    Alert.alert("일괄문자 전송 완료")
-  }
+  };
+  const sendSosMessage = async (lat, lon) => {
+    await userAxios.sns({id: user.id, lat: lat, lon: lon});
+    Alert.alert('일괄문자 전송 완료');
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -358,37 +440,6 @@ function HomeScreen({navigation}) {
             style={{
               flexWrap: 'wrap',
             }}>
-            <TouchableOpacity onPress={() => callVideo()}>
-              <View style={styles.contents21}>
-                <Text style={styles.contactText}>112 가짜전화(통화)</Text>
-                <Image
-                  source={require('../assets/images/police.png')} // 이미지 URL을 여기에 넣으세요.
-                  style={styles.image3}
-                />
-              </View>
-            </TouchableOpacity>
-            <Modal
-              animationType="slide"
-              transparent={false}
-              visible={modalVisible}
-              onRequestClose={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <VideoPlayer
-                  source={{
-                    uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/tetetete.mp4',
-                  }}
-                  style={styles2.fullScreenVideo}
-                  onEnd={() => setModalVisible(false)} // 비디오 재생이 끝나면 모달을 닫음
-                />
-              </View>
-            </Modal>
             <TouchableOpacity onPress={() => callVideo2()}>
               <View style={styles.contents21}>
                 <Text style={styles.contactText}>지인 가짜전화(통화)</Text>
@@ -420,6 +471,36 @@ function HomeScreen({navigation}) {
                 />
               </View>
             </Modal>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity onPress={toggleTorch}>
+                <View style={styles.contents26}>
+                  <Image
+                    // 조건에 따라 다른 이미지를 표시합니다.
+                    source={
+                      isTorchOn
+                        ? require('../assets/images/flashOn.png')
+                        : require('../assets/images/flashOff.png')
+                    }
+                    style={styles.image3}
+                  />
+                  <Text style={styles.contactText}>후레쉬</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={toggleSound} // 삼항 연산자를 사용하여 상태에 따라 함수 선택
+                style={styles.button}>
+                <View style={styles.contents26}>
+                  <Image
+                    source={require('../assets/images/SirenImage.png')}
+                    style={styles.image3}
+                  />
+                  <Text style={styles.contactText}>
+                    {isPlaying ? '사이렌 끄기' : '사이렌 울리기'}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity onPress={getLocation}>
               <View style={styles.contents31}>
                 <Image
