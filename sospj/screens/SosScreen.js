@@ -4,10 +4,12 @@ import axios from 'axios';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFS from 'react-native-fs';
 import {AI_PATH} from "@env"
+import { useUser } from '../components/public/UserContext';
 import { useIsFocused } from '@react-navigation/native';
 const audioRecorderPlayer = new AudioRecorderPlayer();
 const audioPath = RNFS.CachesDirectoryPath+ '/test.mp4'
 SosScreen = ({ navigation }) => {
+    const {user} = useUser()
     const isFocused = useIsFocused()
     const [loading,setLoading] = useState(true);
     const startrecord = async () => {
@@ -27,11 +29,12 @@ SosScreen = ({ navigation }) => {
                     name: 'test',
                     type:"audio/aac"
                 });
-                formData.append('file',result2)
+                // formData.append('file',result2)
+                formData.append("id",user.id)
                 console.log("axios")
                 // setLoading(false)
                 console.log("1")
-                const response = await axios.post("http://43.202.64.160:5000/predict", formData, {
+                const response = await axios.post("http://192.168.0.22:5000/upload", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

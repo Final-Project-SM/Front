@@ -45,12 +45,21 @@ export const userAxios = {
   sosList: async data => {
     try {
       const request = await axios.post(BACK_API_PATH + '/sos/list', data);
+
       return request.data;
     } catch (err) {
       return {sc: 400};
     }
   },
+  userChange:async data => {
+    try {
+      const request = await axios.post(BACK_API_PATH + '/update', data);
 
+      return request.data;
+    } catch (err) {
+      return {sc: 400};
+    }
+  },
   sosChange: async data => {
     try {
       const request = await axios.post(BACK_API_PATH + '/sos/change', data);
@@ -71,19 +80,31 @@ export const userAxios = {
     }
   },
   graph: async data => {
-    try {
-      const request = await axios.post(BACK_API_PATH + '/graph', data);
-      return request.data;
-    } catch (err) {
-      return {sc: 400};
+
+    try{
+      const request = await axios.post(BACK_API_PATH + '/graph', data )
+      return request.data 
+
+    }catch(err){
+      return {sc:400}
+    }
+  },
+  map: async data => {
+    try{
+      const request = await axios.post(BACK_API_PATH + '/map', data )
+      return request.data 
+
+    }catch(err){
+      return {sc:400}
     }
   },
   sns: async data => {
-    try {
-      const request = await axios.post(BACK_API_PATH + '/sos/sns', data);
-      return request.data;
-    } catch (err) {
-      return {sc: 400};
+    try{
+      const request = await axios.post(BACK_API_PATH + '/sos/sns', data )
+      return request.data 
+
+    }catch(err){
+      return {sc:400}
     }
   },
 };

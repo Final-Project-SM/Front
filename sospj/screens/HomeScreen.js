@@ -28,6 +28,7 @@ import {StatusBar} from 'react-native';
 import {useUser} from '../components/public/UserContext';
 import {userAxios} from '../API/requestNode';
 import {useIsFocused} from '@react-navigation/native';
+import Geolocation from 'react-native-geolocation-service';
 import Graph from '../components/graph';
 import CurrentTime from '../components/CurrentTime';
 import LottieView from 'lottie-react-native';
@@ -102,10 +103,24 @@ function HomeScreen({navigation}) {
     console.log('Video loaded!');
     setIsVideoLoaded(true); // 비디오가 로드되었음을 상태로 설정
   };
-  const sendSosMessage = async () => {
-    await userAxios.sns({id: user.id});
-    Alert.alert('일괄문자 전송 완료');
-  };
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        sendSosMessage(position.coords.latitude, position.coords.longitude);
+      },
+      (error) => {
+        console.log(error);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  }
+  const sendSosMessage = async (lat,lon) => {
+    
+    await userAxios.sns({id:user.id,lat:lat,lon:lon})
+    Alert.alert("일괄문자 전송 완료")
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* <FetchDataKakao apiUrl={apiUrl} /> */}
@@ -390,7 +405,6 @@ function HomeScreen({navigation}) {
               onRequestClose={() => {
                 setModalVisible2(!modalVisible2);
               }}>
-              <Text>hello</Text>
               <View
                 style={{
                   flex: 1,
@@ -406,7 +420,7 @@ function HomeScreen({navigation}) {
                 />
               </View>
             </Modal>
-            <TouchableOpacity onPress={sendSosMessage}>
+            <TouchableOpacity onPress={getLocation}>
               <View style={styles.contents31}>
                 <Image
                   source={require('../assets/images/sendmessage.png')} // 이미지 URL을 여기에 넣으세요.

@@ -14,7 +14,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getStorage} from '../util/function/asyncStorage';
 import messaging from '@react-native-firebase/messaging';
 import {useUser} from '../components/public/UserContext';
-
+import Geolocation from 'react-native-geolocation-service';
+import axios from 'axios';
 /**
  * 애플리케이션의 시작 화면을 나타내는 컴포넌트입니다. 사용자에게 회원가입 및 로그인을 할 수 있는 옵션을 제공합니다.
  *
@@ -31,7 +32,7 @@ function StartScreen({navigation}) {
     const jsonString = await getStorage('user');
     if (jsonString) {
       const data = JSON.parse(jsonString);
-      setUser({id: data.id, name: data.name});
+      setUser({id: data.id, name: data.name, password:data.password});
       navigation.navigate('Main');
     }
   };
@@ -40,6 +41,10 @@ function StartScreen({navigation}) {
     messaging().onMessage(async remoteMessage => {
       navigation.navigate('Sos');
     });
+    messaging().setBackgroundMessageHandler(async remoteMessage=>{
+      console.log("1")
+ 
+    })
     readData();
   }, []);
   return (

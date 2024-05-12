@@ -8,8 +8,10 @@ import {
   Image,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
-import {REACT_APP_KAKKO_KEY} from '@env'; // 환경 변수에서 카카오 API 키 가져오기
+import {REACT_APP_KAKKO_KEY,REACT_APP_KAKAO_REST_KEY} from '@env'; // 환경 변수에서 카카오 API 키 가져오기
 import Geolocation from 'react-native-geolocation-service';
+import axios from 'axios';
+import { userAxios } from '../API/requestNode';
 
 const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
@@ -24,24 +26,45 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     }
   };
 
-  const [locations] = useState([
-    {id: 1, lat: 36.8107, lng: 127.0789},
-    {id: 2, lat: 36.8135, lng: 127.0815},
-    {id: 3, lat: 36.8001, lng: 127.0762},
-    {id: 4, lat: 36.812, lng: 127.0763},
-    {id: 5, lat: 36.7994, lng: 127.081},
-    {id: 6, lat: 36.8061, lng: 127.0636},
-    {id: 7, lat: 36.8051, lng: 127.0758},
-    {id: 8, lat: 36.8042, lng: 127.0811},
-    {id: 9, lat: 36.8076, lng: 127.0814},
-    {id: 10, lat: 36.7976, lng: 127.0817},
+  const [locations,setLocations] = useState([
+    {seq: 1, lat: 36.8107, lon: 127.0789},
+    {seq: 2, lat: 36.8135, lon: 127.0815},
+    {seq: 3, lat: 36.8001, lon: 127.0762},
+    {seq: 4, lat: 36.812, lon: 127.0763},
+    {seq: 5, lat: 36.7994, lon: 127.081},
+    {seq: 6, lat: 36.8061, lon: 127.0636},
+    {seq: 7, lat: 36.8051, lon: 127.0758},
+    {seq: 8, lat: 36.8042, lon: 127.0811},
+    {seq: 9, lat: 36.8076, lon: 127.0814},
+    {seq: 10, lat: 36.7976, lon: 127.0817},
   ]);
+  const updateCirclessScript = async (lat,lon) =>{
+    try {
+      const response = await axios.get(
+        `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}&input_coord=WGS84`,
+        {
+          headers: {Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`},
+        },
+      );
+      const addressName = response.data.documents[0].address
+        ? response.data.documents[0].address.address_name
+        : '주소를 찾을 수 없습니다.';
+      const data = await userAxios.map({region1:response.data.documents[0].address.region_1depth_name,region2:response.data.documents[0].address.region_2depth_name});
+      if(data.sc == 200){
+        console.log(data.response)
+        setLocations(data.response)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
   // 원을 생성하는 JavaScript 코드
   const createCirclesScript = locations => {
     return locations
       .map(
         location => `
-      var center = new kakao.maps.LatLng(${location.lat}, ${location.lng});
+      var center = new kakao.maps.LatLng(${location.lat}, ${location.lon});
       var circleOptions = {
         center: center,
         radius: 30, // 반지름 100m
@@ -55,7 +78,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
       circle.setMap(map);
 
       // 원 중앙에 텍스트 추가
-        var content = '<div style=" width: 30px; height: 30px; line-height: 30px; text-align: center; font-size: 22px; color: white; font-weight: bold;">${location.id}</div>';
+        var content = '<div style=" width: 30px; height: 30px; line-height: 30px; text-align: center; font-size: 22px; color: white; font-weight: bold;">${location.seq}</div>';
         var customOverlay = new kakao.maps.CustomOverlay({
           content: content,
           position: center,
@@ -104,6 +127,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
           x: position.coords.latitude,
           y: position.coords.longitude,
         });
+        updateCirclessScript(position.coords.latitude,position.coords.longitude)
       },
       error => {
         console.error(error);
