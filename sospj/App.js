@@ -9,18 +9,18 @@ import axios from 'axios';
 import LoadingScreen from './screens/LoadingScreen';
 import {getFcmToken} from './util/function/fcmToken';
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    // 데이터 로딩이나 필요한 초기 설정을 시뮬레이션합니다.
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); // 3초 후 로딩 상태 변경
-    getFcmToken();
-  }, []);
+  // const [isLoading, setIsLoading] = useState(true);
+  // useEffect(() => {
+  //   // 데이터 로딩이나 필요한 초기 설정을 시뮬레이션합니다.
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 3000); // 3초 후 로딩 상태 변경
+  //   getFcmToken();
+  // }, []);
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
   return (
     <UserProvider>
       <NavigationContainer>
