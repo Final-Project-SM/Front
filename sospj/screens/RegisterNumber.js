@@ -64,42 +64,44 @@ function RegisterNumber({navigation, route}) {
   };
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 18, color: 'black'}}>비상 연락망 등록</Text>
-      {contacts.map((contact, index) => (
-        <View key={index} style={styles.contactContainer}>
-          <TextInput
-            placeholder="이름"
-            value={contact.name}
-            onChangeText={text => {
-              const newContacts = [...contacts];
-              newContacts[index].name = text;
-              setContacts(newContacts);
-            }}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="전화번호"
-            keyboardType="numeric"
-            value={contact.phone}
-            onChangeText={text => handleChangePhoneNumber(text, index)}
-            style={styles.input2}
-          />
-          <TouchableOpacity onPress={() => handleDeleteContact(index)}>
+      <View
+        style={{backgroundColor: 'white', height: 260, alignItems: 'center'}}>
+        <Text style={{fontSize: 18, color: 'black'}}>비상 연락망 등록</Text>
+        {contacts.map((contact, index) => (
+          <View key={index} style={styles.contactContainer}>
+            <TextInput
+              placeholder="이름"
+              value={contact.name}
+              onChangeText={text => {
+                const newContacts = [...contacts];
+                newContacts[index].name = text;
+                setContacts(newContacts);
+              }}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="전화번호"
+              keyboardType="numeric"
+              value={contact.phone}
+              onChangeText={text => handleChangePhoneNumber(text, index)}
+              style={styles.input2}
+            />
+            <TouchableOpacity
+              onPress={() => handleDeleteContact(index)}
+              style={styles.deleteButton}>
+              <Text>삭제</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+        {contacts.length < 4 && (
+          <TouchableOpacity onPress={handleAddContact}>
             <Image
-              source={require('../assets/images/logo.png')} // 이 이미지는 삭제 아이콘 이미지 파일 경로로 변경해야 함
-              style={styles.deleteIcon}
+              source={require('../assets/images/plus2.png')}
+              style={styles.iconStyle}
             />
           </TouchableOpacity>
-        </View>
-      ))}
-      {contacts.length < 4 && (
-        <TouchableOpacity onPress={handleAddContact}>
-          <Image
-            source={require('../assets/images/plus2.png')}
-            style={styles.iconStyle}
-          />
-        </TouchableOpacity>
-      )}
+        )}
+      </View>
       <ScrollView>
         <ContactList onContactSelect={handleSelectContact} />
       </ScrollView>
@@ -152,8 +154,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   iconStyle: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     marginVertical: 10,
   },
   deleteIcon: {
@@ -190,6 +192,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     fontFamily: 'SpoqaHanSansNeo-Bold',
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    height: 30,
+    width: 40,
+    borderRadius: 5,
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
 

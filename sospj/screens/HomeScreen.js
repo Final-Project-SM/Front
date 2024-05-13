@@ -35,6 +35,7 @@ import CurrentTime from '../components/CurrentTime';
 import LottieView from 'lottie-react-native';
 import Torch from 'react-native-torch';
 import Sound from 'react-native-sound';
+import SystemSetting from 'react-native-system-setting';
 // 예시 그래프 데이터
 const graphData = {
   labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
@@ -164,6 +165,9 @@ function HomeScreen({navigation}) {
         setSoundInstance(null);
       }
     } else {
+      // 볼륨을 최대치로 설정
+      SystemSetting.setVolume(1.0); // 1.0은 최대 볼륨을 의미
+
       const sound = new Sound(
         require('../assets/video/policeSiren.mp3'),
         error => {
@@ -514,17 +518,6 @@ function HomeScreen({navigation}) {
           </View>
         </View>
       </View>
-      <View
-        style={{
-          borderTopColor: 'white',
-          borderTopWidth: 1,
-          borderBottomColor: 'white',
-          borderBottomWidth: 1,
-          margin: 20,
-          marginBottom: 10,
-          width: '100%',
-        }}></View>
-      <Graph />
     </ScrollView>
   );
 }

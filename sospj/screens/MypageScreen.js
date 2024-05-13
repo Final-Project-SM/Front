@@ -69,7 +69,7 @@ function MypageScreen({navigation}) {
             style={styles.buttonImage}
             source={require('../assets/images/voice2.png')}
           />
-          <Text style={styles.buttonText}>음성데이터 확인</Text>
+          <Text style={styles.buttonText}>신고정보</Text>
         </TouchableOpacity>
       </View>
 
@@ -83,15 +83,15 @@ function MypageScreen({navigation}) {
           />
           <Text style={styles.buttonText}>케이스 구매</Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.buttonStyle}
-          onPress={() => navigation.navigate('ContactList')}>
+          onPress={() => navigation.navigate('information')}>
           <Image
             style={styles.buttonImage}
             source={require('../assets/images/singo.png')}
           />
-          <Text style={styles.buttonText}>NFC 등록하기</Text>
-        </TouchableOpacity>
+          <Text style={styles.buttonText}>신고정보</Text>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={styles.buttonStyle2}
           onPress={handleRegisterNFC}>
