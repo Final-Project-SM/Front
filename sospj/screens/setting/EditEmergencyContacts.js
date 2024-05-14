@@ -1,3 +1,4 @@
+// EditEmergencyContacts.js
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -9,6 +10,7 @@ import {
 } from 'react-native';
 import {useUser} from '../../components/public/UserContext';
 import {userAxios} from '../../API/requestNode';
+import ContactList from '../setting/ContactList';
 
 function EditEmergencyContacts({navigation}) {
   const [contacts, setContacts] = useState([]);
@@ -38,47 +40,23 @@ function EditEmergencyContacts({navigation}) {
     navigation.goBack();
   };
 
-  const formatPhoneNumber = text => {
-    let cleaned = ('' + text).replace(/\D/g, '');
-    if (cleaned.length > 11) {
-      cleaned = cleaned.substring(0, 11);
-    }
-    let parts = [];
-    if (cleaned.length > 7) {
-      parts.push(
-        cleaned.substring(0, 3),
-        cleaned.substring(3, 7),
-        cleaned.substring(7, 11),
-      );
-    } else if (cleaned.length > 3) {
-      parts.push(cleaned.substring(0, 3), cleaned.substring(3));
+  const handleSelectContact = contactData => {
+    if (contacts.length < 4) {
+      setContacts(prevContacts => [...prevContacts, contactData]);
     } else {
-      parts.push(cleaned);
+      alert('최대 4개의 연락처를 추가할 수 있습니다.');
     }
-    return parts.join('-');
   };
 
-  const handleChange = (index, field, value) => {
+  const handleDeleteContact = index => {
     const newContacts = [...contacts];
-    if (field === 'phone') {
-      value = formatPhoneNumber(value);
-    }
-    newContacts[index][field] = value;
+    newContacts.splice(index, 1);
     setContacts(newContacts);
-  };
-
-  const addContact = () => {
-    const newContact = {name: '', phone: '', seq: Date.now()};
-    setContacts([...contacts, newContact]);
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputTitle}>
-        <Text>이름</Text>
-        <Text>전화번호</Text>
-      </View>
-      <ScrollView>
+      <ScrollView style={{height: 580}}>
         {contacts.map((contact, index) => (
           <View key={contact.seq} style={styles.inputContainer}>
             <TextInput
@@ -96,14 +74,17 @@ function EditEmergencyContacts({navigation}) {
               placeholderTextColor="#aaa"
               keyboardType="phone-pad"
             />
+            <TouchableOpacity
+              onPress={() => handleDeleteContact(index)}
+              style={styles.deleteButton}>
+              <Text style={styles.deleteButtonText}>삭제</Text>
+            </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
-      {contacts.length < 4 && (
-        <TouchableOpacity style={styles.buttonStyle} onPress={addContact}>
-          <Text style={styles.buttonText}>새로운 연락처 추가하기</Text>
-        </TouchableOpacity>
-      )}
+      <ScrollView>
+        <ContactList onContactSelect={handleSelectContact} />
+      </ScrollView>
       <TouchableOpacity style={styles.buttonStyle} onPress={handleSave}>
         <Text style={styles.buttonText}>수정하기</Text>
       </TouchableOpacity>
@@ -121,16 +102,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15,
+    alignItems: 'center',
   },
   input: {
     borderWidth: 1,
     borderColor: '#B0BEC5',
     borderRadius: 5,
-    padding: 10,
+    padding: 5,
     flex: 1,
     backgroundColor: 'white',
     color: '#424242',
     margin: 2,
+  },
+  deleteButton: {
+    padding: 6,
+    backgroundColor: '#e53935',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontSize: 14,
   },
   buttonStyle: {
     backgroundColor: '#388E3C',

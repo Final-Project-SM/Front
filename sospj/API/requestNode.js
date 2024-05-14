@@ -51,7 +51,7 @@ export const userAxios = {
       return {sc: 400};
     }
   },
-  userChange:async data => {
+  userChange: async data => {
     try {
       const request = await axios.post(BACK_API_PATH2 + '/update', data);
 
@@ -80,31 +80,28 @@ export const userAxios = {
     }
   },
   graph: async data => {
-
-    try{
-      const request = await axios.post(BACK_API_PATH2 + '/graph', data )
-      return request.data 
-
-    }catch(err){
-      return {sc:400}
+    try {
+      const request = await axios.post(BACK_API_PATH2 + '/graph', data);
+      return request.data;
+    } catch (err) {
+      return {sc: 400};
     }
   },
   map: async data => {
-    try{
-      const request = await axios.post(BACK_API_PATH2 + '/map', data )
-      return request.data 
-
-    }catch(err){
-      return {sc:400}
+    try {
+      const request = await axios.post(BACK_API_PATH2 + '/map', data);
+      return request.data;
+    } catch (err) {
+      return {sc: 400};
     }
   },
   sns: async data => {
-    try{
-      const request = await axios.post(BACK_API_PATH2 + '/sos/sns', data )
-      return request.data 
+    try {
+      const request = await axios.post(BACK_API_PATH2 + '/sos/sns', data);
+      return request.data;
+    } catch (err) {
+      return {sc: 400};
 
-    }catch(err){
-      return {sc:400}
     }
   },
 };

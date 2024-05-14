@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white', // 배경 검정색
+    height: '100%',
   },
   contentsContainer: {
     flexDirection: 'row',
@@ -72,6 +73,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+  },
+  contents26: {
+    //SOS도구 내부 버튼
+    width: 55,
+    height: 50,
+    borderRadius: 15,
+    backgroundColor: 'white',
+    margin: 9,
+    marginTop: 9,
+    padding: 10,
+    elevation: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   contents31: {
     //일괄 문자 전송

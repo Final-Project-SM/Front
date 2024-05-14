@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,21 +8,21 @@ import {
   Alert,
 } from 'react-native';
 import Sound from 'react-native-sound';
-import { userAxios } from '../../API/requestNode';
-import { useUser } from '../../components/public/UserContext';
+import {userAxios} from '../../API/requestNode';
+import {useUser} from '../../components/public/UserContext';
+import Graph from '../../components/graph';
 const VoiceData = ({navigation}) => {
-  const [voiceData, setVoiceData] = useState([])
-  const {user} = useUser()
-  const loadData = async()=> {
-    const response =await userAxios.logList({id:user.id})
-    if(response.sc == 200){
-      setVoiceData(response.log)
+  const [voiceData, setVoiceData] = useState([]);
+  const {user} = useUser();
+  const loadData = async () => {
+    const response = await userAxios.logList({id: user.id});
+    if (response.sc == 200) {
+      setVoiceData(response.log);
     }
-  }
-  useEffect(()=>{
-    loadData()
-  },[])
-
+  };
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const playSound = uri => {
     const sound = new Sound(uri, Sound.MAIN_BUNDLE, error => {
@@ -42,12 +42,13 @@ const VoiceData = ({navigation}) => {
   const renderItem = ({item}) => (
     <View style={styles.item}>
       <Text style={styles.description}>
-        {item.create_at.split('T')[0]} {item.create_at.split('T')[1].slice(0,5)} {item.location}
+        {item.create_at.split('T')[0]}{' '}
+        {item.create_at.split('T')[1].slice(0, 5)} {item.location}
       </Text>
       <View style={styles.buttons}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => playSound("./voide")}>
+          onPress={() => playSound('./voide')}>
           <Text style={styles.buttonText}>재생</Text>
         </TouchableOpacity>
       </View>
@@ -56,6 +57,8 @@ const VoiceData = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.graphText}>위치 기반 신고 통계</Text>
+      <Graph />
       <FlatList
         data={voiceData}
         renderItem={renderItem}
@@ -94,6 +97,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
+  },
+  graphText: {
+    alignSelf: 'center',
+    fontSize: 20,
   },
 });
 
