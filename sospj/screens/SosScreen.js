@@ -1,21 +1,27 @@
 import React, {useEffect,useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity,Alert,Button,Image, ActivityIndicator } from 'react-native';
 import axios from 'axios';
-import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import AudioRecorderPlayer,{AudioSourceAndroidType,OutputFormatAndroidType,AudioEncoderAndroidType} from 'react-native-audio-recorder-player';
 import RNFS from 'react-native-fs';
 import {AI_PATH} from "@env"
 import { useUser } from '../components/public/UserContext';
 import { useIsFocused } from '@react-navigation/native';
 const audioRecorderPlayer = new AudioRecorderPlayer();
-const audioPath = RNFS.CachesDirectoryPath+ '/test.mp4'
+const audioPath = RNFS.CachesDirectoryPath+ '/audio.wav'
+
 SosScreen = ({ navigation }) => {
     const {user} = useUser()
     const isFocused = useIsFocused()
     const [loading,setLoading] = useState(true);
     const startrecord = async () => {
         try {
+            const audioSet = {
+                AudioSourceAndroid: AudioSourceAndroidType.MIC, 
+                OutputFormatAndroid: OutputFormatAndroidType.DEFAULT, 
+                AudioEncoderAndroid: AudioEncoderAndroidType.DEFAULT, 
+            };
             setLoading(true)
-            const result = await audioRecorderPlayer.startRecorder();
+            const result = await audioRecorderPlayer.startRecorder(null,audioSet);
             console.log(result);
             setTimeout(async () => {
                 const result2 = await audioRecorderPlayer.stopRecorder();
@@ -24,9 +30,11 @@ SosScreen = ({ navigation }) => {
                 console.log('Recording stopped after 10 seconds');
                 console.log(result2)
                 const formData = new FormData();
+                
+
                 formData.append('file', {
                     uri: result2,
-                    name: 'test',
+                    name: 'audio4',
                     type:"audio/aac"
                 });
                 // formData.append('file',result2)
@@ -34,7 +42,7 @@ SosScreen = ({ navigation }) => {
                 console.log("axios")
                 // setLoading(false)
                 console.log("1")
-                const response = await axios.post("http://192.168.0.22:5000/upload", formData, {
+                const response = await axios.post("http://43.202.64.160:5000/predict", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
