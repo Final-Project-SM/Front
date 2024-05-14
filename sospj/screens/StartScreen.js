@@ -26,6 +26,7 @@ import PermissionUtil, {
   APP_PERMISSION_CODE,
 } from '../util/permission/PermissionUtil';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+
 function StartScreen({navigation}) {
   const {user, setUser} = useUser();
   const readData = async () => {
@@ -36,16 +37,19 @@ function StartScreen({navigation}) {
       navigation.navigate('Main');
     }
   };
+
   useEffect(() => {
     PermissionUtil.cmmReqPermis([...APP_PERMISSION_CODE.android]);
+    readData();
     messaging().onMessage(async remoteMessage => {
-      navigation.navigate('Sos');
+      //navigation.navigate('Sos')
+      setTimeout(()=>{navigation.navigate('Sos')},1000)
     });
     messaging().setBackgroundMessageHandler(async remoteMessage=>{
-      console.log("1")
- 
+      console.log(remoteMessage)
+      
     })
-    readData();
+    
   }, []);
   return (
     <View style={styles.container}>

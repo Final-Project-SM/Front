@@ -7,14 +7,18 @@
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
 
     <application
       android:name=".MainApplication"
@@ -26,6 +30,8 @@
       android:usesCleartextTraffic="true"
       android:hardwareAccelerated="true"
       >
+
+      <service android:name="com.asterinet.react.bgactions.RNBackgroundActionsTask" />
       <meta-data android:name="com.kakao.sdk.AppKey" android:value="ee426050769da0603f8cee6899d8239e" />
       <activity
         android:name=".MainActivity"
