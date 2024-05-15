@@ -32,7 +32,16 @@ export const userAxios = {
       return {sc: 400};
     }
   },
+  keyword: async data => { //  {"id": "e4r5", "keyword": ["피자", "ㅇㅇㅇ"]} 데이터 형식 
+    try{
+      console.log(data)
+      const request = await axios.post(BACK_API_PATH2 + "/keyword", data); 
+      console.log("node Api 38 Line",request.data)
 
+    }catch(err){
+      return {sc:400}
+    }
+  },
   mainInfo: async data => {
     try {
       const request = await axios.post(BACK_API_PATH2 + '/main', data);

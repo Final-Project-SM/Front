@@ -8,10 +8,11 @@ import {
   ScrollView,
 } from 'react-native';
 import styles from '../styleFolder/HiddenKeywordSetStyles'; // 새로운 스타일 파일 가져오기
-
+import {useUser} from '../components/public/UserContext';
+import {userAxios} from '../API/requestNode';
 const HiddenKeywordSet = ({navigation}) => {
   const [keywords, setKeywords] = useState(['']); // 처음에는 하나의 키워드 입력칸만
-
+  const {user,setUser} = useUser()
   // 새 키워드 입력 칸을 추가하는 함수
   const addKeywordInput = () => {
     if (keywords.length < 5) {
@@ -29,6 +30,7 @@ const HiddenKeywordSet = ({navigation}) => {
   // 모든 키워드를 저장하는 함수 (실제 동작은 구현 필요)
   const saveKeywords = () => {
     console.log('저장된 키워드:', keywords);
+    userAxios.keyword({id:user.id,keyword:keywords})
     // 여기서 서버로 키워드를 전송하거나 로컬에 저장할 수 있습니다.
   };
 

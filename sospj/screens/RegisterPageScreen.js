@@ -10,7 +10,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {userAxios} from '../API/requestNode';
 import styles from '../styleFolder/RegisterPageScreenStyles'; // 새로운 스타일 파일 가져오기
-
+import {useUser} from '../components/public/UserContext';
 /**
  * 회원가입 페이지 컴포넌트
  * @param {object} props - 컴포넌트에 전달되는 속성
@@ -25,7 +25,7 @@ function RegisterPageScreen({navigation}) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [gender, setGender] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
-
+  const {user, setUser} = useUser();
   /**
    * 회원가입 처리 함수
    */
@@ -40,7 +40,8 @@ function RegisterPageScreen({navigation}) {
       phone: phoneNumber,
     });
     if (response.sc == 200) {
-      navigation.navigate('RegisterNumber', {id: username});
+      setUser({id:username})
+      navigation.navigate('RegisterNumber');
     } else {
       Alert.alert('해당 아이디 이미 사용중');
     }

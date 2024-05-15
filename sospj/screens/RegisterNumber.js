@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {userAxios} from '../API/requestNode';
 import ContactList from '../screens/setting/ContactList';
-import {useUser} from '../../components/public/UserContext';
+import {useUser} from '../components/public/UserContext';
 import styles from '../styleFolder/RegisterNumberStyles'; // 새로운 스타일 파일 가져오기
 
 /**
@@ -22,9 +22,10 @@ import styles from '../styleFolder/RegisterNumberStyles'; // 새로운 스타일
  * @returns {JSX.Element} RegisterNumber 컴포넌트
  */
 function RegisterNumber({navigation, route}) {
-  const username = route?.params?.id || 'Unknown User';
-  const [contacts, setContacts] = useState([{name: '', phone: ''}]);
 
+  const [contacts, setContacts] = useState([{name: '', phone: ''}]);
+  const {user, setUser} = useUser();
+  const username = user.id;
   /**
    * 연락처 추가 함수
    */
