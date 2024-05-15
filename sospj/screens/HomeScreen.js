@@ -16,7 +16,7 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 //import styles from '../teststyle/HomeStyle';
-import styles from '../teststyle/HomeStyle copy';
+import styles from '../styleFolder/HomeStyle';
 import {BarChart} from 'react-native-chart-kit'; // 그래프를 위한 라이브러리
 import {REACT_APP_KAKAO_REST_KEY} from '@env';
 import {FetchDataKakao} from '../API/FetchDataKakao';
@@ -36,6 +36,7 @@ import LottieView from 'lottie-react-native';
 import Torch from 'react-native-torch';
 import Sound from 'react-native-sound';
 import SystemSetting from 'react-native-system-setting';
+
 // 예시 그래프 데이터
 const graphData = {
   labels: ['강남', '은평', '마포', '잠실', '광화문', '강북'],
@@ -45,11 +46,21 @@ const graphData = {
     },
   ],
 };
+
+/**
+ * 전화번호를 호출하는 함수.
+ * @param {string} phoneNumber - 호출할 전화번호.
+ */
 function callNumber(phoneNumber) {
   const cleanPhoneNumber = phoneNumber.replace(/-/g, '');
   Linking.openURL(`tel:${cleanPhoneNumber}`);
 }
 
+/**
+ * HomeScreen 컴포넌트는 앱의 홈 화면을 렌더링합니다.
+ * @param {object} navigation - 화면 간의 내비게이션 객체.
+ * @returns {JSX.Element} HomeScreen 컴포넌트.
+ */
 function HomeScreen({navigation}) {
   const {user} = useUser();
   const isFocused = useIsFocused();
@@ -63,6 +74,10 @@ function HomeScreen({navigation}) {
   const [contacts, setContacts] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [soundInstance, setSoundInstance] = useState(null);
+
+  /**
+   * 서버에서 데이터를 불러오는 함수.
+   */
   const loadData = async () => {
     const data = await userAxios.main({id: user.id});
     if (data.sc == 200) {
@@ -71,13 +86,16 @@ function HomeScreen({navigation}) {
       setContacts(data.list);
     }
   };
+
   useEffect(() => {
     return () => Torch.switchState(false);
     sirenSound.release(); // 컴포넌트 언마운트 시 후레쉬 끄기
   }, []);
+
   useEffect(() => {
     loadData();
   }, [isFocused]);
+
   const screens = [
     require('../assets/images/rway1.png'),
     require('../assets/images/rway2.png'),
@@ -86,6 +104,7 @@ function HomeScreen({navigation}) {
     require('../assets/images/rway5.png'),
     require('../assets/images/rway6.png'),
   ];
+
   const sirenSound = new Sound(
     require('../assets/video/policeSiren.mp3'),
     error => {
@@ -99,33 +118,70 @@ function HomeScreen({navigation}) {
       sirenSound.setVolume(1.0); // 최대 음량 설정
     },
   );
+
+  /**
+   * 모달의 가시성을 토글하는 함수.
+   * @param {boolean} visible - 모달의 가시성 여부.
+   */
   const handleModalToggle = visible => {
     setModalVisible3(visible);
     setCurrentScreen(0); // 모달을 열 때 항상 첫 번째 스크린으로 초기화
   };
+
+  /**
+   * '신고 방법' 모달을 여는 함수.
+   */
   const howToReport = () => {
     setModalVisible3(true);
   };
+
+  /**
+   * 기본 웹 브라우저에서 URL을 여는 함수.
+   * @param {string} newsUrl - 열 URL.
+   */
   const handlePress = newsUrl => {
     Linking.openURL(newsUrl);
   };
+
+  /**
+   * 영상통화 모달을 여는 함수.
+   * @param {string} phone - 영상통화용 전화번호.
+   */
   const callVideo = phone => {
     // 전화 걸기 로직 (여기서는 모달을 표시하는 것으로 대체)
     setModalVisible(true);
   };
+
+  /**
+   * 영상통화 모달을 여는 함수.
+   * @param {string} phone - 영상통화용 전화번호.
+   */
   const callVideo2 = phone => {
     // 전화 걸기 로직 (여기서는 모달을 표시하는 것으로 대체)
     setModalVisible2(true);
   };
+
+  /**
+   * 서비스 활성화 상태를 토글하는 함수.
+   */
   const changeService = () => {
     setIsActive(!isActive);
   };
+
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
+  /**
+   * 비디오 로드 이벤트를 처리하는 함수.
+   */
   const handleVideoLoad = () => {
     console.log('Video loaded!');
     setIsVideoLoaded(true); // 비디오가 로드되었음을 상태로 설정
   };
+
+  /**
+   * 사용자로부터 카메라 권한을 요청하는 함수.
+   * @returns {Promise<boolean>} - 카메라 권한이 부여되었는지 여부.
+   */
   const requestCameraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -145,6 +201,9 @@ function HomeScreen({navigation}) {
     }
   };
 
+  /**
+   * 손전등(후레쉬) 상태를 토글하는 함수.
+   */
   const toggleTorch = async () => {
     const hasPermission = await requestCameraPermission();
     if (hasPermission) {
@@ -158,6 +217,9 @@ function HomeScreen({navigation}) {
     }
   };
 
+  /**
+   * 사이렌 소리를 켜거나 끄는 함수.
+   */
   const toggleSound = () => {
     if (isPlaying) {
       if (soundInstance) {
@@ -191,6 +253,9 @@ function HomeScreen({navigation}) {
     setIsPlaying(!isPlaying);
   };
 
+  /**
+   * 현재 기기의 위치를 가져오는 함수.
+   */
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
@@ -202,6 +267,12 @@ function HomeScreen({navigation}) {
       {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     );
   };
+
+  /**
+   * 현재 위치와 함께 SOS 메시지를 전송하는 함수.
+   * @param {number} lat - 현재 위치의 위도.
+   * @param {number} lon - 현재 위치의 경도.
+   */
   const sendSosMessage = async (lat, lon) => {
     await userAxios.sns({id: user.id, lat: lat, lon: lon});
     Alert.alert('일괄문자 전송 완료');
@@ -243,9 +314,9 @@ function HomeScreen({navigation}) {
               <ImageBackground
                 source={require('../assets/images/news.png')}
                 resizeMode="stretch"
-                style={styles2.imageBackground}>
-                <View style={styles2.newscontainer}>
-                  <Text style={styles2.text}>{news.title}</Text>
+                style={styles.imageBackground}>
+                <View style={styles.newscontainer}>
+                  <Text style={styles.text}>{news.title}</Text>
                 </View>
               </ImageBackground>
             </TouchableOpacity>
@@ -470,7 +541,7 @@ function HomeScreen({navigation}) {
                   source={{
                     uri: 'https://finalcow.s3.ap-northeast-2.amazonaws.com/videoTest.mp4',
                   }}
-                  style={styles2.fullScreenVideo}
+                  style={styles.fullScreenVideo}
                   onEnd={() => setModalVisible2(false)} // 비디오 재생이 끝나면 모달을 닫음
                 />
               </View>
@@ -521,28 +592,5 @@ function HomeScreen({navigation}) {
     </ScrollView>
   );
 }
-const styles2 = StyleSheet.create({
-  imageBackground: {
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingBottom: 50, // Adjust the value to position your text
-    height: 60,
-  },
-  newscontainer: {
-    position: 'absolute', // 부모 요소에 대해 절대 위치 설정
-    bottom: 20,
-    left: 130,
-    width: 200,
-    marginTop: 20,
-  },
-  text: {
-    fontSize: 10,
-    fontFamily: 'SpoqaHanSansNeo-Bold',
-  },
-  fullScreenVideo: {
-    width: '100%',
-    height: '100%',
-  },
-});
 
 export default HomeScreen;

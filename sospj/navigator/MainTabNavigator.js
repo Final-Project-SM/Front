@@ -9,6 +9,10 @@ import EditEmergencyContacts from '../screens/setting/EditEmergencyContacts';
 
 const Tab = createBottomTabNavigator();
 
+/**
+ * 메인 탭 내비게이터 컴포넌트
+ * @returns {JSX.Element} MainTabNavigator 컴포넌트
+ */
 function MainTabNavigator() {
   return (
     <Tab.Navigator

@@ -13,6 +13,10 @@ import ContactList from '../screens/setting/ContactList';
 
 const Stack = createStackNavigator();
 
+/**
+ * 설정 스택 내비게이터 컴포넌트
+ * @returns {JSX.Element} SettingStackNavigator 컴포넌트
+ */
 function SettingStackNavigator() {
   return (
     <Stack.Navigator initialRouteName="MypageScreen">
@@ -45,6 +49,7 @@ function SettingStackNavigator() {
       />
       <Stack.Screen
         name="EditEmergencyContacts"
+        component={EditEmergencyContacts}
         options={{
           title: '비상연락망 수정',
           headerLeft: null, // 뒤로 가기 버튼 제거
@@ -60,7 +65,6 @@ function SettingStackNavigator() {
             fontFamily: 'SpoqaHanSansNeo-Bold',
           },
         }}
-        component={EditEmergencyContacts}
       />
       <Stack.Screen
         name="Setting"

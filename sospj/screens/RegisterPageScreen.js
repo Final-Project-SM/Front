@@ -4,12 +4,19 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Alert,
   Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {userAxios} from '../API/requestNode';
+import styles from '../styleFolder/RegisterPageScreenStyles'; // 새로운 스타일 파일 가져오기
+
+/**
+ * 회원가입 페이지 컴포넌트
+ * @param {object} props - 컴포넌트에 전달되는 속성
+ * @param {object} props.navigation - 내비게이션 객체
+ * @returns {JSX.Element} RegisterPageScreen 컴포넌트
+ */
 function RegisterPageScreen({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,6 +26,9 @@ function RegisterPageScreen({navigation}) {
   const [gender, setGender] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  /**
+   * 회원가입 처리 함수
+   */
   const handleSignUp = async () => {
     console.log(gender);
     const response = await userAxios.signUp({
@@ -32,26 +42,31 @@ function RegisterPageScreen({navigation}) {
     if (response.sc == 200) {
       navigation.navigate('RegisterNumber', {id: username});
     } else {
-      Alert.alert('해당아이디 이미 사용중');
+      Alert.alert('해당 아이디 이미 사용중');
     }
   };
 
+  /**
+   * 생년월일 선택 변경 시 호출되는 함수
+   * @param {object} event - 이벤트 객체
+   * @param {Date} selectedDate - 선택된 날짜
+   */
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || birthdate;
     setShowDatePicker(Platform.OS === 'ios');
     setBirthdate(currentDate);
   };
 
+  /**
+   * 전화번호 형식을 포맷팅하는 함수
+   * @param {string} text - 포맷팅할 전화번호
+   * @returns {string} 포맷팅된 전화번호
+   */
   const formatPhoneNumber = text => {
-    // Remove all non-numeric characters
     let cleaned = ('' + text).replace(/\D/g, '');
-
-    // Check the length of cleaned numbers
     if (cleaned.length > 11) {
       cleaned = cleaned.substring(0, 11);
     }
-
-    // Split the numbers into parts and reformat
     let parts = [];
     if (cleaned.length <= 3) {
       parts.push(cleaned);
@@ -63,6 +78,10 @@ function RegisterPageScreen({navigation}) {
     return parts.join('-');
   };
 
+  /**
+   * 전화번호 입력 변경 시 호출되는 함수
+   * @param {string} text - 입력된 전화번호
+   */
   const handlePhoneNumberChange = text => {
     const formatted = formatPhoneNumber(text);
     setPhoneNumber(formatted);
@@ -150,82 +169,5 @@ function RegisterPageScreen({navigation}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  // 스타일 유지
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#E8F5E9',
-  },
-  input: {
-    width: '90%',
-    paddingVertical: 9,
-    paddingHorizontal: 15,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 0,
-    borderRadius: 8,
-    fontSize: 13,
-    color: '#333',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2,
-    marginBottom: 6,
-  },
-  button: {
-    minWidth: 300,
-    paddingVertical: 10,
-    borderRadius: 20,
-    alignItems: 'center',
-    marginBottom: 10,
-    marginTop: 3,
-    backgroundColor: '#4CAF50',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  label: {
-    alignSelf: 'flex-start',
-    marginLeft: 20,
-    marginBottom: 5,
-  },
-  label2: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    fontWeight: '500',
-    paddingHorizontal: 15,
-    padding: 3,
-    marginRight: 200,
-    backgroundColor: '#4CAF50',
-    borderRadius: 5,
-  },
-  genderContainer: {
-    flexDirection: 'row',
-    width: '90%',
-    justifyContent: 'space-evenly',
-    marginBottom: 10,
-    marginTop: 4,
-  },
-  genderButton: {
-    width: '45%',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  selectedGender: {
-    backgroundColor: '#4CAF50',
-    borderColor: '#4CAF50',
-    color: 'white',
-  },
-  genderText: {
-    fontSize: 16,
-  },
-});
 
 export default RegisterPageScreen;

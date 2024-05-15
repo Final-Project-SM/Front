@@ -7,6 +7,10 @@ import RegisterPageScreen from '../screens/RegisterPageScreen';
 
 const Stack = createStackNavigator();
 
+/**
+ * 홈 스택 내비게이터 컴포넌트
+ * @returns {JSX.Element} HomeStackNavigator 컴포넌트
+ */
 function HomeStackNavigator() {
   return (
     <Stack.Navigator initialRouteName="Home">

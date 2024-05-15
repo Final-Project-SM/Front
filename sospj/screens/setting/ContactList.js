@@ -83,7 +83,7 @@ class ContactList extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{alignItems: 'center'}}>
-          <Text>연락처</Text>
+          <Text style={{fontSize: 18, color: 'black'}}>연락처</Text>
         </View>
         <TextInput
           style={styles.input}
@@ -104,9 +104,14 @@ class ContactList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
+    // borderWidth: 1,
+    borderRadius: 25,
+    backgroundColor: '#FFFFFF',
   },
   itemContainer: {
     margin: 10,
+    borderTopWidth: 1,
+    borderColor: '#212121',
   },
   contactName: {
     fontSize: 16,
@@ -117,7 +122,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 10,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   phones: {
     color: 'gray',

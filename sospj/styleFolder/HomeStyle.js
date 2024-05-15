@@ -243,6 +243,27 @@ const styles = StyleSheet.create({
     height: 50, // 이미지 높이 설정
     marginBottom: 5, // 이미지 아래쪽 여백
   },
+  imageBackground: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 50, // Adjust the value to position your text
+    height: 60,
+  },
+  newscontainer: {
+    position: 'absolute', // 부모 요소에 대해 절대 위치 설정
+    bottom: 20,
+    left: 130,
+    width: 200,
+    marginTop: 20,
+  },
+  text: {
+    fontSize: 10,
+    fontFamily: 'SpoqaHanSansNeo-Bold',
+  },
+  fullScreenVideo: {
+    width: '100%',
+    height: '100%',
+  },
 });
 
 export default styles;

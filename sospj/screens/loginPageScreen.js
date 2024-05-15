@@ -1,4 +1,3 @@
-
 import React, {useState} from 'react';
 import {
   View,
@@ -6,33 +5,47 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  StyleSheet,
   Alert,
 } from 'react-native';
 import {useUser} from '../components/public/UserContext';
-import { userAxios,fcmAxios } from '../API/requestNode';
+import {userAxios, fcmAxios} from '../API/requestNode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setStorage } from '../util/function/asyncStorage';
+import {setStorage} from '../util/function/asyncStorage';
+import styles from '../styleFolder/LoginPageScreenStyles'; // 새로운 스타일 파일 가져오기
 
-
+/**
+ * 로그인 페이지 컴포넌트
+ * @param {object} props - 컴포넌트에 전달되는 속성
+ * @param {object} props.navigation - 내비게이션 객체
+ * @returns {JSX.Element} LoginPageScreen 컴포넌트
+ */
 function LoginPageScreen({navigation}) {
-  const {user,setUser} = useUser()
+  const {user, setUser} = useUser();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  /**
+   * 로그인 처리 함수
+   */
   const handleLogin = async () => {
     const data = {id: username, password: password};
 
     console.log(username, password);
-    const response = await userAxios.login(data)
-    if (response.sc == 200){
-      setUser({id:response.user.id,name:response.user.name})
-      await setStorage('user',JSON.stringify({id:response.user.id,name:response.user.name,password:response.user.password}))
-      await fcmAxios.fcmUpdate(response.user.id)
-      navigation.navigate('Main')
-    }else{
-      Alert.alert("아이디 혹은 패스워드 잘못됨 ");
-
+    const response = await userAxios.login(data);
+    if (response.sc == 200) {
+      setUser({id: response.user.id, name: response.user.name});
+      await setStorage(
+        'user',
+        JSON.stringify({
+          id: response.user.id,
+          name: response.user.name,
+          password: response.user.password,
+        }),
+      );
+      await fcmAxios.fcmUpdate(response.user.id);
+      navigation.navigate('Main');
+    } else {
+      Alert.alert('아이디 혹은 패스워드 잘못됨');
     }
     setUsername('');
     setPassword('');
@@ -74,71 +87,5 @@ function LoginPageScreen({navigation}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    padding: 20,
-    backgroundColor: '#E8F5E9',
-  },
-  topSection: {
-    alignItems: 'center',
-    width: '100%',
-    marginTop: 80,
-  },
-  input: {
-    width: '90%',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    backgroundColor: '#FFFFFF', // 배경색을 하얗게 설정
-    borderWidth: 0, // 테두리 너비 제거
-    borderRadius: 8, // 둥근 테두리 설정
-    margin: 10,
-    marginBottom: 16,
-    fontSize: 16, // 폰트 사이즈 증가
-    color: '#333', // 텍스트 색상 설정
-    shadowColor: '#000', // 그림자 색상
-    shadowOffset: {width: 0, height: 2}, // 그림자 방향
-    shadowOpacity: 0.1, // 그림자 투명도
-    shadowRadius: 8, // 그림자 블러 반경
-    elevation: 2, // 안드로이드 전용 그림자 설정
-  },
-
-  button: {
-    minWidth: 300,
-    paddingVertical: 10,
-    borderRadius: 20,
-    alignItems: 'center',
-    marginBottom: 10,
-    backgroundColor: '#4CAF50',
-  },
-  label: {
-    fontSize: 14, // 적절한 글꼴 크기
-    color: '#FFFFFF', // 짙은 회색으로 텍스트 색상 설정
-    fontWeight: '500', // 폰트 두께를 중간 정도로 설정
-    paddingHorizontal: 15, // 좌우 패딩, 인풋 필드와 동일하게 맞춤
-    padding: 3,
-    marginRight: 200,
-    backgroundColor: '#4CAF50',
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 30, // 추가한 마진
-  },
-  bottomSection: {
-    width: '100%',
-  },
-  contentBox: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default LoginPageScreen;

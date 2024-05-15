@@ -1,13 +1,9 @@
-// MapScreen.js
 import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   Image,
   ScrollView,
-  StyleSheet,
-  Dimensions,
-  button,
   TouchableOpacity,
   PermissionsAndroid,
   TextInput,
@@ -16,12 +12,19 @@ import {
 import MapComponent from '../map/MapComponent';
 import {WebView} from 'react-native-webview';
 import FetchDataComponent from '../API/FetchDataComponent';
-import {REACT_APP_API_KEY} from '@env';
-import {REACT_APP_KAKKO_KEY} from '@env'; // react-native-dotenv를 통해 환경 변수 불러오기
-import {REACT_APP_KAKAO_REST_KEY} from '@env';
+import {
+  REACT_APP_API_KEY,
+  REACT_APP_KAKKO_KEY,
+  REACT_APP_KAKAO_REST_KEY,
+} from '@env'; // react-native-dotenv를 통해 환경 변수 불러오기
 import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
+import styles from '../styleFolder/MapScreenStyles'; // 새로운 스타일 파일 가져오기
 
+/**
+ * 지도 화면 컴포넌트
+ * @returns {JSX.Element} MapScreen 컴포넌트
+ */
 function MapScreen() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [currentX, setCurrentX] = useState('null');
@@ -29,8 +32,6 @@ function MapScreen() {
   const [fireplacemarker, setFireplacemarker] = useState([]);
   const [category, setCategory] = useState('null');
   const [modalVisible, setModalVisible] = useState(false);
-
-  //const apiUrl = `http://openapi.seoul.go.kr:8088/${REACT_APP_API_KEY}/xml/TbGiWardP/1/10/`; // 수정된 부분
 
   useEffect(() => {
     const watchId = Geolocation.watchPosition(
@@ -58,133 +59,38 @@ function MapScreen() {
     };
   }, [currentX, currentY]); // 의존성 배열에 currentX와 currentY 추가
 
-  const fireplace = async () => {
-    const query = encodeURIComponent('소방서'); // 검색할 키워드를 URL 인코딩
-    setCategory('fire');
+  /**
+   * 카테고리에 따라 데이터를 불러오는 함수
+   * @param {string} query - 검색할 키워드
+   * @param {function} setCategoryCallback - 카테고리 설정 콜백 함수
+   */
+  const fetchData = async (query, setCategoryCallback) => {
+    setCategoryCallback();
     try {
       const response = await axios.get(
-        `https://dapi.kakao.com/v2/local/search/keyword.json?y=${currentLocation.latitude}&x=${currentLocation.longitude}&radius=2000&query=${query}`,
+        `https://dapi.kakao.com/v2/local/search/keyword.json?y=${
+          currentLocation.latitude
+        }&x=${currentLocation.longitude}&radius=2000&query=${encodeURIComponent(
+          query,
+        )}`,
         {
           headers: {
-            Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`, // 환경 변수에서 API 키를 가져옴
+            Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`,
           },
         },
       );
 
-      //     // 응답 데이터에서 각 위치의 위도와 경도 정보만 추출하여 로그에 출력
-      //     response.data.documents.forEach(document => {
-      //       console.log(`name : ${document.place_name}, Latitude: ${document.y}, Longitude: ${document.x}`);
-      //     });
-      //   } catch (error) {
-      //     console.error('Error fetching location data:', error);
-      //   }
-      // };
-      // API 응답에서 위치 정보를 추출하여 상태에 저장
       const markers = response.data.documents.map(document => ({
         name: document.place_name,
-        latitude: parseFloat(document.y), // 문자열을 숫자로 변환
+        latitude: parseFloat(document.y),
         longitude: parseFloat(document.x),
       }));
-      //console.log(markers);
       setFireplacemarker(markers);
     } catch (error) {
       console.error('Error fetching location data:', error);
     }
   };
 
-  const hospital = async () => {
-    const query = encodeURIComponent('병원'); // 검색할 키워드를 URL 인코딩
-    setCategory('hospital');
-    try {
-      const response = await axios.get(
-        `https://dapi.kakao.com/v2/local/search/keyword.json?y=${currentLocation.latitude}&x=${currentLocation.longitude}&radius=2000&query=${query}`,
-        {
-          headers: {
-            Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`, // 환경 변수에서 API 키를 가져옴
-          },
-        },
-      );
-
-      //     // 응답 데이터에서 각 위치의 위도와 경도 정보만 추출하여 로그에 출력
-      //     response.data.documents.forEach(document => {
-      //       console.log(`name : ${document.place_name}, Latitude: ${document.y}, Longitude: ${document.x}`);
-      //     });
-      //   } catch (error) {
-      //     console.error('Error fetching location data:', error);
-      //   }
-      // };
-      // API 응답에서 위치 정보를 추출하여 상태에 저장
-      const markers = response.data.documents.map(document => ({
-        name: document.place_name,
-        latitude: parseFloat(document.y), // 문자열을 숫자로 변환
-        longitude: parseFloat(document.x),
-      }));
-      //console.log(markers);
-      setFireplacemarker(markers);
-    } catch (error) {
-      console.error('Error fetching location data:', error);
-    }
-  };
-
-  const police = async () => {
-    const query = encodeURIComponent('경찰서'); // 검색할 키워드를 URL 인코딩
-    setCategory('police');
-    try {
-      const response = await axios.get(
-        `https://dapi.kakao.com/v2/local/search/keyword.json?y=${currentLocation.latitude}&x=${currentLocation.longitude}&radius=2000&query=${query}`,
-        {
-          headers: {
-            Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`, // 환경 변수에서 API 키를 가져옴
-          },
-        },
-      );
-      // API 응답에서 위치 정보를 추출하여 상태에 저장
-      const markers = response.data.documents.map(document => ({
-        name: document.place_name,
-        latitude: parseFloat(document.y), // 문자열을 숫자로 변환
-        longitude: parseFloat(document.x),
-      }));
-      //console.log(markers);
-      setFireplacemarker(markers);
-    } catch (error) {
-      console.error('Error fetching location data:', error);
-    }
-  };
-
-  //   // 응답 데이터에서 각 위치의 위도와 경도 정보만 추출하여 로그에 출력
-  //   response.data.documents.forEach(document => {
-  //     console.log(`name : ${document.place_name}, Latitude: ${document.y}, Longitude: ${document.x}`);
-  //   });
-  // } catch (error) {
-  //   console.error('Error fetching location data:', error);
-  // }
-  // };
-
-  const store = async () => {
-    const query = encodeURIComponent('편의점'); // 검색할 키워드를 URL 인코딩
-    setCategory('store');
-    try {
-      const response = await axios.get(
-        `https://dapi.kakao.com/v2/local/search/keyword.json?y=${currentLocation.latitude}&x=${currentLocation.longitude}&radius=2000&query=${query}`,
-        {
-          headers: {
-            Authorization: `KakaoAK ${REACT_APP_KAKAO_REST_KEY}`, // 환경 변수에서 API 키를 가져옴
-          },
-        },
-      );
-
-      // API 응답에서 위치 정보를 추출하여 상태에 저장
-      const markers = response.data.documents.map(document => ({
-        name: document.place_name,
-        latitude: parseFloat(document.y), // 문자열을 숫자로 변환
-        longitude: parseFloat(document.x),
-      }));
-      //console.log(markers);
-      setFireplacemarker(markers);
-    } catch (error) {
-      console.error('Error fetching location data:', error);
-    }
-  };
   return (
     <View
       style={{
@@ -196,28 +102,36 @@ function MapScreen() {
       <Text style={styles.titleStyle}>내 근처 안전쉼터 맵</Text>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={fireplace} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => fetchData('소방서', () => setCategory('fire'))}
+          style={styles.button}>
           <Image
             source={require('../assets/images/fire.png')}
             style={styles.icon}
           />
           <Text>소방서</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={police} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => fetchData('경찰서', () => setCategory('police'))}
+          style={styles.button}>
           <Image
             source={require('../assets/images/police.png')}
             style={styles.icon}
           />
           <Text>경찰서</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={store} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => fetchData('편의점', () => setCategory('store'))}
+          style={styles.button}>
           <Image
             source={require('../assets/images/store.png')}
             style={styles.icon}
           />
           <Text>편의점</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={hospital} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => fetchData('병원', () => setCategory('hospital'))}
+          style={styles.button}>
           <Image
             source={require('../assets/images/hospital.png')}
             style={styles.icon}
@@ -268,71 +182,5 @@ function MapScreen() {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  mapView: {
-    width: Dimensions.get('window').width,
-    height: 750, // 높이를 350px로 설정
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: 12,
-    margin: 15,
-    color: 'black',
-    fontWeight: '600',
-  },
-  button: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 50, // Set width to fit the image size
-    height: 50, // Set height to fit the image size
-    marginHorizontal: 10,
-  },
-  icon: {
-    width: 30, // Set as needed based on your design preference
-    height: 30, // Maintain aspect ratio
-    marginBottom: 5, // Space between icon and text
-  },
-  titleStyle: {
-    color: '#81C784',
-    fontSize: 20,
-    fontFamily: 'SpoqaHanSansNeo-Bold',
-    margin: 11,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    margin: 4,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-});
 
 export default MapScreen;

@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   Button,
-  StyleSheet,
   Alert,
   Image,
   TouchableOpacity,
@@ -13,12 +12,22 @@ import {
 import {userAxios} from '../API/requestNode';
 import ContactList from '../screens/setting/ContactList';
 import {useUser} from '../../components/public/UserContext';
+import styles from '../styleFolder/RegisterNumberStyles'; // 새로운 스타일 파일 가져오기
 
+/**
+ * 비상 연락망 등록 화면 컴포넌트
+ * @param {object} props - 컴포넌트에 전달되는 속성
+ * @param {object} props.navigation - 내비게이션 객체
+ * @param {object} props.route - 라우트 객체
+ * @returns {JSX.Element} RegisterNumber 컴포넌트
+ */
 function RegisterNumber({navigation, route}) {
   const username = route?.params?.id || 'Unknown User';
-
   const [contacts, setContacts] = useState([{name: '', phone: ''}]);
 
+  /**
+   * 연락처 추가 함수
+   */
   const handleAddContact = () => {
     if (contacts.length < 4) {
       setContacts([...contacts, {name: '', phone: ''}]);
@@ -26,19 +35,32 @@ function RegisterNumber({navigation, route}) {
       Alert.alert('최대 네 개의 비상 연락처만 등록할 수 있습니다.');
     }
   };
+
+  /**
+   * 연락처 삭제 함수
+   * @param {number} index - 삭제할 연락처의 인덱스
+   */
   const handleDeleteContact = index => {
     const updatedContacts = contacts.filter((_, i) => i !== index);
     setContacts(updatedContacts);
   };
+
+  /**
+   * 비상 연락망을 서버에 저장하고 로그인 화면으로 이동하는 함수
+   */
   const handleToLogin = async () => {
     const response = await userAxios.sosChange({id: username, sos: contacts});
     console.log(response.sc);
     navigation.navigate('Login');
   };
 
+  /**
+   * 전화번호 형식을 포맷팅하는 함수
+   * @param {string} text - 포맷팅할 전화번호
+   * @returns {string} 포맷팅된 전화번호
+   */
   const formatPhoneNumber = text => {
     const digits = text.replace(/\D/g, '');
-    // 11자리 숫자를 초과하지 않도록 제한
     const trimmed = digits.slice(0, 11);
     const match = trimmed.match(/^(\d{1,3})(\d{1,4})?(\d{1,4})?$/);
     if (match) {
@@ -49,12 +71,21 @@ function RegisterNumber({navigation, route}) {
     return text;
   };
 
+  /**
+   * 전화번호 입력 변경 시 호출되는 함수
+   * @param {string} text - 입력된 전화번호
+   * @param {number} index - 변경할 연락처의 인덱스
+   */
   const handleChangePhoneNumber = (text, index) => {
     const newContacts = [...contacts];
     newContacts[index].phone = formatPhoneNumber(text);
     setContacts(newContacts);
   };
-  //연락처불러오기
+
+  /**
+   * 연락처 선택 시 호출되는 함수
+   * @param {object} contactData - 선택된 연락처 데이터
+   */
   const handleSelectContact = contactData => {
     if (contacts.length < 4) {
       setContacts(prevContacts => [...prevContacts, contactData]);
@@ -62,10 +93,18 @@ function RegisterNumber({navigation, route}) {
       alert('최대 4개의 연락처를 추가할 수 있습니다.');
     }
   };
+
   return (
     <View style={styles.container}>
       <View
-        style={{backgroundColor: 'white', height: 260, alignItems: 'center'}}>
+        style={{
+          backgroundColor: '#FFFFFF',
+          height: 260,
+          alignItems: 'center',
+          borderRadius: 25,
+          padding: 3,
+          width: 340,
+        }}>
         <Text style={{fontSize: 18, color: 'black'}}>비상 연락망 등록</Text>
         {contacts.map((contact, index) => (
           <View key={index} style={styles.contactContainer}>
@@ -102,7 +141,17 @@ function RegisterNumber({navigation, route}) {
           </TouchableOpacity>
         )}
       </View>
-      <ScrollView>
+      <View
+        style={{
+          borderWidth: 2,
+          width: 450,
+          margin: 5,
+          borderColor: '#ADD8E6',
+        }}></View>
+      <ScrollView
+        style={{
+          width: 340,
+        }}>
         <ContactList onContactSelect={handleSelectContact} />
       </ScrollView>
       <TouchableOpacity
@@ -121,87 +170,5 @@ function RegisterNumber({navigation, route}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#E8F5E9',
-  },
-  input: {
-    width: 130,
-    height: 40,
-    margin: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-  },
-  input2: {
-    width: 130,
-    height: 40,
-
-    margin: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-  },
-  contactContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  iconStyle: {
-    width: 40,
-    height: 40,
-    marginVertical: 10,
-  },
-  deleteIcon: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-  },
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    borderColor: '#388E3C', // Dark green border
-    borderWidth: 2,
-    width: '70%',
-    padding: 8,
-    borderRadius: 8,
-    alignItems: 'center',
-    margin: 3,
-  },
-  secondaryButtonText: {
-    color: '#388E3C',
-    fontSize: 18,
-    fontWeight: 'bold',
-    fontFamily: 'SpoqaHanSansNeo-Bold',
-  },
-  primaryButton: {
-    backgroundColor: '#388E3C', // Dark green button
-    width: '70%',
-    padding: 8,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  primaryButtonText: {
-    color: '#ffffff', // White text
-    fontSize: 18,
-    fontWeight: 'bold',
-    fontFamily: 'SpoqaHanSansNeo-Bold',
-  },
-  deleteButton: {
-    backgroundColor: 'red',
-    height: 30,
-    width: 40,
-    borderRadius: 5,
-    alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default RegisterNumber;
