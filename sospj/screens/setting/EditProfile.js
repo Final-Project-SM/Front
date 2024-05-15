@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {useUser} from '../../components/public/UserContext';
 import {userAxios} from '../../API/requestNode';
@@ -18,6 +18,13 @@ const EditProfile = ({navigation}) => {
     'https://example.com/default_profile.jpg',
   );
 
+  useEffect(() => {
+    if (user) {
+      setName(user.name); // 사용자 이름을 초기 상태로 설정
+      setPassword(user.password); // 사용자 비밀번호를 초기 상태로 설정
+    }
+  }, [user]);
+
   /**
    * @function handleSave
    * @description 프로필 정보를 저장합니다.
@@ -26,8 +33,10 @@ const EditProfile = ({navigation}) => {
     setUser({id: user.id, name, password});
     await userAxios.userChange({id: user.id, name, password});
     navigation.goBack();
+  };
 
-    // 프로필 데이터 저장 로직 추가
+  const moveToKeyword = async () => {
+    navigation.navigate('Keyword');
   };
 
   return (
@@ -45,7 +54,7 @@ const EditProfile = ({navigation}) => {
             value={name}
             onChangeText={setName}
             style={styles.input}
-            placeholder={user.name}
+            placeholder="이름"
             placeholderTextColor="#aaa"
           />
         </View>
@@ -55,14 +64,18 @@ const EditProfile = ({navigation}) => {
             value={password}
             onChangeText={setPassword}
             style={styles.input}
-            keyboardType="email-address"
+            keyboardType="default"
             placeholder="비밀번호"
             placeholderTextColor="#aaa"
+            secureTextEntry={true} // 비밀번호 입력 시 암호화 처리
           />
         </View>
       </View>
+      <TouchableOpacity style={styles.saveButton} onPress={moveToKeyword}>
+        <Text style={styles.saveButtonText}>신고키워드 수정하기</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>저장하기</Text>
+        <Text style={styles.saveButtonText}>프로필 저장하기</Text>
       </TouchableOpacity>
     </View>
   );

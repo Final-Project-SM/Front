@@ -2,7 +2,6 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20,
     backgroundColor: '#E8F5E9',
     justifyContent: 'space-between',
@@ -55,6 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 3,
   },
   saveButtonText: {
     color: 'white',
