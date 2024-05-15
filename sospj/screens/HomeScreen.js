@@ -77,7 +77,7 @@ function HomeScreen({navigation}) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [soundInstance, setSoundInstance] = useState(null);
   const [modalVisibleText, setModalVisibleText] = useState(false);
-  const [message, setMessage] = useState('현재 사용자가 위험에 처해있습니다');
+  const [message, setMessage] = useState(user.name + '님이 위험합니다.');
   const [editableMessage, setEditableMessage] = useState(message);
 
   /**
@@ -91,7 +91,6 @@ function HomeScreen({navigation}) {
       setContacts(data.list);
     }
   };
-
   useEffect(() => {
     return () => Torch.switchState(false);
     sirenSound.release(); // 컴포넌트 언마운트 시 후레쉬 끄기
@@ -602,15 +601,30 @@ function HomeScreen({navigation}) {
                     <Text style={styles.closeButtonText}>×</Text>
                   </TouchableOpacity>
                   <Text style={styles.modalTextText}>{message}</Text>
-                  <Text style={styles.modalTextText}>
+                  <Text style={styles.modalTextText2}>
                     비상연락처에 위 내용을 정말로 보내시겠습니까?
                   </Text>
-                  <TextInput
-                    style={styles.textInputText}
-                    onChangeText={setMessage}
-                    value={message}
-                    placeholder="메시지 내용을 수정하세요."
-                  />
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        marginBottom: 10,
+                        paddingHorizontal: 10,
+                        fontWeight: 'bold',
+                      }}>
+                      수정
+                    </Text>
+                    <TextInput
+                      style={styles.textInputText}
+                      onChangeText={setMessage}
+                      value={message}
+                      placeholder="메시지 내용을 수정하세요."
+                    />
+                  </View>
                   <View style={styles.buttonContainerText}>
                     <TouchableOpacity
                       style={styles.sendButton}

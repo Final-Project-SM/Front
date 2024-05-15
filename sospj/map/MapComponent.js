@@ -8,10 +8,10 @@ import {
   Image,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
-import {REACT_APP_KAKKO_KEY,REACT_APP_KAKAO_REST_KEY} from '@env'; // 환경 변수에서 카카오 API 키 가져오기
+import {REACT_APP_KAKKO_KEY, REACT_APP_KAKAO_REST_KEY} from '@env'; // 환경 변수에서 카카오 API 키 가져오기
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
-import { userAxios } from '../API/requestNode';
+import {userAxios} from '../API/requestNode';
 
 const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
@@ -26,7 +26,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     }
   };
 
-  const [locations,setLocations] = useState([
+  const [locations, setLocations] = useState([
     {seq: 1, lat: 36.8107, lon: 127.0789},
     {seq: 2, lat: 36.8135, lon: 127.0815},
     {seq: 3, lat: 36.8001, lon: 127.0762},
@@ -38,7 +38,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     {seq: 9, lat: 36.8076, lon: 127.0814},
     {seq: 10, lat: 36.7976, lon: 127.0817},
   ]);
-  const updateCirclessScript = async (lat,lon) =>{
+  const updateCirclessScript = async (lat, lon) => {
     try {
       const response = await axios.get(
         `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}&input_coord=WGS84`,
@@ -49,16 +49,18 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
       const addressName = response.data.documents[0].address
         ? response.data.documents[0].address.address_name
         : '주소를 찾을 수 없습니다.';
-      const data = await userAxios.map({region1:response.data.documents[0].address.region_1depth_name,region2:response.data.documents[0].address.region_2depth_name});
-      if(data.sc == 200){
-        console.log(data.response)
-        setLocations(data.response)
+      const data = await userAxios.map({
+        region1: response.data.documents[0].address.region_1depth_name,
+        region2: response.data.documents[0].address.region_2depth_name,
+      });
+      if (data.sc == 200) {
+        console.log(data.response);
+        setLocations(data.response);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    
-  }
+  };
   // 원을 생성하는 JavaScript 코드
   const createCirclesScript = locations => {
     return locations
@@ -127,7 +129,10 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
           x: position.coords.latitude,
           y: position.coords.longitude,
         });
-        updateCirclessScript(position.coords.latitude,position.coords.longitude)
+        updateCirclessScript(
+          position.coords.latitude,
+          position.coords.longitude,
+        );
       },
       error => {
         console.error(error);

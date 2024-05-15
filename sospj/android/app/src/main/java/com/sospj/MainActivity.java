@@ -41,7 +41,7 @@ public class MainActivity extends ReactActivity {
         String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         Uri uri = intent.getData();
         String test2 = uri.getQueryParameter("param1");
-
+        
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location loc_Current = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 

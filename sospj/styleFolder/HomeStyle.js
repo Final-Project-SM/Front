@@ -311,10 +311,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '100%',
     paddingHorizontal: 10,
+    borderStyle: 'dotted',
   },
   modalTextText: {
     marginBottom: 15,
     textAlign: 'center',
+    fontWeight: 'bold',
+    borderWidth: 1,
+    padding: 10,
+  },
+  modalTextText2: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 10,
+    color: 'red',
   },
   closeButton: {
     position: 'absolute',
@@ -324,6 +334,15 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: 24,
     color: 'black',
+  },
+  sendButton: {
+    borderRadius: 5,
+    padding: 6,
+    backgroundColor: '#FF6347',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
 });
 
