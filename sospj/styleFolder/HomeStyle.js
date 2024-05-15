@@ -264,6 +264,67 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  editButton: {
+    position: 'absolute',
+    top: 18,
+    right: 25,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    borderRadius: 5,
+  },
+  editButtonText: {
+    color: 'grey',
+    fontSize: 8,
+  },
+
+  //문자 편집
+  centeredViewText: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalViewText: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonContainerText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 15,
+  },
+  textInputText: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    width: '100%',
+    paddingHorizontal: 10,
+  },
+  modalTextText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  closeButtonText: {
+    fontSize: 24,
+    color: 'black',
+  },
 });
 
 export default styles;

@@ -13,6 +13,7 @@ import {
   Alert,
   Pressable,
   TouchableOpacity,
+  TextInput,
   PermissionsAndroid,
 } from 'react-native';
 //import styles from '../teststyle/HomeStyle';
@@ -74,6 +75,9 @@ function HomeScreen({navigation}) {
   const [contacts, setContacts] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [soundInstance, setSoundInstance] = useState(null);
+  const [modalVisibleText, setModalVisibleText] = useState(false);
+  const [message, setMessage] = useState('현재 사용자가 위험에 처해있습니다');
+  const [editableMessage, setEditableMessage] = useState(message);
 
   /**
    * 서버에서 데이터를 불러오는 함수.
@@ -177,7 +181,13 @@ function HomeScreen({navigation}) {
     console.log('Video loaded!');
     setIsVideoLoaded(true); // 비디오가 로드되었음을 상태로 설정
   };
-
+  /**
+   * @function handleEdit
+   * @description 수정 버튼 클릭 시 호출됩니다.
+   */
+  const handleEdit = () => {
+    console.log('수정 버튼 클릭됨');
+  };
   /**
    * 사용자로부터 카메라 권한을 요청하는 함수.
    * @returns {Promise<boolean>} - 카메라 권한이 부여되었는지 여부.
@@ -253,10 +263,11 @@ function HomeScreen({navigation}) {
     setIsPlaying(!isPlaying);
   };
 
-  /**
-   * 현재 기기의 위치를 가져오는 함수.
-   */
-  const getLocation = () => {
+  const EditTextMethod = () => {
+    setModalVisibleText(true);
+  };
+
+  const handleSendMessage = () => {
     Geolocation.getCurrentPosition(
       position => {
         sendSosMessage(position.coords.latitude, position.coords.longitude);
@@ -266,7 +277,23 @@ function HomeScreen({navigation}) {
       },
       {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     );
+    setModalVisibleText(false);
   };
+
+  // /**
+  //  * 현재 기기의 위치를 가져오는 함수.
+  //  */
+  // const getLocation = () => {
+  //   Geolocation.getCurrentPosition(
+  //     position => {
+  //       sendSosMessage(position.coords.latitude, position.coords.longitude);
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     },
+  //     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+  //   );
+  // };
 
   /**
    * 현재 위치와 함께 SOS 메시지를 전송하는 함수.
@@ -274,7 +301,7 @@ function HomeScreen({navigation}) {
    * @param {number} lon - 현재 위치의 경도.
    */
   const sendSosMessage = async (lat, lon) => {
-    await userAxios.sns({id: user.id, lat: lat, lon: lon});
+    await userAxios.sns({id: user.id, lat: lat, lon: lon, text: message});
     Alert.alert('일괄문자 전송 완료');
   };
 
@@ -576,7 +603,8 @@ function HomeScreen({navigation}) {
                 </View>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={getLocation}>
+
+            <TouchableOpacity onPress={EditTextMethod}>
               <View style={styles.contents31}>
                 <Image
                   source={require('../assets/images/sendmessage.png')} // 이미지 URL을 여기에 넣으세요.
@@ -586,6 +614,40 @@ function HomeScreen({navigation}) {
                 <Text style={styles.contactText}>일괄 문자전송</Text>
               </View>
             </TouchableOpacity>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisibleText}
+              onRequestClose={() => {
+                setModalVisibleText(!modalVisibleText);
+              }}>
+              <View style={styles.centeredViewText}>
+                <View style={styles.modalViewText}>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => setModalVisibleText(!modalVisibleText)}>
+                    <Text style={styles.closeButtonText}>×</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.modalTextText}>{message}</Text>
+                  <Text style={styles.modalTextText}>
+                    비상연락처에 위 내용을 정말로 보내시겠습니까?
+                  </Text>
+                  <TextInput
+                    style={styles.textInputText}
+                    onChangeText={setMessage}
+                    value={message}
+                    placeholder="메시지 내용을 수정하세요."
+                  />
+                  <View style={styles.buttonContainerText}>
+                    <TouchableOpacity
+                      style={styles.sendButton}
+                      onPress={handleSendMessage}>
+                      <Text style={styles.buttonText}>보내기</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
