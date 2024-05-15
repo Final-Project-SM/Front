@@ -21,7 +21,6 @@ const EditProfile = ({navigation}) => {
   useEffect(() => {
     if (user) {
       setName(user.name); // 사용자 이름을 초기 상태로 설정
-      setPassword(user.password); // 사용자 비밀번호를 초기 상태로 설정
     }
   }, [user]);
 
