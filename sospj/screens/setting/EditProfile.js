@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {useUser} from '../../components/public/UserContext';
-import { userAxios } from '../../API/requestNode';
+import {userAxios} from '../../API/requestNode';
+import styles from '../../styleFolder/EditProfileStyles';
+
+/**
+ * @function EditProfile
+ * @description 프로필을 수정하는 화면을 렌더링합니다.
+ * @param {Object} props - 컴포넌트의 속성.
+ * @returns {JSX.Element} EditProfile 컴포넌트
+ */
 const EditProfile = ({navigation}) => {
   const {user, setUser} = useUser();
   const [name, setName] = useState('');
@@ -17,12 +18,24 @@ const EditProfile = ({navigation}) => {
     'https://example.com/default_profile.jpg',
   );
 
-  const handleSave = async () => {
-    setUser({id: user.id, name: name, password:password});
-    await userAxios.userChange({id: user.id, name: name, password:password})
-    navigation.goBack();
+  useEffect(() => {
+    if (user) {
+      setName(user.name); // 사용자 이름을 초기 상태로 설정
+    }
+  }, [user]);
 
-    // 프로필 데이터 저장 로직 추가
+  /**
+   * @function handleSave
+   * @description 프로필 정보를 저장합니다.
+   */
+  const handleSave = async () => {
+    setUser({id: user.id, name, password});
+    await userAxios.userChange({id: user.id, name, password});
+    navigation.goBack();
+  };
+
+  const moveToKeyword = async () => {
+    navigation.navigate('Keyword');
   };
 
   return (
@@ -40,7 +53,7 @@ const EditProfile = ({navigation}) => {
             value={name}
             onChangeText={setName}
             style={styles.input}
-            placeholder={user.name}
+            placeholder="이름"
             placeholderTextColor="#aaa"
           />
         </View>
@@ -50,80 +63,21 @@ const EditProfile = ({navigation}) => {
             value={password}
             onChangeText={setPassword}
             style={styles.input}
-            keyboardType="email-address"
+            keyboardType="default"
             placeholder="비밀번호"
             placeholderTextColor="#aaa"
+            secureTextEntry={true} // 비밀번호 입력 시 암호화 처리
           />
         </View>
       </View>
+      <TouchableOpacity style={styles.saveButton} onPress={moveToKeyword}>
+        <Text style={styles.saveButtonText}>신고키워드 수정하기</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>저장하기</Text>
+        <Text style={styles.saveButtonText}>프로필 저장하기</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#E8F5E9',
-    justifyContent: 'space-between', // 스타일 조정
-  },
-  profileImageContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderColor: '#388E3C',
-    borderWidth: 2,
-  },
-  inputContainer: {
-    marginBottom: 15,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#2E7D32',
-    marginBottom: 5,
-  },
-  IDlabel: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#2E7D32',
-    marginBottom: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#B0BEC5',
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: 'white',
-    color: '#424242',
-  },
-  IDBox: {
-    borderColor: '#B0BEC5',
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
-    color: '#424242',
-  },
-  saveButton: {
-    backgroundColor: '#388E3C',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  saveButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
 
 export default EditProfile;

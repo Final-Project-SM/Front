@@ -110,7 +110,6 @@ export const userAxios = {
       return request.data;
     } catch (err) {
       return {sc: 400};
-
     }
   },
 };

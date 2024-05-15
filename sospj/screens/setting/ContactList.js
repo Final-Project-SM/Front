@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  StyleSheet,
   FlatList,
   View,
   Text,
@@ -10,7 +9,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Contacts from 'react-native-contacts';
+import styles from '../../styleFolder/ContactListStyles';
 
+/**
+ * @class ContactList
+ * @extends React.Component
+ * @description 연락처를 표시하고 검색하는 컴포넌트입니다.
+ */
 class ContactList extends React.Component {
   constructor(props) {
     super(props);
@@ -25,23 +30,32 @@ class ContactList extends React.Component {
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
-        message: 'This app would like to see your contacts',
+        message: '이 앱은 연락처를 보려 합니다',
       }).then(this.getList);
     } else if (Platform.OS === 'ios') {
       this.getList();
     }
   }
 
+  /**
+   * @method getList
+   * @description 기기에서 연락처 목록을 가져옵니다.
+   */
   getList = () => {
     Contacts.getAll()
       .then(contacts => {
         this.setState({contacts, filteredContacts: contacts});
       })
       .catch(e => {
-        console.log('cannot access');
+        console.log('접근할 수 없습니다');
       });
   };
 
+  /**
+   * @method handleSearch
+   * @description 검색 텍스트를 기준으로 연락처를 필터링합니다.
+   * @param {string} text - 검색 텍스트.
+   */
   handleSearch = text => {
     const filteredContacts = this.state.contacts.filter(contact => {
       const contactName = `${contact.givenName} ${contact.familyName}`;
@@ -51,6 +65,11 @@ class ContactList extends React.Component {
     this.setState({searchText: text, filteredContacts});
   };
 
+  /**
+   * @method selectContact
+   * @description 연락처를 선택하고 데이터를 부모 컴포넌트로 전달합니다.
+   * @param {Object} contact - 선택된 연락처.
+   */
   selectContact = contact => {
     const mobilePhone = contact.phoneNumbers.find(
       phone => phone.label.toLowerCase() === 'mobile',
@@ -62,6 +81,12 @@ class ContactList extends React.Component {
     this.props.onContactSelect(contactData);
   };
 
+  /**
+   * @method renderItem
+   * @description 연락처 항목을 렌더링합니다.
+   * @param {Object} item - 연락처 항목.
+   * @returns {JSX.Element} 연락처 항목 컴포넌트.
+   */
   renderItem = ({item}) => (
     <TouchableOpacity
       style={styles.itemContainer}
@@ -100,34 +125,5 @@ class ContactList extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 10,
-    // borderWidth: 1,
-    borderRadius: 25,
-    backgroundColor: '#FFFFFF',
-  },
-  itemContainer: {
-    margin: 10,
-    borderTopWidth: 1,
-    borderColor: '#212121',
-  },
-  contactName: {
-    fontSize: 16,
-    color: 'blue',
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    marginBottom: 5,
-  },
-  phones: {
-    color: 'gray',
-    fontSize: 14,
-  },
-});
 
 export default ContactList;
