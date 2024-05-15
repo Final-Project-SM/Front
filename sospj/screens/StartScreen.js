@@ -8,6 +8,7 @@ import PermissionUtil, {
   APP_PERMISSION_CODE,
 } from '../util/permission/PermissionUtil';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import styles from '../styleFolder/StartScreenStyles'; // 새로운 스타일 파일 가져오기
@@ -18,6 +19,7 @@ import styles from '../styleFolder/StartScreenStyles'; // 새로운 스타일 �
  * @param {object} props.navigation - 내비게이션 객체
  * @returns {JSX.Element} StartScreen 컴포넌트
  */
+
 function StartScreen({navigation}) {
   const {user, setUser} = useUser();
 
@@ -35,13 +37,17 @@ function StartScreen({navigation}) {
 
   useEffect(() => {
     PermissionUtil.cmmReqPermis([...APP_PERMISSION_CODE.android]);
-    messaging().onMessage(async remoteMessage => {
-      navigation.navigate('Sos');
-    });
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('1');
-    });
     readData();
+    messaging().onMessage(async remoteMessage => {
+      //navigation.navigate('Sos')
+      setTimeout(() => {
+        navigation.navigate('Sos');
+      }, 1000);
+    });
+
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log(remoteMessage);
+    });
   }, []);
 
   return (

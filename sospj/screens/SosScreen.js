@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, Image, ActivityIndicator} from 'react-native';
 import axios from 'axios';
-import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import AudioRecorderPlayer, {
+  AudioSourceAndroidType,
+  OutputFormatAndroidType,
+  AudioEncoderAndroidType,
+} from 'react-native-audio-recorder-player';
 import RNFS from 'react-native-fs';
 import {AI_PATH} from '@env';
 import {useUser} from '../components/public/UserContext';
@@ -9,43 +13,42 @@ import {useIsFocused} from '@react-navigation/native';
 import styles from '../styleFolder/SosScreenStyles'; // 새로운 스타일 파일 가져오기
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
-const audioPath = RNFS.CachesDirectoryPath + '/test.mp4';
+const audioPath = RNFS.CachesDirectoryPath + '/audio.wav';
 
-/**
- * SOS 화면 컴포넌트
- * @param {object} props - 컴포넌트에 전달되는 속성
- * @param {object} props.navigation - 내비게이션 객체
- * @returns {JSX.Element} SosScreen 컴포넌트
- */
-const SosScreen = ({navigation}) => {
+SosScreen = ({navigation}) => {
   const {user} = useUser();
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(true);
-
-  /**
-   * 음성 녹음을 시작하는 함수
-   */
   const startrecord = async () => {
     try {
+      const audioSet = {
+        AudioSourceAndroid: AudioSourceAndroidType.MIC,
+        OutputFormatAndroid: OutputFormatAndroidType.DEFAULT,
+        AudioEncoderAndroid: AudioEncoderAndroidType.DEFAULT,
+      };
       setLoading(true);
-      const result = await audioRecorderPlayer.startRecorder();
+      const result = await audioRecorderPlayer.startRecorder(null, audioSet);
       console.log(result);
       setTimeout(async () => {
         const result2 = await audioRecorderPlayer.stopRecorder();
+
         audioRecorderPlayer.removeRecordBackListener();
         console.log('Recording stopped after 10 seconds');
         console.log(result2);
         const formData = new FormData();
+
         formData.append('file', {
           uri: result2,
-          name: 'test',
+          name: 'audio4',
           type: 'audio/aac',
         });
+        // formData.append('file',result2)
         formData.append('id', user.id);
         console.log('axios');
+        // setLoading(false)
         console.log('1');
         const response = await axios.post(
-          'http://192.168.0.22:5000/upload',
+          'http://43.202.64.160:5000/predict',
           formData,
           {
             headers: {
@@ -63,7 +66,6 @@ const SosScreen = ({navigation}) => {
       navigation.navigate('Main');
     }
   };
-
   useEffect(() => {
     if (isFocused) {
       startrecord();
