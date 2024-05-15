@@ -39,7 +39,7 @@ function StartScreen({navigation}) {
     PermissionUtil.cmmReqPermis([...APP_PERMISSION_CODE.android]);
     readData();
     messaging().onMessage(async remoteMessage => {
-      //navigation.navigate('Sos')
+      console.log(remoteMessage)
       setTimeout(() => {
         navigation.navigate('Sos');
       }, 1000);

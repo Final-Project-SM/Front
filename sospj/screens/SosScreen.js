@@ -1,3 +1,11 @@
+/*
+  NFC 태그시 사용자 음성 녹음하는 screen 
+  작업자 : 소대현 
+  기능: 
+    1. 음성녹음 10초 간 진행  
+    2. 음성녹음파일을 flask 서버로 전송 
+      2-2 결과값이 "정상" 혹은 "위급으로" 나옴 
+*/
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, Image, ActivityIndicator} from 'react-native';
 import axios from 'axios';

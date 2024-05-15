@@ -32,6 +32,7 @@ import {userAxios} from '../API/requestNode';
 import {useIsFocused} from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
 import Graph from '../components/graph';
+import Ansimi from '../components/Ansimi';
 import CurrentTime from '../components/CurrentTime';
 import LottieView from 'lottie-react-native';
 import Torch from 'react-native-torch';
@@ -504,35 +505,7 @@ function HomeScreen({navigation}) {
           </View>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.contents4}
-        onPress={() => changeService()}>
-        <View>
-          <Text
-            style={isActive ? styles.activeServiceTitle : styles.serviceTitle}>
-            {isActive ? '현재 위치를 공유중입니다.' : '안심귀가 서비스'}
-          </Text>
-          <Text style={styles.serviceText}>
-            {isActive
-              ? '집에 도착하시면 반드시 서비스를 종료하세요'
-              : '안전하게 귀가하세요!'}
-          </Text>
-        </View>
-        <LottieView
-          style={{
-            width: 70,
-            height: 70,
-          }}
-          source={
-            isActive
-              ? require('../assets/lottie/process.json')
-              : require('../assets/lottie/gps.json')
-          }
-          autoPlay
-          loop={true}
-        />
-      </TouchableOpacity>
-
+      <Ansimi />
       <View style={styles.contentsContainer}>
         <View style={styles.contents3}>
           <Text style={{margin: 4, fontFamily: 'SpoqaHanSansNeo-Bold'}}>
