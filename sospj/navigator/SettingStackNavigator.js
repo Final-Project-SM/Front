@@ -5,7 +5,6 @@ import MypageScreen from '../screens/MypageScreen';
 import Setting from '../screens/Setting';
 import EditEmergencyContacts from '../screens/setting/EditEmergencyContacts';
 import VoiceData from '../screens/setting/VoiceData';
-import ReportHistory from '../screens/setting/ReportHistory';
 import CaseStore from '../screens/setting/CaseStore';
 import EditProfile from '../screens/setting/EditProfile';
 import ContactList from '../screens/setting/ContactList';
@@ -104,7 +103,6 @@ function SettingStackNavigator() {
           },
         }}
       />
-      <Stack.Screen name="ReportHistory" component={ReportHistory} />
       <Stack.Screen
         name="CaseStore"
         component={CaseStore}

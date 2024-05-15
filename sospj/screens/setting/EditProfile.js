@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {useUser} from '../../components/public/UserContext';
-import { userAxios } from '../../API/requestNode';
+import {userAxios} from '../../API/requestNode';
+import styles from '../../styleFolder/EditProfileStyles';
+
+/**
+ * @function EditProfile
+ * @description 프로필을 수정하는 화면을 렌더링합니다.
+ * @param {Object} props - 컴포넌트의 속성.
+ * @returns {JSX.Element} EditProfile 컴포넌트
+ */
 const EditProfile = ({navigation}) => {
   const {user, setUser} = useUser();
   const [name, setName] = useState('');
@@ -17,9 +18,13 @@ const EditProfile = ({navigation}) => {
     'https://example.com/default_profile.jpg',
   );
 
+  /**
+   * @function handleSave
+   * @description 프로필 정보를 저장합니다.
+   */
   const handleSave = async () => {
-    setUser({id: user.id, name: name, password:password});
-    await userAxios.userChange({id: user.id, name: name, password:password})
+    setUser({id: user.id, name, password});
+    await userAxios.userChange({id: user.id, name, password});
     navigation.goBack();
 
     // 프로필 데이터 저장 로직 추가
@@ -62,68 +67,5 @@ const EditProfile = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#E8F5E9',
-    justifyContent: 'space-between', // 스타일 조정
-  },
-  profileImageContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderColor: '#388E3C',
-    borderWidth: 2,
-  },
-  inputContainer: {
-    marginBottom: 15,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#2E7D32',
-    marginBottom: 5,
-  },
-  IDlabel: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#2E7D32',
-    marginBottom: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#B0BEC5',
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: 'white',
-    color: '#424242',
-  },
-  IDBox: {
-    borderColor: '#B0BEC5',
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
-    color: '#424242',
-  },
-  saveButton: {
-    backgroundColor: '#388E3C',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  saveButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
 
 export default EditProfile;

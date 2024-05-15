@@ -1,9 +1,7 @@
-// EditEmergencyContacts.js
 import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   TextInput,
   ScrollView,
@@ -11,11 +9,22 @@ import {
 import {useUser} from '../../components/public/UserContext';
 import {userAxios} from '../../API/requestNode';
 import ContactList from '../setting/ContactList';
+import styles from '../../styleFolder/EditEmergencyContactsStyles';
 
+/**
+ * @function EditEmergencyContacts
+ * @description 비상 연락처를 수정하는 화면을 렌더링합니다.
+ * @param {Object} props - 컴포넌트의 속성.
+ * @returns {JSX.Element} EditEmergencyContacts 컴포넌트
+ */
 function EditEmergencyContacts({navigation}) {
   const [contacts, setContacts] = useState([]);
   const {user, setUser} = useUser();
 
+  /**
+   * @function loadData
+   * @description 서버에서 비상 연락처 목록을 불러옵니다.
+   */
   const loadData = async () => {
     const response = await userAxios.sosList({id: user.id});
     if (response.sc === 200) {
@@ -27,6 +36,10 @@ function EditEmergencyContacts({navigation}) {
     loadData();
   }, []);
 
+  /**
+   * @function handleSave
+   * @description 비상 연락처 목록을 저장합니다.
+   */
   const handleSave = async () => {
     const newContacts = contacts.map(contact => ({
       name: contact.name,
@@ -40,6 +53,11 @@ function EditEmergencyContacts({navigation}) {
     navigation.goBack();
   };
 
+  /**
+   * @function handleSelectContact
+   * @description 연락처를 선택하여 추가합니다.
+   * @param {Object} contactData - 선택된 연락처 데이터.
+   */
   const handleSelectContact = contactData => {
     if (contacts.length < 4) {
       setContacts(prevContacts => [...prevContacts, contactData]);
@@ -48,6 +66,11 @@ function EditEmergencyContacts({navigation}) {
     }
   };
 
+  /**
+   * @function handleDeleteContact
+   * @description 연락처를 삭제합니다.
+   * @param {number} index - 삭제할 연락처의 인덱스.
+   */
   const handleDeleteContact = index => {
     const newContacts = [...contacts];
     newContacts.splice(index, 1);
@@ -91,58 +114,5 @@ function EditEmergencyContacts({navigation}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E8F5E9',
-    padding: 20,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 15,
-    alignItems: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#B0BEC5',
-    borderRadius: 5,
-    padding: 5,
-    flex: 1,
-    backgroundColor: 'white',
-    color: '#424242',
-    margin: 2,
-  },
-  deleteButton: {
-    padding: 6,
-    backgroundColor: '#e53935',
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deleteButtonText: {
-    color: 'white',
-    fontSize: 14,
-  },
-  buttonStyle: {
-    backgroundColor: '#388E3C',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    marginTop: 20,
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 18,
-  },
-  inputTitle: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 5,
-  },
-});
 
 export default EditEmergencyContacts;
