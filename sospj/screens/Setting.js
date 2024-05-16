@@ -121,6 +121,15 @@ const Setting = ({navigation}) => {
         </Modal>
         <TouchableOpacity
           style={styles.itemContainer}
+          onPress={() => navigation.navigate('CaseStore')}>
+          <Image
+            source={require('../assets/images/case.png')}
+            style={styles.icon}
+          />
+          <Text style={styles.itemText}>케이스 구매하기</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.itemContainer}
           onPress={() => handleModalToggle2(true)}>
           <Image
             source={{

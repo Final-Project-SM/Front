@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getStorage} from '../util/function/asyncStorage';
 import messaging from '@react-native-firebase/messaging';
@@ -8,6 +8,7 @@ import PermissionUtil, {
   APP_PERMISSION_CODE,
 } from '../util/permission/PermissionUtil';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import Sound from 'react-native-sound';
 
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
@@ -35,11 +36,36 @@ function StartScreen({navigation}) {
     }
   };
 
+  const playSound = () => {
+    const sound = new Sound(require('../assets/video/becareful.m4a'), error => {
+      if (error) {
+        console.log('Failed to load', error);
+        return;
+      }
+      console.log('Sound loaded successfully');
+      sound.play(success => {
+        if (success) {
+          console.log('Sound played successfully');
+        } else {
+          console.log('Sound playback failed');
+        }
+        sound.release(); // Release the sound instance to free up resources
+      });
+
+      setTimeout(() => {
+        sound.stop(() => {
+          console.log('Sound stopped');
+          sound.release(); // Release the sound instance to free up resources
+        });
+      }, 3000); // 3초 후에 소리 재생 중지
+    });
+  };
+
   useEffect(() => {
     PermissionUtil.cmmReqPermis([...APP_PERMISSION_CODE.android]);
     readData();
     messaging().onMessage(async remoteMessage => {
-      console.log(remoteMessage)
+      console.log(remoteMessage);
       setTimeout(() => {
         navigation.navigate('Sos');
       }, 1000);
@@ -47,6 +73,7 @@ function StartScreen({navigation}) {
 
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log(remoteMessage);
+      playSound();
     });
   }, []);
 

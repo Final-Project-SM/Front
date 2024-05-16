@@ -47,10 +47,29 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center', // 중앙 정렬
-    height: 200,
+    width: 140,
+  },
+  buttonStyle4: {
+    backgroundColor: '#E8F5E9',
+    borderRadius: 10,
+    flex: 1,
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center', // 중앙 정렬
+    width: 140,
+    marginTop: 5,
   },
   buttonStyle3: {
     backgroundColor: '#FFD1DC',
+    borderRadius: 10,
+    flex: 1,
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center', // 중앙 정렬
+    height: 200,
+  },
+  buttonStyle5: {
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     flex: 1,
     marginHorizontal: 10,
@@ -63,10 +82,16 @@ const styles = StyleSheet.create({
     height: 80, // 이미지 크기 설정
     marginBottom: 10, // 텍스트와의 간격
   },
+  buttonImage2: {
+    width: 50, // 이미지 크기 설정
+    height: 50, // 이미지 크기 설정
+    marginBottom: 10, // 텍스트와의 간격
+  },
   buttonText: {
     color: 'black', // 텍스트 색상을 검정색으로 변경
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 17,
+    fontWeight: 'bold',
   },
   centeredView: {
     flex: 1,

@@ -16,6 +16,7 @@ import {userAxios} from '../API/requestNode';
 const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
   const [currentLocation, setCurrentLocation] = useState({x, y});
+
   // WebView로부터 메시지를 받았을 때의 핸들러
   const onMessage = event => {
     const {data} = event.nativeEvent;
@@ -38,6 +39,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     {seq: 9, lat: 36.8076, lon: 127.0814},
     {seq: 10, lat: 36.7976, lon: 127.0817},
   ]);
+
   const updateCirclessScript = async (lat, lon) => {
     try {
       const response = await axios.get(
@@ -61,25 +63,46 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
       console.log(error);
     }
   };
+
   // 원을 생성하는 JavaScript 코드
   const createCirclesScript = locations => {
     return locations
-      .map(
-        location => `
-      var center = new kakao.maps.LatLng(${location.lat}, ${location.lon});
-      var circleOptions = {
-        center: center,
-        radius: 30, // 반지름 100m
-        strokeWeight: 5,
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.8,
-        fillColor: '#FF0000',
-        fillOpacity: 0.4
-      };
-      var circle = new kakao.maps.Circle(circleOptions);
-      circle.setMap(map);
+      .map(location => {
+        let fillColor;
+        let fillOpacity;
 
-      // 원 중앙에 텍스트 추가
+        if (location.seq <= 10) {
+          fillColor = '#FF0000';
+          fillOpacity = 0.4;
+        } else if (location.seq <= 20) {
+          fillColor = '#CC0000';
+          fillOpacity = 0.5;
+        } else if (location.seq <= 30) {
+          fillColor = '#990000';
+          fillOpacity = 0.6;
+        } else if (location.seq <= 40) {
+          fillColor = '#660000';
+          fillOpacity = 0.7;
+        } else {
+          fillColor = '#330000';
+          fillOpacity = 0.8;
+        }
+
+        return `
+        var center = new kakao.maps.LatLng(${location.lat}, ${location.lon});
+        var circleOptions = {
+          center: center,
+          radius: 25, // 반지름 25m
+          strokeWeight: 5,
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.8,
+          fillColor: '${fillColor}',
+          fillOpacity: ${fillOpacity}
+        };
+        var circle = new kakao.maps.Circle(circleOptions);
+        circle.setMap(map);
+
+        // 원 중앙에 텍스트 추가
         var content = '<div style=" width: 30px; height: 30px; line-height: 30px; text-align: center; font-size: 22px; color: white; font-weight: bold;">${location.seq}</div>';
         var customOverlay = new kakao.maps.CustomOverlay({
           content: content,
@@ -88,9 +111,54 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
           yAnchor: 0.5
         });
         customOverlay.setMap(map);
-    `,
+        `;
+      })
+      .join('');
+  };
+
+  const createPolylineScript = () => {
+    const coordinates = [
+      {lat: 36.79888, lon: 127.0648},
+      {lat: 36.7988819, lon: 127.0747772},
+      {lat: 36.79763, lon: 127.0851},
+      {lat: 36.79857, lon: 127.0927},
+    ];
+
+    const markerScript = coordinates
+      .map(
+        coord => `
+        var markerPosition = new kakao.maps.LatLng(${coord.lat}, ${coord.lon});
+        var marker = new kakao.maps.Marker({
+          position: markerPosition,
+          image: new kakao.maps.MarkerImage(
+            'https://cdn-icons-png.flaticon.com/128/190/190411.png',
+            new kakao.maps.Size(24, 35)
+          )
+        });
+        marker.setMap(map);
+        `,
       )
       .join('');
+
+    return `
+      var linePath = [
+        ${coordinates
+          .map(coord => `new kakao.maps.LatLng(${coord.lat}, ${coord.lon})`)
+          .join(',')}
+      ];
+
+      var polyline = new kakao.maps.Polyline({
+        path: linePath,
+        strokeWeight: 5,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.7,
+        strokeStyle: 'solid'
+      });
+
+      polyline.setMap(map);
+
+      ${markerScript}
+    `;
   };
 
   useEffect(() => {
@@ -221,6 +289,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
           {width: 84, height: 89},
         )}
         ${createCirclesScript(locations)}
+        ${createPolylineScript()}
       </script>
     </body>
   </html>`;

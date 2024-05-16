@@ -20,16 +20,18 @@ function MypageScreen({navigation}) {
 
   /**
    * NFC 등록 처리 함수
+   * @param {string} type - NFC 등록 타입
    */
-  const handleRegisterNFC = async () => {
+  const handleRegisterNFC = async type => {
     setModalVisible(true);
     setStatus('NFC 등록 중...');
+    console.log(`NFC 등록 타입: ${type}`); // 파라미터 로그 출력
     try {
       const random = generateRandomString();
       await NfcManager.requestTechnology(NfcTech.Ndef);
 
       const bytes = Ndef.encodeMessage([
-        Ndef.uriRecord('sospj://test/nfc?param1=' + random),
+        Ndef.uriRecord(`sospj://test/nfc?param1=${random}&type=${type}`),
       ]);
 
       if (bytes) {
@@ -85,20 +87,30 @@ function MypageScreen({navigation}) {
           onPress={() => navigation.navigate('CaseStore')}>
           <Image
             style={styles.buttonImage}
-            source={require('../assets/images/case2.png')}
+            source={require('../assets/images/purpose.png')}
           />
-          <Text style={styles.buttonText}>케이스 구매</Text>
+          <Text style={styles.buttonText}>동선 확인하기</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle2}
-          onPress={handleRegisterNFC}>
-          <Image
-            style={styles.buttonImage}
-            source={require('../assets/images/singo.png')}
-          />
-          <Text style={styles.buttonText}>NFC 등록하기</Text>
-        </TouchableOpacity>
-
+        <View style={styles.buttonStyle5}>
+          <TouchableOpacity
+            style={styles.buttonStyle2}
+            onPress={() => handleRegisterNFC('case')}>
+            <Image
+              style={styles.buttonImage2}
+              source={require('../assets/images/case2.png')}
+            />
+            <Text style={styles.buttonText}>케이스 등록하기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonStyle4}
+            onPress={() => handleRegisterNFC('bracelet')}>
+            <Image
+              style={styles.buttonImage2}
+              source={require('../assets/images/wristband.png')}
+            />
+            <Text style={styles.buttonText}>팔찌 등록하기</Text>
+          </TouchableOpacity>
+        </View>
         <Modal
           animationType="slide"
           transparent={true}
