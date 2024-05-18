@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#E8F5E9',
+    backgroundColor: 'white',
   },
   input: {
     width: 130,

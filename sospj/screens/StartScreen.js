@@ -37,28 +37,31 @@ function StartScreen({navigation}) {
   };
 
   const playSound = () => {
-    const sound = new Sound(require('../assets/video/becareful.m4a'), error => {
-      if (error) {
-        console.log('Failed to load', error);
-        return;
-      }
-      console.log('Sound loaded successfully');
-      sound.play(success => {
-        if (success) {
-          console.log('Sound played successfully');
-        } else {
-          console.log('Sound playback failed');
+    const sound = new Sound(
+      require('../assets/video/becareful2.m4a'),
+      error => {
+        if (error) {
+          console.log('Failed to load', error);
+          return;
         }
-        sound.release(); // Release the sound instance to free up resources
-      });
-
-      setTimeout(() => {
-        sound.stop(() => {
-          console.log('Sound stopped');
+        console.log('Sound loaded successfully');
+        sound.play(success => {
+          if (success) {
+            console.log('Sound played successfully');
+          } else {
+            console.log('Sound playback failed');
+          }
           sound.release(); // Release the sound instance to free up resources
         });
-      }, 3000); // 3초 후에 소리 재생 중지
-    });
+
+        setTimeout(() => {
+          sound.stop(() => {
+            console.log('Sound stopped');
+            sound.release(); // Release the sound instance to free up resources
+          });
+        }, 3000); // 3초 후에 소리 재생 중지
+      },
+    );
   };
 
   useEffect(() => {
@@ -67,7 +70,7 @@ function StartScreen({navigation}) {
     messaging().onMessage(async remoteMessage => {
       console.log(remoteMessage);
       setTimeout(() => {
-        navigation.navigate('Sos',{type:remoteMessage.data.type});
+        navigation.navigate('Sos', {type: remoteMessage.data.type});
       }, 1000);
     });
 

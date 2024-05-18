@@ -42,12 +42,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
+    alignItems: 'flex-start',
+
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -59,11 +60,25 @@ const styles = StyleSheet.create({
     elevation: 2,
     margin: 4,
   },
+  buttonCloseText: {
+    color: 'white',
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
+  },
+  colorRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginVertical: 5,
+  },
+  colorBox: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+    borderRadius: 25,
   },
 });
 

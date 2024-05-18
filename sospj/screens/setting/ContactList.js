@@ -108,7 +108,7 @@ class ContactList extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{alignItems: 'center'}}>
-          <Text style={{fontSize: 18, color: 'black'}}>연락처</Text>
+          <Text style={{fontSize: 18, color: 'black'}}>내 연락처</Text>
         </View>
         <TextInput
           style={styles.input}

@@ -18,7 +18,7 @@ const dummyData = [
   {
     date: '2024-05-02',
     locations: [
-      {seq: 1, lat: 36.8106, lon: 127.0788},
+      {seq: 1, lat: 36.79973, lon: 127.0752},
       {seq: 2, lat: 36.8109, lon: 127.079},
       {seq: 3, lat: 36.8112, lon: 127.0792},
       {seq: 4, lat: 36.8114, lon: 127.0794},
