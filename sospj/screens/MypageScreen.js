@@ -107,7 +107,7 @@ function MypageScreen({navigation}) {
         <View style={styles.buttonStyle5}>
           <TouchableOpacity
             style={styles.buttonStyle2}
-            onPress={() => handleRegisterNFC('case')}>
+            onPress={() => handleRegisterNFC('1')}>
             <Image
               style={styles.buttonImage2}
               source={require('../assets/images/case2.png')}
@@ -116,7 +116,7 @@ function MypageScreen({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttonStyle4}
-            onPress={() => handleRegisterNFC('bracelet')}>
+            onPress={() => handleRegisterNFC('2')}>
             <Image
               style={styles.buttonImage2}
               source={require('../assets/images/wristband.png')}
