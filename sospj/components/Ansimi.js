@@ -6,8 +6,12 @@ import BackgroundService from 'react-native-background-actions';
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios'; // axios 추가
 import messaging from '@react-native-firebase/messaging';
+import { userAxios } from '../API/requestNode';
+import { useUser } from './public/UserContext';
+import {generateRandomuid} from '../util/function/random';
 const sleep = time => new Promise(resolve => setTimeout(() => resolve(), time));
 const Ansimi = () => {
+  const {user} = useUser()
   const [isServiceRunning, setIsServiceRunning] = useState(false);
   useEffect(() => {
     if (AppState.currentState == 'active' && BackgroundService.isRunning()) {
@@ -15,7 +19,7 @@ const Ansimi = () => {
     }
   }, []);
 
-  const getLocation = i => {
+  const getLocation = (i,uid) => {
     Geolocation.getCurrentPosition(
       position => {
         console.log(
@@ -26,11 +30,13 @@ const Ansimi = () => {
         );
         try {
           //192.168.0.22
-          axios.post('http://192.168.0.22:3000/sos/sns', {
+          userAxios.ansimi({
             lat: position.coords.latitude,
             lon: position.coords.longitude,
             i: i,
-          });
+            id:user.id,
+            uid:uid
+          })
         } catch (err) {
           console.log(err);
         }
@@ -45,7 +51,7 @@ const Ansimi = () => {
   const veryIntensiveTask = async taskDataArguments => {
     // Example of an infinite loop task
     const {delay} = taskDataArguments;
-
+    const uid = generateRandomuid()
     await new Promise(async resolve => {
       for (
         let i = 0;
@@ -54,9 +60,9 @@ const Ansimi = () => {
       ) {
         try {
           console.log(AppState.currentState);
-          getLocation(i);
+          getLocation(i,uid);
         } catch (err) {
-          getLocation(i);
+          getLocation(i,uid);
         }
 
         await sleep(delay);
@@ -74,7 +80,7 @@ const Ansimi = () => {
     color: '#ff00ff',
     linkingURI: 'sospj://test/nfc', // See Deep Linking for more info
     parameters: {
-      delay: 60000,
+      delay: 1000,
     },
   };
   const startService = async () => {

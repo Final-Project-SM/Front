@@ -67,7 +67,7 @@ function StartScreen({navigation}) {
     messaging().onMessage(async remoteMessage => {
       console.log(remoteMessage);
       setTimeout(() => {
-        navigation.navigate('Sos');
+        navigation.navigate('Sos',{type:remoteMessage.data.type});
       }, 1000);
     });
 

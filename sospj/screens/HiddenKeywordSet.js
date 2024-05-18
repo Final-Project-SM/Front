@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,16 @@ import {userAxios} from '../API/requestNode';
 const HiddenKeywordSet = ({navigation}) => {
   const [keywords, setKeywords] = useState(['']); // 처음에는 하나의 키워드 입력칸만
   const {user,setUser} = useUser()
+  const loadData = async () => {
+    const data = await userAxios.keywordList({id:user.id})
+    if(data.sc == 200){
+      setKeywords(data.keyword)
+    }
+
+  }
+  useEffect(()=>{
+    loadData()
+  },[])
   // 새 키워드 입력 칸을 추가하는 함수
   const addKeywordInput = () => {
     if (keywords.length < 5) {

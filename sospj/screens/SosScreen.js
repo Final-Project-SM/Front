@@ -7,7 +7,7 @@
       2-2 결과값이 "정상" 혹은 "위급으로" 나옴 
 */
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, Image, ActivityIndicator} from 'react-native';
+import {View, Text, Button, Image, ActivityIndicator,TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import AudioRecorderPlayer, {
   AudioSourceAndroidType,
@@ -23,9 +23,11 @@ import styles from '../styleFolder/SosScreenStyles'; // 새로운 스타일 파�
 const audioRecorderPlayer = new AudioRecorderPlayer();
 const audioPath = RNFS.CachesDirectoryPath + '/audio.wav';
 
-SosScreen = ({navigation}) => {
+SosScreen = ({navigation, route}) => {
+
   const {user} = useUser();
   const isFocused = useIsFocused();
+  const [type, setType] = useState(route.params.type? route.params.type : "없는데용 ");
   const [loading, setLoading] = useState(true);
   const startrecord = async () => {
     try {
@@ -75,7 +77,8 @@ SosScreen = ({navigation}) => {
     }
   };
   useEffect(() => {
-    if (isFocused) {
+    console.log("sos스크린입니다",type)
+    if (isFocused && type == 1) {
       startrecord();
     }
   }, [isFocused]);
@@ -86,7 +89,27 @@ SosScreen = ({navigation}) => {
   const test = async () => {
     await navigation.navigate('Main');
   };
-
+  const changeType = () => {
+    setType("1")
+    startrecord()
+  }
+  const nextPage = async() => {
+    await navigation.navigate('Main');
+  }
+  if(type == 2){
+    return (
+    <View style={styles.container}>
+      <Text style={styles.title}>긴급 상황 확인</Text>
+      <Text style={styles.message}>정말 긴급 상황이 맞습니까?</Text>
+      <TouchableOpacity style={styles.button} onPress={changeType}>
+        <Text style={styles.buttonText}>예</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={nextPage}>
+        <Text style={styles.buttonText}>아니요</Text>
+      </TouchableOpacity>
+    </View>
+    )
+  }
   if (loading) {
     return (
       <View style={styles.container}>
