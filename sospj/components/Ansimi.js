@@ -1,25 +1,36 @@
 import LottieView from 'lottie-react-native';
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, AppState} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  AppState,
+  Image,
+  Modal,
+} from 'react-native';
 import BackgroundService from 'react-native-background-actions';
-
 import Geolocation from 'react-native-geolocation-service';
-import axios from 'axios'; // axios 추가
+import axios from 'axios';
 import messaging from '@react-native-firebase/messaging';
-import { userAxios } from '../API/requestNode';
-import { useUser } from './public/UserContext';
+import {userAxios} from '../API/requestNode';
+import {useUser} from './public/UserContext';
 import {generateRandomuid} from '../util/function/random';
+
 const sleep = time => new Promise(resolve => setTimeout(() => resolve(), time));
+
 const Ansimi = () => {
-  const {user} = useUser()
+  const {user} = useUser();
   const [isServiceRunning, setIsServiceRunning] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     if (AppState.currentState == 'active' && BackgroundService.isRunning()) {
       setIsServiceRunning(true);
     }
   }, []);
 
-  const getLocation = (i,uid) => {
+  const getLocation = (i, uid) => {
     Geolocation.getCurrentPosition(
       position => {
         console.log(
@@ -29,18 +40,16 @@ const Ansimi = () => {
           position.coords.longitude,
         );
         try {
-          //192.168.0.22
           userAxios.ansimi({
             lat: position.coords.latitude,
             lon: position.coords.longitude,
             i: i,
-            id:user.id,
-            uid:uid
-          })
+            id: user.id,
+            uid: uid,
+          });
         } catch (err) {
           console.log(err);
         }
-        //send({lat:position.coords.latitude,lon:position.coords.longitude});
       },
       error => {
         console.log(error);
@@ -48,10 +57,10 @@ const Ansimi = () => {
       {enableHighAccuracy: true, timeout: 15000, maximumAge: 500},
     );
   };
+
   const veryIntensiveTask = async taskDataArguments => {
-    // Example of an infinite loop task
     const {delay} = taskDataArguments;
-    const uid = generateRandomuid()
+    const uid = generateRandomuid();
     await new Promise(async resolve => {
       for (
         let i = 0;
@@ -60,15 +69,15 @@ const Ansimi = () => {
       ) {
         try {
           console.log(AppState.currentState);
-          getLocation(i,uid);
+          getLocation(i, uid);
         } catch (err) {
-          getLocation(i,uid);
+          getLocation(i, uid);
         }
-
         await sleep(delay);
       }
     });
   };
+
   const options = {
     taskName: 'Example',
     taskTitle: '위치 공유중',
@@ -78,14 +87,14 @@ const Ansimi = () => {
       type: 'mipmap',
     },
     color: '#ff00ff',
-    linkingURI: 'sospj://test/nfc', // See Deep Linking for more info
+    linkingURI: 'sospj://test/nfc',
     parameters: {
       delay: 1000,
     },
   };
+
   const startService = async () => {
     setIsServiceRunning(true);
-
     await BackgroundService.start(veryIntensiveTask, options);
   };
 
@@ -93,71 +102,156 @@ const Ansimi = () => {
     setIsServiceRunning(false);
     await BackgroundService.stop();
   };
+
   return (
-    <TouchableOpacity
-      style={styles.contents4}
-      onPress={!isServiceRunning ? startService : stopService}>
-      <View>
-        <Text
-          style={
-            isServiceRunning ? styles.activeServiceTitle : styles.serviceTitle
-          }>
-          {isServiceRunning ? '현재 위치를 공유중입니다.' : '안심귀가 서비스'}
-        </Text>
-        <Text style={styles.serviceText}>
-          {isServiceRunning
-            ? '집에 도착하시면 반드시 서비스를 종료하세요'
-            : '안전하게 귀가하세요!'}
-        </Text>
-      </View>
-      <LottieView
-        style={{
-          width: 70,
-          height: 70,
-        }}
-        source={
-          isServiceRunning
-            ? require('../assets/lottie/process.json')
-            : require('../assets/lottie/gps.json')
-        }
-        autoPlay
-        loop={true}
-      />
-    </TouchableOpacity>
+    <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity
+        style={[styles.contents4, isServiceRunning && styles.contents4Active]}
+        onPress={!isServiceRunning ? startService : stopService}>
+        <View>
+          <Text
+            style={
+              isServiceRunning ? styles.activeServiceTitle : styles.serviceTitle
+            }>
+            {isServiceRunning ? '현재 위치를 공유중입니다.' : '안심귀가 서비스'}
+          </Text>
+          <Text style={styles.serviceText}>
+            {isServiceRunning
+              ? '집에 도착하시면 반드시 서비스를 종료하세요'
+              : '안전하게 귀가하세요!'}
+          </Text>
+        </View>
+        <LottieView
+          style={{
+            width: 70,
+            height: 70,
+          }}
+          source={
+            isServiceRunning
+              ? require('../assets/lottie/process.json')
+              : require('../assets/lottie/gps.json')
+          }
+          autoPlay
+          loop={true}
+        />
+      </TouchableOpacity>
+      {!isServiceRunning && (
+        <TouchableOpacity
+          style={{
+            width: 80,
+            height: 80,
+            backgroundColor: '#FFD1DC',
+            borderRadius: 15,
+            marginTop: 14,
+            marginLeft: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onPress={() => setModalVisible(true)}>
+          <Image
+            source={require('../assets/images/whatisit.png')} // 이미지 URL을 여기에 넣으세요.
+            style={{width: 60, height: 60}}
+          />
+        </TouchableOpacity>
+      )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>'안심귀가 서비스'란 무엇인가?</Text>
+            <Text>
+              안심귀가 서비스란 실시간으로 위치를 추적하여, 공유하는 시스템
+              입니다.
+            </Text>
+            <Text>대중교통 이용 후 도보로 이동할 때에 사용하시면 됩니다.</Text>
+            <Text>
+              사용자의 위치정보는 사용자가 등록한 보호자가 열람할 수 있습니다.
+            </Text>
+            <Text></Text>
+            <Text style={{fontWeight: 'bold'}}>
+              *집에 귀가 후 반드시 종료해주시기 바랍니다.
+            </Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setModalVisible(false)}>
+              <Text style={styles.buttonText}>닫기</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   contents4: {
-    //SOS도구
-    width: 325,
+    width: 235,
     height: 80,
     backgroundColor: '#FFD1DC',
     borderColor: 'black',
     borderRadius: 15,
     marginTop: 14,
     alignItems: 'center',
-    flexDirection: 'row', // 가로로 텍스트와 버튼 배치
-    justifyContent: 'space-between', // 요소들 사이에 공간을 균등하게 분배
-    paddingHorizontal: 20, // 좌우 패딩 추가
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  contents4Active: {
+    width: 325,
   },
   serviceText: {
-    fontSize: 10, // 텍스트 크기 조정
-    fontWeight: 'bold', // 굵은 글씨로 표시
+    fontSize: 10,
+    fontWeight: 'bold',
     margin: 5,
   },
   activeServiceTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#F44336', // 활성화 상태일 때의 텍스트 색상 변경
+    color: '#F44336',
   },
   serviceTitle: {
-    fontSize: 16, // 텍스트 크기 조정
-    fontWeight: 'bold', // 굵은 글씨로 표시
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalView: {
+    width: 300,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 15,
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    borderRadius: 5,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
+
 export default Ansimi;
-
-//foroground 테스트
-
-//   //await BackgroundService.updateNotification({taskDesc: 'New ExampleTask description'}); // Only Android, iOS will ignore this call
