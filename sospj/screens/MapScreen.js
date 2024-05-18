@@ -99,8 +99,9 @@ function MapScreen() {
         justifyContent: 'center',
         backgroundColor: 'white',
       }}>
-      <Text style={styles.titleStyle}>내 근처 안전쉼터 맵</Text>
-
+      <View style={{flexDirection: 'row'}}>
+        <Text style={styles.titleStyle}>내 근처 안전쉼터 맵</Text>
+      </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={() => fetchData('소방서', () => setCategory('fire'))}

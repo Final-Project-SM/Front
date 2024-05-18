@@ -19,22 +19,34 @@ const styles = StyleSheet.create({
   },
   spinner: {
     marginTop: 20, // 상단 마진
-  }, 
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: 'red',
   },
   message: {
     fontSize: 18,
     textAlign: 'center',
     marginBottom: 40,
+    color: '#ff4d4f',
   },
   button: {
     backgroundColor: '#007bff',
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
+    width: 100,
+    margin: 20,
+  },
+  button1: {
+    backgroundColor: '#ff4d4f',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: 100,
+    margin: 20,
   },
   buttonText: {
     color: '#ffffff',

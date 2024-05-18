@@ -344,6 +344,33 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
+  contactsWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  addContact: {
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 25,
+    marginTop: 10,
+  },
+  addContactText: {
+    color: '#000',
+    fontSize: 16,
+  },
+  contactContainer: {
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contactImage: {
+    width: 35, // 이미지 너비
+    height: 35, // 이미지 높이
+    marginBottom: 3, // 이미지와 텍스트 간격
+  },
 });
 
 export default styles;
