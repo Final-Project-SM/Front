@@ -37,9 +37,32 @@ const MapComponent2 = ({x, y, markers}) => {
     );
   };
 
+
+  const calculateCenter = markers => {
+    const total = markers.length;
+    const sumCoords = markers.reduce(
+      (acc, marker) => {
+        acc.latitude += marker.lat;
+        acc.longitude += marker.lon;
+        return acc;
+      },
+      {latitude: 0, longitude: 0},
+    );
+    return {
+      latitude: sumCoords.latitude / total,
+      longitude: sumCoords.longitude / total,
+    };
+  };
+
+  const center = calculateCenter(markers);
+
   const createPolylineScript = () => {
     const linePath = markers
-      .map(marker => `new kakao.maps.LatLng(${marker.lat}, ${marker.lon})`)
+      .map(
+        marker =>
+          `new kakao.maps.LatLng(${marker.lat}, ${marker.lon})`,
+      )
+
       .join(',');
 
     const markersScript = markers
@@ -97,6 +120,7 @@ const MapComponent2 = ({x, y, markers}) => {
     <body>
       <div id="map"></div>
       <script>
+
         var mapContainer = document.getElementById('map'), 
             mapOption = { 
               center: new kakao.maps.LatLng(${x}, ${y}), 

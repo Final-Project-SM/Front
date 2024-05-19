@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white', // 배경 검정색
     height: '100%',
+    flex:1
   },
   contentsContainer: {
     flexDirection: 'row',

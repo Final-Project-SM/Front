@@ -11,13 +11,18 @@ import {WebView} from 'react-native-webview';
 import {REACT_APP_KAKKO_KEY, REACT_APP_KAKAO_REST_KEY} from '@env'; // 환경 변수에서 카카오 API 키 가져오기
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
+import { useUser } from '../components/public/UserContext';
 import {userAxios} from '../API/requestNode';
 import {useIsFocused} from '@react-navigation/native';
+
+import moment from 'moment-timezone';
 
 const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
   const [currentLocation, setCurrentLocation] = useState({x, y});
   const isFocused = useIsFocused();
+
+  const {user} = useUser()
 
   // WebView로부터 메시지를 받았을 때의 핸들러
   const onMessage = event => {
@@ -41,6 +46,12 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     {seq: 9, lat: 36.8076, lon: 127.0814},
     {seq: 10, lat: 36.7976, lon: 127.0817},
   ]);
+  const [coordinates,setCoordinates] = useState([
+    {lat: 36.79888, lon: 127.0648},
+    {lat: 36.7988819, lon: 127.0747772},
+    {lat: 36.79763, lon: 127.0851},
+    {lat: 36.79857, lon: 127.0927},
+  ]);
 
   const updateCirclessScript = async (lat, lon) => {
     try {
@@ -53,13 +64,19 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
       const addressName = response.data.documents[0].address
         ? response.data.documents[0].address.address_name
         : '주소를 찾을 수 없습니다.';
-      const data = await userAxios.map({
-        region1: response.data.documents[0].address.region_1depth_name,
-        region2: response.data.documents[0].address.region_2depth_name,
-      });
+        const kr_curr = moment().tz("Asia/Seoul").format('YYYY-MM-DD');
+        const kr_curr2 = moment().tz("Asia/Seoul").format('YYYY-MM-DD HH:mm:ss');
+        console.log(kr_curr2);
+        const data = await userAxios.map({
+          id: user.id,
+          region1: response.data.documents[0].address.region_1depth_name,
+          region2: response.data.documents[0].address.region_2depth_name,
+          today:kr_curr,
+          test:kr_curr2
+        });
       if (data.sc == 200) {
-        console.log(data.response);
-        setLocations(data.response);
+        setLocations(data.response)
+        setCoordinates(data.locations);
       }
     } catch (error) {
       console.log(error);
@@ -119,12 +136,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   };
 
   const createPolylineScript = () => {
-    const coordinates = [
-      {lat: 36.79888, lon: 127.0648},
-      {lat: 36.7988819, lon: 127.0747772},
-      {lat: 36.79763, lon: 127.0851},
-      {lat: 36.79857, lon: 127.0927},
-    ];
+    
 
     const markerScript = coordinates
       .map(

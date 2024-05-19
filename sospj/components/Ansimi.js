@@ -40,6 +40,7 @@ const Ansimi = () => {
           position.coords.longitude,
         );
         try {
+
           userAxios.ansimi({
             lat: position.coords.latitude,
             lon: position.coords.longitude,

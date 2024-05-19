@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
-
+import { useUser } from '../components/public/UserContext';
+import { userAxios } from '../API/requestNode';
 const dummyData = [
   {id: 1, name: 'John Doe', phone: '010-1234-5678'},
   {id: 2, name: 'Jane Smith', phone: '010-2345-6789'},
@@ -16,16 +17,20 @@ const dummyData = [
 
 const WhoRegister = ({navigation}) => {
   const [registeredUsers, setRegisteredUsers] = useState([]);
-
+  const {user,setUser} = useUser()
+  const loadData = async () => {
+    const data = await userAxios.followerList({id:user.id})
+    setRegisteredUsers(data)
+  }
   useEffect(() => {
     // 더미 데이터를 상태에 설정
-    setRegisteredUsers(dummyData);
+    loadData()
   }, []);
 
   const renderItem = ({item}) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => navigation.navigate('MyPathScreen', {id: item})}>
+      onPress={() => navigation.navigate('MyPathScreen', {id: item.id})}>
       <Text style={styles.nameText}>{item.name}</Text>
       <Text style={styles.phoneText}>{item.phone}</Text>
     </TouchableOpacity>
