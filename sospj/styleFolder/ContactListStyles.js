@@ -1,11 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 10,
-    borderRadius: 25,
-    backgroundColor: '#FFFFFF',
-  },
+  container: {padding: 4},
   itemContainer: {
     margin: 10,
     borderTopWidth: 1,
@@ -13,7 +9,7 @@ const styles = StyleSheet.create({
   },
   contactName: {
     fontSize: 16,
-    color: 'blue',
+    color: 'black',
   },
   input: {
     height: 40,

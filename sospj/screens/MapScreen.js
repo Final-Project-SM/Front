@@ -99,8 +99,9 @@ function MapScreen() {
         justifyContent: 'center',
         backgroundColor: 'white',
       }}>
-      <Text style={styles.titleStyle}>내 근처 안전쉼터 맵</Text>
-
+      <View style={{flexDirection: 'row'}}>
+        <Text style={styles.titleStyle}>내 근처 안전쉼터 맵</Text>
+      </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={() => fetchData('소방서', () => setCategory('fire'))}
@@ -159,10 +160,39 @@ function MapScreen() {
               <Text>
                 최근 30일 동안의 신고가 들어온 지역을 표시하고 있습니다.
               </Text>
+              <View style={styles.colorRow}>
+                <View style={[styles.colorBox, {backgroundColor: '#FF0000'}]} />
+                <Text>빨간색 (Red): 매우 높은 위험 수준을 나타냅니다.</Text>
+              </View>
+
+              <View style={styles.colorRow}>
+                <View style={[styles.colorBox, {backgroundColor: '#FFA500'}]} />
+                <Text>주황색 (Orange): 높은 위험 수준을 나타냅니다.</Text>
+              </View>
+
+              <View style={styles.colorRow}>
+                <View style={[styles.colorBox, {backgroundColor: '#FFFF00'}]} />
+                <Text>노란색 (Yellow): 중간 위험 수준을 나타냅니다.</Text>
+              </View>
+
+              <View style={styles.colorRow}>
+                <View style={[styles.colorBox, {backgroundColor: '#FFD700'}]} />
+                <Text>
+                  연한 주황색 (Light Orange): 낮은 위험 수준을 나타냅니다.
+                </Text>
+              </View>
+
+              <View style={styles.colorRow}>
+                <View style={[styles.colorBox, {backgroundColor: '#FF6347'}]} />
+                <Text>
+                  연한 빨간색 (Light Red): 매우 낮은 위험 수준을 나타냅니다.
+                </Text>
+              </View>
+
               <TouchableOpacity
                 style={styles.buttonClose}
                 onPress={() => setModalVisible(!modalVisible)}>
-                <Text>숨기기</Text>
+                <Text style={styles.buttonCloseText}>숨기기</Text>
               </TouchableOpacity>
             </View>
           </View>

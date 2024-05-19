@@ -37,6 +37,7 @@ const MapComponent2 = ({x, y, markers}) => {
     );
   };
 
+
   const calculateCenter = markers => {
     const total = markers.length;
     const sumCoords = markers.reduce(
@@ -61,6 +62,7 @@ const MapComponent2 = ({x, y, markers}) => {
         marker =>
           `new kakao.maps.LatLng(${marker.lat}, ${marker.lon})`,
       )
+
       .join(',');
 
     const markersScript = markers
@@ -97,17 +99,34 @@ const MapComponent2 = ({x, y, markers}) => {
   };
 
   const mapHtml = `
+  <!DOCTYPE html>
   <html>
     <head>
       <title>Kakao Maps in React Native</title>
       <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${REACT_APP_KAKKO_KEY}&libraries=services"></script>
+      <style>
+        html, body {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          overflow: hidden;
+        }
+        #map {
+          width: 100%;
+          height: 100%;
+        }
+      </style>
     </head> 
     <body>
-      <div id="map" style="width:100%;height:100%;"></div>
+      <div id="map"></div>
       <script>
-        var mapContainer = document.getElementById('map'), mapOption = { center: new kakao.maps.LatLng(${
-          x
-        }, ${y}), level: 3 };
+
+        var mapContainer = document.getElementById('map'), 
+            mapOption = { 
+              center: new kakao.maps.LatLng(${x}, ${y}), 
+              level: 3 
+            };
+
         var map = new kakao.maps.Map(mapContainer, mapOption);
 
         ${createPolylineScript()}
@@ -122,6 +141,8 @@ const MapComponent2 = ({x, y, markers}) => {
         source={{html: mapHtml}}
         style={styles.webview}
         onMessage={onMessage}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
       />
       <TouchableOpacity onPress={updateLocation} style={styles.updateButton}>
         <Image

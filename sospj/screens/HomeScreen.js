@@ -99,7 +99,20 @@ function HomeScreen({navigation}) {
   useEffect(() => {
     loadData();
   }, [isFocused]);
-
+  const getImageSource = index => {
+    switch (index) {
+      case 0:
+        return require('../assets/images/one.png');
+      case 1:
+        return require('../assets/images/two.png');
+      case 2:
+        return require('../assets/images/three.png');
+      case 3:
+        return require('../assets/images/four.png');
+      default:
+        return require('../assets/images/one.png');
+    }
+  };
   const screens = [
     require('../assets/images/rway1.png'),
     require('../assets/images/rway2.png'),
@@ -370,41 +383,31 @@ function HomeScreen({navigation}) {
               </Text>
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-            }}>
+          <View style={styles.contactsWrapper}>
             {contacts.length === 0 ? (
               <TouchableOpacity
                 onPress={() => navigation.navigate('EditEmergencyContacts')}>
-                <View
-                  style={{
-                    padding: 20,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#f0f0f0',
-                    borderRadius: 25,
-                    marginTop: 10,
-                  }}>
-                  <Text style={{color: '#000', fontSize: 16}}>
+                <View style={styles.addContact}>
+                  <Text style={styles.addContactText}>
                     비상연락처를 추가해주세요
                   </Text>
                 </View>
               </TouchableOpacity>
             ) : (
               contacts.map((contact, index) => (
-                <View
-                  key={index}
-                  style={{
-                    width: '50%',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
+                <View key={index} style={styles.contactContainer}>
                   <TouchableOpacity onPress={() => callNumber(contact.phone)}>
                     <View style={styles.contents11}>
-                      <Text style={styles.contactText}>{contact.name}</Text>
+                      <Image
+                        source={getImageSource(index)}
+                        style={styles.contactImage}
+                      />
+                      <Text
+                        style={styles.contactText}
+                        numberOfLines={1}
+                        adjustsFontSizeToFit>
+                        {contact.name}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 </View>

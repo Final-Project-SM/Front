@@ -32,6 +32,7 @@ export const userAxios = {
       return {sc: 400};
     }
   },
+
   keyword: async data => { //  {"id": "e4r5", "keyword": ["피자", "ㅇㅇㅇ"]} 데이터 형식 
     try{
       console.log(data)
@@ -48,6 +49,7 @@ export const userAxios = {
       return request.data
     }catch(err){
       return {sc:400}
+
     }
   },
   mainInfo: async data => {
@@ -123,6 +125,7 @@ export const userAxios = {
   ansimi: async data => {
     try {
       const request = await axios.post(BACK_API_PATH2 + '/ansimi', data);
+
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -139,11 +142,12 @@ export const userAxios = {
   followerList: async data => {
     try {
       const request = await axios.post(BACK_API_PATH2 + '/follower', data);
+
       return request.data;
     } catch (err) {
       return {sc: 400};
     }
-  }
+  },
 };
 
 export const nfcAxios = {

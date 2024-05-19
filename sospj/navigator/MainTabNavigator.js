@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import MapScreen from '../screens/MapScreen';
 import HomeStackNavigator from './HomeStackNavigator';
 import SettingStackNavigator from './SettingStackNavigator';
@@ -29,7 +30,7 @@ function MainTabNavigator() {
           headerShown: false,
           tabBarIcon: ({focused, color, size}) => (
             <Image
-              source={require('../assets/images/phoneTab.png')} // 이미지 경로를 설정하세요
+              source={require('../assets/images/phoneTab.png')}
               style={{width: size, height: size}}
             />
           ),
@@ -42,7 +43,7 @@ function MainTabNavigator() {
           headerShown: false,
           tabBarIcon: ({focused, color, size}) => (
             <Image
-              source={require('../assets/images/mapIcon.png')} // 이미지 경로를 설정하세요
+              source={require('../assets/images/mapIcon.png')}
               style={{width: size, height: size}}
             />
           ),
@@ -55,7 +56,7 @@ function MainTabNavigator() {
           headerShown: false,
           tabBarIcon: ({focused, color, size}) => (
             <Image
-              source={require('../assets/images/mypage.png')} // 이미지 경로를 설정하세요
+              source={require('../assets/images/mypage.png')}
               style={{width: size, height: size}}
             />
           ),

@@ -14,12 +14,16 @@ import axios from 'axios';
 import { useUser } from '../components/public/UserContext';
 import {userAxios} from '../API/requestNode';
 import {useIsFocused} from '@react-navigation/native';
+
 import moment from 'moment-timezone';
+
 const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
   const [currentLocation, setCurrentLocation] = useState({x, y});
   const isFocused = useIsFocused();
+
   const {user} = useUser()
+
   // WebView로부터 메시지를 받았을 때의 핸들러
   const onMessage = event => {
     const {data} = event.nativeEvent;
@@ -87,19 +91,19 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
         let fillOpacity;
 
         if (location.seq <= 10) {
-          fillColor = '#FF0000';
+          fillColor = '#FF6347';
           fillOpacity = 0.4;
         } else if (location.seq <= 20) {
-          fillColor = '#CC0000';
+          fillColor = '#FFD700';
           fillOpacity = 0.5;
         } else if (location.seq <= 30) {
-          fillColor = '#990000';
+          fillColor = '#FFFF00';
           fillOpacity = 0.6;
         } else if (location.seq <= 40) {
-          fillColor = '#660000';
+          fillColor = '#FFA500';
           fillOpacity = 0.7;
         } else {
-          fillColor = '#330000';
+          fillColor = '#FF0000';
           fillOpacity = 0.8;
         }
 
@@ -109,7 +113,7 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
           center: center,
           radius: 25, // 반지름 25m
           strokeWeight: 5,
-          strokeColor: '#FF0000',
+          strokeColor: '${fillColor}',
           strokeOpacity: 0.8,
           fillColor: '${fillColor}',
           fillOpacity: ${fillOpacity}
@@ -138,14 +142,14 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
       .map(
         coord => `
         var markerPosition = new kakao.maps.LatLng(${coord.lat}, ${coord.lon});
-        var marker = new kakao.maps.Marker({
+        var marker2 = new kakao.maps.Marker({
           position: markerPosition,
           image: new kakao.maps.MarkerImage(
             'https://cdn-icons-png.flaticon.com/128/190/190411.png',
             new kakao.maps.Size(24, 35)
           )
         });
-        marker.setMap(map);
+        marker2.setMap(map);
         `,
       )
       .join('');

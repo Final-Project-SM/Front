@@ -105,7 +105,13 @@ function EditEmergencyContacts({navigation}) {
           </View>
         ))}
       </ScrollView>
-      <ScrollView>
+      <ScrollView
+        style={{
+          paddingHorizontal: 10,
+          borderRadius: 25,
+          backgroundColor: 'Black',
+          borderWidth: 2,
+        }}>
         <ContactList onContactSelect={handleSelectContact} />
       </ScrollView>
       <TouchableOpacity style={styles.buttonStyle} onPress={handleSave}>
