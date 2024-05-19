@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 import loginPageScreen from '../screens/loginPageScreen';
 import RegisterPageScreen from '../screens/RegisterPageScreen';
-import help from '../screens/HelpS';
+import HelpS from '../screens/HelpS';
 // 추가하고 싶은 다른 스크린을 import합니다.
 
 const Stack = createStackNavigator();
@@ -33,7 +33,7 @@ function HomeStackNavigator() {
             fontFamily: 'SpoqaHanSansNeo-Bold',
           },
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('help')}>
+            <TouchableOpacity onPress={() => navigation.navigate('HelpS')}>
               <Image
                 style={{width: 25, height: 25, marginRight: 15}}
                 source={require('../assets/images/help.png')}
@@ -43,8 +43,8 @@ function HomeStackNavigator() {
         }}
       />
       <Stack.Screen
-        name="help"
-        component={help}
+        name="HelpS"
+        component={HelpS}
         options={{
           title: '도움말',
           headerTitleAlign: 'center', // 타이틀을 중앙으로 정렬

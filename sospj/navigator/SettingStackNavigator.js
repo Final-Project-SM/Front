@@ -91,7 +91,7 @@ function SettingStackNavigator() {
         name="VoiceData"
         component={VoiceData}
         options={{
-          title: '음성데이터 확인',
+          title: '신고데이터 확인',
           headerLeft: null, // 뒤로 가기 버튼 제거
           headerTitleAlign: 'center', // 타이틀을 중앙으로 정렬
           headerStyle: {

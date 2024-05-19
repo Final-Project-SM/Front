@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white', // 배경 검정색
     height: '100%',
-    flex:1
+    flex: 1,
   },
   contentsContainer: {
     flexDirection: 'row',
@@ -361,6 +361,7 @@ const styles = StyleSheet.create({
   addContactText: {
     color: '#000',
     fontSize: 16,
+    fontFamily: 'SpoqaHanSansNeo-Bold',
   },
   contactContainer: {
     width: '50%',

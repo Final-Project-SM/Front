@@ -40,7 +40,6 @@ const Ansimi = () => {
           position.coords.longitude,
         );
         try {
-
           userAxios.ansimi({
             lat: position.coords.latitude,
             lon: position.coords.longitude,
@@ -163,12 +162,14 @@ const Ansimi = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>'안심귀가 서비스'란 무엇인가?</Text>
-            <Text>
+            <Text style={styles.modalContents}>
               안심귀가 서비스란 실시간으로 위치를 추적하여, 공유하는 시스템
               입니다.
             </Text>
-            <Text>대중교통 이용 후 도보로 이동할 때에 사용하시면 됩니다.</Text>
-            <Text>
+            <Text style={styles.modalContents}>
+              대중교통 이용 후 도보로 이동할 때에 사용하시면 됩니다.
+            </Text>
+            <Text style={styles.modalContents}>
               사용자의 위치정보는 사용자가 등록한 보호자가 열람할 수 있습니다.
             </Text>
             <Text></Text>
@@ -241,6 +242,7 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 18,
     marginBottom: 15,
+    fontFamily: 'SpoqaHanSansNeo-Bold',
   },
   button: {
     backgroundColor: '#2196F3',
@@ -250,8 +252,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'SpoqaHanSansNeo-Bold',
+  },
+  modalContents: {
+    fontFamily: 'SpoqaHanSansNeo-Light',
+    margin: 3,
   },
 });
 
