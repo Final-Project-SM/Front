@@ -29,6 +29,7 @@ const Ansimi = () => {
           position.coords.longitude,
         );
         try {
+          
           //192.168.0.22
           userAxios.ansimi({
             lat: position.coords.latitude,

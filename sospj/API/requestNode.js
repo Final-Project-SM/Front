@@ -1,11 +1,11 @@
-import {BACK_API_PATH} from '@env';
+import {BACK_API_PATH2} from '@env';
 import axios from 'axios';
 import {getDeviceInfo} from '../util/function/androidId';
 import {getFcmToken} from '../util/function/fcmToken';
 export const userAxios = {
   main: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/main', data);
+      const request = await axios.post(BACK_API_PATH2 + '/main', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -13,8 +13,8 @@ export const userAxios = {
   },
   login: async data => {
     try {
-      console.log(BACK_API_PATH);
-      const request = await axios.post(BACK_API_PATH + '/login', data);
+      console.log(BACK_API_PATH2);
+      const request = await axios.post(BACK_API_PATH2 + '/login', data);
       console.log(1);
       return request.data;
     } catch (err) {
@@ -25,7 +25,7 @@ export const userAxios = {
 
   signUp: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/signUp', data);
+      const request = await axios.post(BACK_API_PATH2 + '/signUp', data);
       console.log('requestNode 25 Line : ' + request.data);
       return request.data;
     } catch (err) {
@@ -35,7 +35,7 @@ export const userAxios = {
   keyword: async data => { //  {"id": "e4r5", "keyword": ["피자", "ㅇㅇㅇ"]} 데이터 형식 
     try{
       console.log(data)
-      const request = await axios.post(BACK_API_PATH + "/keyword", data); 
+      const request = await axios.post(BACK_API_PATH2 + "/keyword", data); 
       console.log("node Api 38 Line",request.data)
 
     }catch(err){
@@ -44,7 +44,7 @@ export const userAxios = {
   },
   keywordList: async data => {
     try{
-      const request = await axios.post(BACK_API_PATH + "/keyword/list",data);
+      const request = await axios.post(BACK_API_PATH2 + "/keyword/list",data);
       return request.data
     }catch(err){
       return {sc:400}
@@ -52,7 +52,7 @@ export const userAxios = {
   },
   mainInfo: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/main', data);
+      const request = await axios.post(BACK_API_PATH2 + '/main', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -61,7 +61,7 @@ export const userAxios = {
 
   sosList: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/sos/list', data);
+      const request = await axios.post(BACK_API_PATH2 + '/sos/list', data);
 
       return request.data;
     } catch (err) {
@@ -70,7 +70,7 @@ export const userAxios = {
   },
   userChange: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/update', data);
+      const request = await axios.post(BACK_API_PATH2 + '/update', data);
 
       return request.data;
     } catch (err) {
@@ -79,7 +79,7 @@ export const userAxios = {
   },
   sosChange: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/sos/change', data);
+      const request = await axios.post(BACK_API_PATH2 + '/sos/change', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -88,7 +88,7 @@ export const userAxios = {
 
   logList: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/log', data);
+      const request = await axios.post(BACK_API_PATH2 + '/log', data);
 
       console.log(request.data);
       return request.data;
@@ -98,7 +98,7 @@ export const userAxios = {
   },
   graph: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/graph', data);
+      const request = await axios.post(BACK_API_PATH2 + '/graph', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -106,7 +106,7 @@ export const userAxios = {
   },
   map: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/map', data);
+      const request = await axios.post(BACK_API_PATH2 + '/map', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -114,7 +114,7 @@ export const userAxios = {
   },
   sns: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/sos/sns', data);
+      const request = await axios.post(BACK_API_PATH2 + '/sos/sns', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -122,7 +122,23 @@ export const userAxios = {
   },
   ansimi: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/ansimi', data);
+      const request = await axios.post(BACK_API_PATH2 + '/ansimi', data);
+      return request.data;
+    } catch (err) {
+      return {sc: 400};
+    }
+  },
+  ansimiHistory: async data => {
+    try {
+      const request = await axios.post(BACK_API_PATH2 + '/ansimi/history', data);
+      return request.data;
+    } catch (err) {
+      return {sc: 400};
+    }
+  },
+  followerList: async data => {
+    try {
+      const request = await axios.post(BACK_API_PATH2 + '/follower', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -134,7 +150,7 @@ export const nfcAxios = {
   // id, nfcid nfcname
   nfcInsert: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/nfc/insert', data);
+      const request = await axios.post(BACK_API_PATH2 + '/nfc/insert', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -143,7 +159,7 @@ export const nfcAxios = {
 
   nfcList: async data => {
     try {
-      const request = await axios.post(BACK_API_PATH + '/nfc/list', data);
+      const request = await axios.post(BACK_API_PATH2 + '/nfc/list', data);
       return request.data;
     } catch (err) {
       return {sc: 400};
@@ -160,7 +176,7 @@ export const fcmAxios = {
         pid: await getDeviceInfo(),
       };
       console.log(data);
-      const request = await axios.post(BACK_API_PATH + '/fcm/update', data);
+      const request = await axios.post(BACK_API_PATH2 + '/fcm/update', data);
       return request.data;
     } catch (err) {
       return {sc: 400};

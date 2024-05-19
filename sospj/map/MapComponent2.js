@@ -41,8 +41,8 @@ const MapComponent2 = ({x, y, markers}) => {
     const total = markers.length;
     const sumCoords = markers.reduce(
       (acc, marker) => {
-        acc.latitude += marker.latitude;
-        acc.longitude += marker.longitude;
+        acc.latitude += marker.lat;
+        acc.longitude += marker.lon;
         return acc;
       },
       {latitude: 0, longitude: 0},
@@ -59,14 +59,14 @@ const MapComponent2 = ({x, y, markers}) => {
     const linePath = markers
       .map(
         marker =>
-          `new kakao.maps.LatLng(${marker.latitude}, ${marker.longitude})`,
+          `new kakao.maps.LatLng(${marker.lat}, ${marker.lon})`,
       )
       .join(',');
 
     const markersScript = markers
       .map(
         marker => `
-        var markerPosition = new kakao.maps.LatLng(${marker.latitude}, ${marker.longitude});
+        var markerPosition = new kakao.maps.LatLng(${marker.lat}, ${marker.lon});
         var marker = new kakao.maps.Marker({
           position: markerPosition,
           image: new kakao.maps.MarkerImage(
@@ -106,8 +106,8 @@ const MapComponent2 = ({x, y, markers}) => {
       <div id="map" style="width:100%;height:100%;"></div>
       <script>
         var mapContainer = document.getElementById('map'), mapOption = { center: new kakao.maps.LatLng(${
-          center.latitude
-        }, ${center.longitude}), level: 3 };
+          x
+        }, ${y}), level: 3 };
         var map = new kakao.maps.Map(mapContainer, mapOption);
 
         ${createPolylineScript()}

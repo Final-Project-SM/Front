@@ -50,7 +50,7 @@ public class MainActivity extends ReactActivity {
         double cur_lat = loc_Current.getLatitude(); //위도
         double cur_lon = loc_Current.getLongitude(); //경도
 
-        String URL = "http://192.168.0.22:3000/sos?param1="+test2+"&param2="+androidId+ "&lat=" + cur_lat + "&lon=" + cur_lon + "&type=" + type;
+        String URL = "http://3.39.177.116:3000/sos?param1="+test2+"&param2="+androidId+ "&lat=" + cur_lat + "&lon=" + cur_lon + "&type=" + type;
       // NFC 기능이 없는 경우 처리
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -101,7 +101,7 @@ public class MainActivity extends ReactActivity {
 
         double cur_lat = loc_Current.getLatitude(); //위도
         double cur_lon = loc_Current.getLongitude(); //경도
-      String URL = "http://192.168.0.22:3000/sos?param1="+test2+"&param2="+androidId+ "&lat=" + cur_lat + "&lon=" + cur_lon + "&type=" + type;
+      String URL = "http://3.39.177.116:3000/sos?param1="+test2+"&param2="+androidId+ "&lat=" + cur_lat + "&lon=" + cur_lon + "&type=" + type;
       // NFC 기능이 없는 경우 처리
       //3.39.177.116:3000
       //192.168.0.22:3000
