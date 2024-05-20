@@ -79,7 +79,7 @@ function HomeScreen({navigation}) {
   const [modalVisibleText, setModalVisibleText] = useState(false);
   const [message, setMessage] = useState(user.name + '님이 위험합니다.');
   const [editableMessage, setEditableMessage] = useState(message);
-
+  
   /**
    * 서버에서 데이터를 불러오는 함수.
    */
@@ -91,13 +91,21 @@ function HomeScreen({navigation}) {
       setContacts(data.list);
     }
   };
-  useEffect(() => {
-    return () => Torch.switchState(false);
-    sirenSound.release(); // 컴포넌트 언마운트 시 후레쉬 끄기
-  }, []);
+
 
   useEffect(() => {
     loadData();
+    if(isTorchOn){
+      setIsTorchOn(!isTorchOn);
+      Torch.switchState(false);
+    }
+    
+    if (soundInstance){
+      soundInstance.stop();
+      setSoundInstance(null);
+      setIsPlaying(false)
+    }
+    
   }, [isFocused]);
   const getImageSource = index => {
     switch (index) {

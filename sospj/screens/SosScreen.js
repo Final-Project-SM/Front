@@ -31,7 +31,7 @@ const audioRecorderPlayer = new AudioRecorderPlayer();
 const audioPath = RNFS.CachesDirectoryPath + '/audio.wav';
 
 SosScreen = ({navigation, route}) => {
-  const {user} = useUser();
+  const {user,setUser} = useUser();
   const isFocused = useIsFocused();
   const [type, setType] = useState(
     route.params.type ? route.params.type : '없는데용 ',
@@ -77,7 +77,10 @@ SosScreen = ({navigation, route}) => {
         console.log(response.data);
       }, 10000); // 10초를 밀리초로 변환하여 전달
       setTimeout(() => {
-        navigation.navigate('Main');
+        user.type = true 
+        setUser(user)
+        console.log("이거 안돌아감?")
+        navigation.navigate('Home2',{type:"test"});
       }, 11000);
     } catch (error) {
       console.error('Failed to start recording: ', error);

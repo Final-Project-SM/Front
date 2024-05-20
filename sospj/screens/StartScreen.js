@@ -8,7 +8,6 @@ import PermissionUtil, {
   APP_PERMISSION_CODE,
 } from '../util/permission/PermissionUtil';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
-import Sound from 'react-native-sound';
 
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
@@ -31,38 +30,11 @@ function StartScreen({navigation}) {
     const jsonString = await getStorage('user');
     if (jsonString) {
       const data = JSON.parse(jsonString);
-      setUser({id: data.id, name: data.name, password: data.password});
+      setUser({id: data.id, name: data.name, password: data.password,type:false});
       navigation.navigate('Main');
     }
   };
 
-  const playSound = () => {
-    const sound = new Sound(
-      require('../assets/video/becareful2.m4a'),
-      error => {
-        if (error) {
-          console.log('Failed to load', error);
-          return;
-        }
-        console.log('Sound loaded successfully');
-        sound.play(success => {
-          if (success) {
-            console.log('Sound played successfully');
-          } else {
-            console.log('Sound playback failed');
-          }
-          sound.release(); // Release the sound instance to free up resources
-        });
-
-        setTimeout(() => {
-          sound.stop(() => {
-            console.log('Sound stopped');
-            sound.release(); // Release the sound instance to free up resources
-          });
-        }, 3000); // 3초 후에 소리 재생 중지
-      },
-    );
-  };
 
   useEffect(() => {
     PermissionUtil.cmmReqPermis([...APP_PERMISSION_CODE.android]);
@@ -75,8 +47,7 @@ function StartScreen({navigation}) {
     });
 
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log(remoteMessage);
-      playSound();
+
     });
   }, []);
 

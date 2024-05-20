@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator();
  * @returns {JSX.Element} MainTabNavigator 컴포넌트
  */
 function MainTabNavigator() {
+
   return (
     <Tab.Navigator
       screenOptions={{

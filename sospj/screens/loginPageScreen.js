@@ -33,13 +33,14 @@ function LoginPageScreen({navigation}) {
     console.log(username, password);
     const response = await userAxios.login(data);
     if (response.sc == 200) {
-      setUser({id: response.user.id, name: response.user.name});
+      setUser({id: response.user.id, name: response.user.name,type:false});
       await setStorage(
         'user',
         JSON.stringify({
           id: response.user.id,
           name: response.user.name,
           password: response.user.password,
+          
         }),
       );
       await fcmAxios.fcmUpdate(response.user.id);
