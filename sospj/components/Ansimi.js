@@ -54,6 +54,31 @@ const Ansimi = () => {
       },
     );
   };
+
+  const playSound2 = () => {
+    const sound = new Sound(require('../assets/video/becareful.m4a'), error => {
+      if (error) {
+        console.log('Failed to load', error);
+        return;
+      }
+      console.log('Sound loaded successfully');
+      sound.play(success => {
+        if (success) {
+          console.log('Sound played successfully');
+        } else {
+          console.log('Sound playback failed');
+        }
+        sound.release(); // Release the sound instance to free up resources
+      });
+
+      setTimeout(() => {
+        sound.stop(() => {
+          console.log('Sound stopped');
+          sound.release(); // Release the sound instance to free up resources
+        });
+      }, 3000); // 3초 후에 소리 재생 중지
+    });
+  };
   const startService = async () => {
     setIsServiceRunning(true);
     await BackgroundService.start(veryIntensiveTask, options);
@@ -95,6 +120,8 @@ const Ansimi = () => {
           console.log(request);
           if (request.sc == 200 && request.total > 50) {
             playSound();
+          } else if (request.sc == 200 && request.total > 25) {
+            playSound2();
           }
         } catch (err) {
           console.log(err);
