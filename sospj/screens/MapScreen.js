@@ -110,7 +110,7 @@ function MapScreen() {
             source={require('../assets/images/fire.png')}
             style={styles.icon}
           />
-          <Text>소방서</Text>
+          <Text style={{fontFamily: 'SpoqaHanSansNeo-Bold'}}>소방서</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => fetchData('경찰서', () => setCategory('police'))}
@@ -119,7 +119,7 @@ function MapScreen() {
             source={require('../assets/images/police.png')}
             style={styles.icon}
           />
-          <Text>경찰서</Text>
+          <Text style={{fontFamily: 'SpoqaHanSansNeo-Bold'}}>경찰서</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => fetchData('편의점', () => setCategory('store'))}
@@ -128,7 +128,7 @@ function MapScreen() {
             source={require('../assets/images/store.png')}
             style={styles.icon}
           />
-          <Text>편의점</Text>
+          <Text style={{fontFamily: 'SpoqaHanSansNeo-Bold'}}>편의점</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => fetchData('병원', () => setCategory('hospital'))}
@@ -137,7 +137,7 @@ function MapScreen() {
             source={require('../assets/images/hospital.png')}
             style={styles.icon}
           />
-          <Text>병원</Text>
+          <Text style={{fontFamily: 'SpoqaHanSansNeo-Bold'}}>병원</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
@@ -146,7 +146,7 @@ function MapScreen() {
             source={require('../assets/images/redicon.png')}
             style={styles.icon}
           />
-          <Text>주의</Text>
+          <Text style={{fontFamily: 'SpoqaHanSansNeo-Bold'}}>주의</Text>
         </TouchableOpacity>
         <Modal
           animationType="slide"

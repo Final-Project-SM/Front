@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     color: '#81C784',
     fontSize: 24,
     marginBottom: 20,
-    fontWeight: 'bold',
+    fontFamily: 'SpoqaHanSansNeo-Bold',
     textAlign: 'center',
   },
   userName: {
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 17,
     fontWeight: 'bold',
+    //fontFamily: 'SpoqaHanSansNeo-Bold',
   },
   centeredView: {
     flex: 1,
