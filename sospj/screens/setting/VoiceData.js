@@ -34,7 +34,7 @@ const VoiceData = ({navigation}) => {
         <Text style={styles.description}>주소 : {item.location}</Text>
       </TouchableOpacity>
       {selectedItem === item.seq && (
-        <Text style={styles.script}>{item.script}</Text>
+        <Text style={styles.script}>{item.stt}</Text>
       )}
     </View>
   );

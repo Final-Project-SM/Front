@@ -22,10 +22,10 @@ import {useIsFocused} from '@react-navigation/native';
 const sleep = time => new Promise(resolve => setTimeout(() => resolve(), time));
 
 const Ansimi = () => {
-  const {user,setUser} = useUser();
+  const {user, setUser} = useUser();
   const isFocused = useIsFocused();
   const [isServiceRunning, setIsServiceRunning] = useState(false);
-  
+
   const [modalVisible, setModalVisible] = useState(false);
   const playSound = () => {
     const sound = new Sound(
@@ -64,19 +64,17 @@ const Ansimi = () => {
     await BackgroundService.stop();
   };
   useEffect(() => {
-    
     if (AppState.currentState == 'active' && BackgroundService.isRunning()) {
       setIsServiceRunning(true);
     }
-    console.log("안심이테스트",user.type)
-    if (user.type){
-      startService()
-      user.type = false 
-      setUser(user)
+    console.log('안심이테스트', user.type);
+    if (user.type) {
+      startService();
+      user.type = false;
+      setUser(user);
     }
-    
   }, [isFocused]);
-  
+
   const getLocation = (i, uid) => {
     Geolocation.getCurrentPosition(
       async position => {
@@ -87,19 +85,16 @@ const Ansimi = () => {
           position.coords.longitude,
         );
         try {
-
-
           const request = await userAxios.ansimi({
-
             lat: position.coords.latitude,
             lon: position.coords.longitude,
             i: i,
             id: user.id,
             uid: uid,
           });
-          console.log(request)
-          if(request.sc==200 && request.total > 50){
-            playSound()
+          console.log(request);
+          if (request.sc == 200 && request.total > 50) {
+            playSound();
           }
         } catch (err) {
           console.log(err);
@@ -146,8 +141,6 @@ const Ansimi = () => {
       delay: 180000,
     },
   };
-
-  
 
   return (
     <View style={{flexDirection: 'row'}}>
