@@ -1,4 +1,5 @@
 package com.sospj;
+import java.util.Date;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -45,12 +46,15 @@ public class MainActivity extends ReactActivity {
         
         
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location loc_Current = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        
+        //Location loc_Current2 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location loc_Current2 = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        double cur_lat = loc_Current2.getLatitude(); //위도
+        double cur_lon = loc_Current2.getLongitude(); //경도
+        Date locationDate = new Date(loc_Current2.getTime());
+      String formattedTime = locationDate.toString();
 
-        double cur_lat = loc_Current.getLatitude(); //위도
-        double cur_lon = loc_Current.getLongitude(); //경도
-
-        String URL = "http://3.39.177.116:3000/sos?param1="+test2+"&param2="+androidId+ "&lat=" + cur_lat + "&lon=" + cur_lon + "&type=" + type;
+        String URL = "http://3.39.177.116:3000/sos?param1="+test2+"&param2="+androidId+ "&lat=" + cur_lat + "&lon=" + cur_lon + "&type=" + type+ "&time=" + formattedTime;
       // NFC 기능이 없는 경우 처리
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -76,12 +80,13 @@ public class MainActivity extends ReactActivity {
       else{
           Toast.makeText(this,msg, Toast.LENGTH_SHORT).show();
       }
-        
+      
     }
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
    * rendering of the component.
    */
+  
   @Override
   protected String getMainComponentName() {
     return "sospj";
@@ -97,11 +102,15 @@ public class MainActivity extends ReactActivity {
       String test2 = uri.getQueryParameter("param1");
       String type = uri.getQueryParameter("type");
       LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location loc_Current = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        
+        //Location loc_Current2 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location loc_Current2 = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        double cur_lat = loc_Current2.getLatitude(); //위도
+        double cur_lon = loc_Current2.getLongitude(); //경도
+        Date locationDate = new Date(loc_Current2.getTime());
+      String formattedTime = locationDate.toString();
 
-        double cur_lat = loc_Current.getLatitude(); //위도
-        double cur_lon = loc_Current.getLongitude(); //경도
-      String URL = "http://3.39.177.116:3000/sos?param1="+test2+"&param2="+androidId+ "&lat=" + cur_lat + "&lon=" + cur_lon + "&type=" + type;
+      String URL = "http://3.39.177.116:3000/sos?param1="+test2+"&param2="+androidId+ "&lat=" + cur_lat + "&lon=" + cur_lon + "&type=" + type + "&time=" + formattedTime;
       // NFC 기능이 없는 경우 처리
       //3.39.177.116:3000
       //192.168.0.22:3000
@@ -131,7 +140,7 @@ public class MainActivity extends ReactActivity {
     else{
         Toast.makeText(this,msg, Toast.LENGTH_SHORT).show();
     }
-    
+   
     
   }
   /**

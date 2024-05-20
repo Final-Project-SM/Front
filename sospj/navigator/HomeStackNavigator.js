@@ -10,9 +10,8 @@ import HelpS from '../screens/HelpS';
 
 const Stack = createStackNavigator();
 
-function HomeStackNavigator() {
+function HomeStackNavigator({route}) {
   const navigation = useNavigation();
-
   return (
     <Stack.Navigator initialRouteName="Home2">
       <Stack.Screen

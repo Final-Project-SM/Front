@@ -16,23 +16,70 @@ import messaging from '@react-native-firebase/messaging';
 import {userAxios} from '../API/requestNode';
 import {useUser} from './public/UserContext';
 import {generateRandomuid} from '../util/function/random';
+import Sound from 'react-native-sound';
+import {useIsFocused} from '@react-navigation/native';
 
 const sleep = time => new Promise(resolve => setTimeout(() => resolve(), time));
 
 const Ansimi = () => {
-  const {user} = useUser();
+  const {user,setUser} = useUser();
+  const isFocused = useIsFocused();
   const [isServiceRunning, setIsServiceRunning] = useState(false);
+  
   const [modalVisible, setModalVisible] = useState(false);
+  const playSound = () => {
+    const sound = new Sound(
+      require('../assets/video/becareful2.m4a'),
+      error => {
+        if (error) {
+          console.log('Failed to load', error);
+          return;
+        }
+        console.log('Sound loaded successfully');
+        sound.play(success => {
+          if (success) {
+            console.log('Sound played successfully');
+          } else {
+            console.log('Sound playback failed');
+          }
+          sound.release(); // Release the sound instance to free up resources
+        });
 
+        setTimeout(() => {
+          sound.stop(() => {
+            console.log('Sound stopped');
+            sound.release(); // Release the sound instance to free up resources
+          });
+        }, 3000); // 3초 후에 소리 재생 중지
+      },
+    );
+  };
+  const startService = async () => {
+    setIsServiceRunning(true);
+    await BackgroundService.start(veryIntensiveTask, options);
+  };
+
+  const stopService = async () => {
+    setIsServiceRunning(false);
+    await BackgroundService.stop();
+  };
   useEffect(() => {
+    
     if (AppState.currentState == 'active' && BackgroundService.isRunning()) {
       setIsServiceRunning(true);
     }
-  }, []);
-
+    console.log("안심이테스트",user.type)
+    if (user.type){
+      startService()
+      user.type = false 
+      setUser(user)
+    }
+    
+  }, [isFocused]);
+  
   const getLocation = (i, uid) => {
     Geolocation.getCurrentPosition(
-      position => {
+      async position => {
         console.log(
           i,
           ' ',
@@ -40,13 +87,20 @@ const Ansimi = () => {
           position.coords.longitude,
         );
         try {
-          userAxios.ansimi({
+
+
+          const request = await userAxios.ansimi({
+
             lat: position.coords.latitude,
             lon: position.coords.longitude,
             i: i,
             id: user.id,
             uid: uid,
           });
+          console.log(request)
+          if(request.sc==200 && request.total > 50){
+            playSound()
+          }
         } catch (err) {
           console.log(err);
         }
@@ -89,19 +143,11 @@ const Ansimi = () => {
     color: '#ff00ff',
     linkingURI: 'sospj://test/nfc',
     parameters: {
-      delay: 1000,
+      delay: 180000,
     },
   };
 
-  const startService = async () => {
-    setIsServiceRunning(true);
-    await BackgroundService.start(veryIntensiveTask, options);
-  };
-
-  const stopService = async () => {
-    setIsServiceRunning(false);
-    await BackgroundService.stop();
-  };
+  
 
   return (
     <View style={{flexDirection: 'row'}}>
