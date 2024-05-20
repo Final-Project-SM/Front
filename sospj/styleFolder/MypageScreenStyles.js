@@ -30,6 +30,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center', // 중앙 정렬
     height: 200,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonStyle1: {
     backgroundColor: '#ADD8E6',
@@ -39,6 +47,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center', // 중앙 정렬
     height: 200,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonStyle2: {
     backgroundColor: '#FFFDD0',
@@ -48,6 +64,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center', // 중앙 정렬
     width: 140,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonStyle4: {
     backgroundColor: '#E8F5E9',
@@ -58,6 +82,14 @@ const styles = StyleSheet.create({
     alignItems: 'center', // 중앙 정렬
     width: 140,
     marginTop: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonStyle3: {
     backgroundColor: '#FFD1DC',
@@ -67,6 +99,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center', // 중앙 정렬
     height: 200,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonStyle5: {
     backgroundColor: '#FFFFFF',
@@ -123,6 +163,14 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     width: 200,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   modalButton2: {
     alignItems: 'center',
@@ -132,6 +180,14 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     width: 200,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   modalButtonText: {
     color: 'black',

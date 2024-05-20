@@ -30,11 +30,15 @@ function StartScreen({navigation}) {
     const jsonString = await getStorage('user');
     if (jsonString) {
       const data = JSON.parse(jsonString);
-      setUser({id: data.id, name: data.name, password: data.password,type:false});
+      setUser({
+        id: data.id,
+        name: data.name,
+        password: data.password,
+        type: false,
+      });
       navigation.navigate('Main');
     }
   };
-
 
   useEffect(() => {
     PermissionUtil.cmmReqPermis([...APP_PERMISSION_CODE.android]);
@@ -46,9 +50,7 @@ function StartScreen({navigation}) {
       }, 1000);
     });
 
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-
-    });
+    messaging().setBackgroundMessageHandler(async remoteMessage => {});
   }, []);
 
   return (
