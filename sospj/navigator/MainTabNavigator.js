@@ -12,10 +12,13 @@ const Tab = createBottomTabNavigator();
 
 /**
  * 메인 탭 내비게이터 컴포넌트
+ *
+ * 홈, 지도, 설정 화면을 포함하는 하단 탭 네비게이터를 생성합니다.
+ *
+ * @component
  * @returns {JSX.Element} MainTabNavigator 컴포넌트
  */
 function MainTabNavigator() {
-
   return (
     <Tab.Navigator
       screenOptions={{

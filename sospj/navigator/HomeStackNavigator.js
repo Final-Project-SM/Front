@@ -10,6 +10,16 @@ import HelpS from '../screens/HelpS';
 
 const Stack = createStackNavigator();
 
+/**
+ * HomeStackNavigator 컴포넌트
+ *
+ * 홈 화면과 도움말 화면을 포함하는 스택 네비게이터를 생성합니다.
+ *
+ * @component
+ * @param {object} props - 컴포넌트에 전달되는 속성
+ * @param {object} props.route - 네비게이션 라우트 객체
+ * @returns {JSX.Element} HomeStackNavigator 컴포넌트
+ */
 function HomeStackNavigator({route}) {
   const navigation = useNavigation();
   return (

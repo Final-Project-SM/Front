@@ -8,23 +8,29 @@ import PermissionUtil, {
   APP_PERMISSION_CODE,
 } from '../util/permission/PermissionUtil';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
-
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import styles from '../styleFolder/StartScreenStyles'; // 새로운 스타일 파일 가져오기
 
 /**
  * 시작 화면 컴포넌트
+ *
+ * 앱의 시작 화면을 렌더링하고, 사용자 데이터를 불러와 설정하며,
+ * 필요한 권한을 요청하는 기능을 제공합니다.
+ *
+ * @component
  * @param {object} props - 컴포넌트에 전달되는 속성
  * @param {object} props.navigation - 내비게이션 객체
  * @returns {JSX.Element} StartScreen 컴포넌트
  */
-
 function StartScreen({navigation}) {
   const {user, setUser} = useUser();
 
   /**
    * 저장된 사용자 데이터를 읽어와 설정하는 함수
+   *
+   * @async
+   * @function
    */
   const readData = async () => {
     const jsonString = await getStorage('user');

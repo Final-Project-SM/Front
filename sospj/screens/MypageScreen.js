@@ -48,19 +48,28 @@ function MypageScreen({navigation}) {
       NfcManager.cancelTechnologyRequest();
       setTimeout(() => {
         setNfcModalVisible(false); // NFC 스캔 완료 후 모달 자동 닫기
-      }, 5000); // 스캔 완료 메시지를 2초간 표시
+      }, 5000); // 스캔 완료 메시지를 5초간 표시
     }
   };
 
+  /**
+   * 동선 확인 모달을 여는 함수
+   */
   const handlePathCheck = () => {
     setModalVisible(true);
   };
 
+  /**
+   * 내 동선 확인 화면으로 이동하는 함수
+   */
   const handleCheckMyPath = () => {
     setModalVisible(false);
     navigation.navigate('MyPathScreen', {id: user.id});
   };
 
+  /**
+   * 나를 등록한 사람들 화면으로 이동하는 함수
+   */
   const handleCheckRegisteredPeople = () => {
     setModalVisible(false);
     navigation.navigate('WhoRegister'); // 나를 등록한 사람들 확인하기 화면으로 이동
