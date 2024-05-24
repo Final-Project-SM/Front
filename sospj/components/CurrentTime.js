@@ -1,6 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
+/**
+ * CurrentTime 컴포넌트
+ *
+ * 현재 시간을 실시간으로 표시하는 컴포넌트입니다.
+ *
+ * @component
+ * @returns {JSX.Element} CurrentTime 컴포넌트
+ */
 const CurrentTime = () => {
   const [currentTime, setCurrentTime] = useState('');
 

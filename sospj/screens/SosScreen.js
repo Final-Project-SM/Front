@@ -1,11 +1,3 @@
-/*
-  NFC 태그시 사용자 음성 녹음하는 screen 
-  작업자 : 소대현 
-  기능: 
-    1. 음성녹음 10초 간 진행  
-    2. 음성녹음파일을 flask 서버로 전송 
-      2-2 결과값이 "정상" 혹은 "위급으로" 나옴 
-*/
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -30,13 +22,32 @@ import styles from '../styleFolder/SosScreenStyles'; // 새로운 스타일 파�
 const audioRecorderPlayer = new AudioRecorderPlayer();
 const audioPath = RNFS.CachesDirectoryPath + '/audio.wav';
 
-SosScreen = ({navigation, route}) => {
-  const {user,setUser} = useUser();
+/**
+ * SosScreen 컴포넌트
+ *
+ * NFC 태그 시 사용자 음성을 10초 동안 녹음하고, 녹음된 파일을 Flask 서버로 전송하여
+ * 분석 결과를 받는 기능을 제공합니다. 결과값에 따라 긴급 상황 여부를 확인합니다.
+ *
+ * @component
+ * @param {object} props - 컴포넌트에 전달되는 속성
+ * @param {object} props.navigation - 내비게이션 객체
+ * @param {object} props.route - 경로 객체, route.params에서 type을 가져옵니다.
+ * @returns {JSX.Element} SosScreen 컴포넌트
+ */
+const SosScreen = ({navigation, route}) => {
+  const {user, setUser} = useUser();
   const isFocused = useIsFocused();
   const [type, setType] = useState(
     route.params.type ? route.params.type : '없는데용 ',
   );
   const [loading, setLoading] = useState(true);
+
+  /**
+   * 음성 녹음을 시작하고, 10초 후에 녹음을 중지하여 서버로 전송하는 함수
+   *
+   * @async
+   * @function
+   */
   const startrecord = async () => {
     try {
       const audioSet = {
@@ -60,10 +71,8 @@ SosScreen = ({navigation, route}) => {
           name: 'audio4',
           type: 'audio/aac',
         });
-        // formData.append('file',result2)
         formData.append('id', user.id);
         console.log('axios');
-        // setLoading(false)
         console.log('1');
         const response = await axios.post(
           'http://43.202.64.160:5000/predict',
@@ -77,16 +86,17 @@ SosScreen = ({navigation, route}) => {
         console.log(response.data);
       }, 10000); // 10초를 밀리초로 변환하여 전달
       setTimeout(() => {
-        user.type = true 
-        setUser(user)
-        console.log("이거 안돌아감?")
-        navigation.navigate('Home2',{type:"test"});
+        user.type = true;
+        setUser(user);
+        console.log('이거 안돌아감?');
+        navigation.navigate('Home2', {type: 'test'});
       }, 11000);
     } catch (error) {
       console.error('Failed to start recording: ', error);
       navigation.navigate('Main');
     }
   };
+
   useEffect(() => {
     console.log('sos스크린입니다', type);
     if (isFocused && type == 1) {
@@ -95,18 +105,27 @@ SosScreen = ({navigation, route}) => {
   }, [isFocused]);
 
   /**
-   * 테스트 함수로, 메인 화면으로 이동
+   * 테스트 함수로, 메인 화면으로 이동합니다.
    */
   const test = async () => {
     await navigation.navigate('Main');
   };
+
+  /**
+   * 긴급 상황 확인 화면에서 '예' 버튼을 눌렀을 때 호출되는 함수
+   */
   const changeType = () => {
     setType('1');
     startrecord();
   };
+
+  /**
+   * 긴급 상황 확인 화면에서 '아니요' 버튼을 눌렀을 때 호출되는 함수
+   */
   const nextPage = async () => {
     await navigation.navigate('Main');
   };
+
   if (type == 2) {
     return (
       <View style={styles.container}>
@@ -125,6 +144,7 @@ SosScreen = ({navigation, route}) => {
       </View>
     );
   }
+
   if (loading) {
     return (
       <View style={styles.container}>

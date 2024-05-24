@@ -12,21 +12,32 @@ import {
 import BackgroundService from 'react-native-background-actions';
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
-import messaging from '@react-native-firebase/messaging';
+import Sound from 'react-native-sound';
 import {userAxios} from '../API/requestNode';
 import {useUser} from './public/UserContext';
 import {generateRandomuid} from '../util/function/random';
-import Sound from 'react-native-sound';
 import {useIsFocused} from '@react-navigation/native';
 
 const sleep = time => new Promise(resolve => setTimeout(() => resolve(), time));
 
+/**
+ * Ansimi 컴포넌트
+ *
+ * 안심귀가 서비스 기능을 제공하는 컴포넌트입니다.
+ * 사용자의 위치를 실시간으로 추적하고, 일정 조건에 따라 경고음을 재생합니다.
+ *
+ * @component
+ * @returns {JSX.Element} Ansimi 컴포넌트
+ */
 const Ansimi = () => {
   const {user, setUser} = useUser();
   const isFocused = useIsFocused();
   const [isServiceRunning, setIsServiceRunning] = useState(false);
-
   const [modalVisible, setModalVisible] = useState(false);
+
+  /**
+   * 경고음을 재생하는 함수
+   */
   const playSound = () => {
     const sound = new Sound(
       require('../assets/video/becareful2.m4a'),
@@ -55,6 +66,9 @@ const Ansimi = () => {
     );
   };
 
+  /**
+   * 두 번째 경고음을 재생하는 함수
+   */
   const playSound2 = () => {
     const sound = new Sound(require('../assets/video/becareful.m4a'), error => {
       if (error) {
@@ -79,15 +93,23 @@ const Ansimi = () => {
       }, 3000); // 3초 후에 소리 재생 중지
     });
   };
+
+  /**
+   * 안심귀가 서비스를 시작하는 함수
+   */
   const startService = async () => {
     setIsServiceRunning(true);
     await BackgroundService.start(veryIntensiveTask, options);
   };
 
+  /**
+   * 안심귀가 서비스를 중지하는 함수
+   */
   const stopService = async () => {
     setIsServiceRunning(false);
     await BackgroundService.stop();
   };
+
   useEffect(() => {
     if (AppState.currentState == 'active' && BackgroundService.isRunning()) {
       setIsServiceRunning(true);
@@ -100,6 +122,12 @@ const Ansimi = () => {
     }
   }, [isFocused]);
 
+  /**
+   * 사용자의 현재 위치를 가져오는 함수
+   *
+   * @param {number} i - 위치를 가져온 횟수
+   * @param {string} uid - 위치 추적을 위한 고유 ID
+   */
   const getLocation = (i, uid) => {
     Geolocation.getCurrentPosition(
       async position => {
@@ -134,6 +162,12 @@ const Ansimi = () => {
     );
   };
 
+  /**
+   * 매우 집중적인 작업을 수행하는 함수
+   *
+   * @param {object} taskDataArguments - 작업 데이터 인수
+   * @param {number} taskDataArguments.delay - 작업 간 지연 시간 (밀리초)
+   */
   const veryIntensiveTask = async taskDataArguments => {
     const {delay} = taskDataArguments;
     const uid = generateRandomuid();

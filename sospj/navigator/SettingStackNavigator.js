@@ -17,6 +17,10 @@ const Stack = createStackNavigator();
 
 /**
  * 설정 스택 내비게이터 컴포넌트
+ *
+ * 마이페이지 및 설정 관련 화면을 포함하는 스택 네비게이터를 생성합니다.
+ *
+ * @component
  * @returns {JSX.Element} SettingStackNavigator 컴포넌트
  */
 function SettingStackNavigator() {

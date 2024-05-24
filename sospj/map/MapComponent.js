@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Dimensions,
   View,
-  Text,
   TouchableOpacity,
   Image,
 } from 'react-native';
@@ -11,18 +10,31 @@ import {WebView} from 'react-native-webview';
 import {REACT_APP_KAKKO_KEY, REACT_APP_KAKAO_REST_KEY} from '@env'; // 환경 변수에서 카카오 API 키 가져오기
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
-import { useUser } from '../components/public/UserContext';
+import {useUser} from '../components/public/UserContext';
 import {userAxios} from '../API/requestNode';
 import {useIsFocused} from '@react-navigation/native';
-
 import moment from 'moment-timezone';
 
+/**
+ * MapComponent 컴포넌트
+ *
+ * 지도에 마커, 원, 폴리라인을 표시하고, 사용자의 현재 위치를 갱신하여 표시하는 컴포넌트입니다.
+ *
+ * @component
+ * @param {object} props - 컴포넌트에 전달되는 속성
+ * @param {number} props.x - 초기 지도 중심의 위도
+ * @param {number} props.y - 초기 지도 중심의 경도
+ * @param {Array} props.markers - 지도에 표시할 마커들의 배열
+ * @param {number} props.currentX - 사용자의 현재 위도
+ * @param {number} props.currentY - 사용자의 현재 경도
+ * @param {string} props.category - 마커의 카테고리 (예: 'fire', 'police', 'store', 'hospital')
+ * @returns {JSX.Element} MapComponent 컴포넌트
+ */
 const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   const [zoomLevel, setZoomLevel] = useState(3); // 초기 Zoom Level을 3으로 설정
   const [currentLocation, setCurrentLocation] = useState({x, y});
   const isFocused = useIsFocused();
-
-  const {user} = useUser()
+  const {user} = useUser();
 
   // WebView로부터 메시지를 받았을 때의 핸들러
   const onMessage = event => {
@@ -46,13 +58,21 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     {seq: 9, lat: 36.8076, lon: 127.0814},
     {seq: 10, lat: 36.7976, lon: 127.0817},
   ]);
-  const [coordinates,setCoordinates] = useState([
+  const [coordinates, setCoordinates] = useState([
     {lat: 36.79888, lon: 127.0648},
     {lat: 36.7988819, lon: 127.0747772},
     {lat: 36.79763, lon: 127.0851},
     {lat: 36.79857, lon: 127.0927},
   ]);
 
+  /**
+   * 사용자의 현재 위치를 갱신하고, 위치 정보를 서버로 전송하는 함수
+   *
+   * @async
+   * @function
+   * @param {number} lat - 현재 위치의 위도
+   * @param {number} lon - 현재 위치의 경도
+   */
   const updateCirclessScript = async (lat, lon) => {
     try {
       const response = await axios.get(
@@ -64,18 +84,18 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
       const addressName = response.data.documents[0].address
         ? response.data.documents[0].address.address_name
         : '주소를 찾을 수 없습니다.';
-        const kr_curr = moment().tz("Asia/Seoul").format('YYYY-MM-DD');
-        const kr_curr2 = moment().tz("Asia/Seoul").format('YYYY-MM-DD HH:mm:ss');
-        console.log(kr_curr2);
-        const data = await userAxios.map({
-          id: user.id,
-          region1: response.data.documents[0].address.region_1depth_name,
-          region2: response.data.documents[0].address.region_2depth_name,
-          today:kr_curr,
-          test:kr_curr2
-        });
+      const kr_curr = moment().tz('Asia/Seoul').format('YYYY-MM-DD');
+      const kr_curr2 = moment().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
+      console.log(kr_curr2);
+      const data = await userAxios.map({
+        id: user.id,
+        region1: response.data.documents[0].address.region_1depth_name,
+        region2: response.data.documents[0].address.region_2depth_name,
+        today: kr_curr,
+        test: kr_curr2,
+      });
       if (data.sc == 200) {
-        setLocations(data.response)
+        setLocations(data.response);
         setCoordinates(data.locations);
       }
     } catch (error) {
@@ -83,7 +103,13 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     }
   };
 
-  // 원을 생성하는 JavaScript 코드
+  /**
+   * 원을 생성하는 JavaScript 코드 생성 함수
+   *
+   * @function
+   * @param {Array} locations - 원을 생성할 위치 배열
+   * @returns {string} 생성된 JavaScript 코드
+   */
   const createCirclesScript = locations => {
     return locations
       .map(location => {
@@ -135,9 +161,13 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
       .join('');
   };
 
+  /**
+   * 폴리라인을 생성하는 JavaScript 코드 생성 함수
+   *
+   * @function
+   * @returns {string} 생성된 JavaScript 코드
+   */
   const createPolylineScript = () => {
-    
-
     const markerScript = coordinates
       .map(
         coord => `
@@ -185,9 +215,9 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
   function haversineDistance(lat1, lon1, lat2, lon2) {
     var R = 6371; // 지구의 반지름(km)
     var dLat = toRad(lat2 - lat1);
-    var dLon = toRad(lon2 - lon1);
+    var dLon = toRad(lon1 - lon2);
     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)); 
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2); 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
     return R * c;
   }
@@ -195,15 +225,24 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
       return Value * Math.PI / 180;
   }`;
 
-  // 사용자 지정 마커를 추가하는 함수입니다.
-  // 특정 위치에 이미지를 사용한 마커를 표시합니다.
+  /**
+   * 사용자 지정 마커를 추가하는 함수
+   *
+   * @function
+   * @param {object} position - 마커의 위치 객체 (lat, lng)
+   * @param {string} imageUrl - 마커 이미지 URL
+   * @param {object} imageSize - 마커 이미지 크기 객체 (width, height)
+   * @returns {string} 생성된 JavaScript 코드
+   */
   const createMarkerScript2 = (position, imageUrl, imageSize) => `
       var markerPosition = new kakao.maps.LatLng(${position.lat}, ${position.lng});
       var markerImage = new kakao.maps.MarkerImage('${imageUrl}', new kakao.maps.Size(${imageSize.width}, ${imageSize.height}));
       var marker = new kakao.maps.Marker({ position: markerPosition, image: markerImage });
       marker.setMap(map);`;
 
-  // 위치 갱신 버튼의 핸들러
+  /**
+   * 위치 갱신 버튼의 핸들러
+   */
   const updateLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
@@ -223,7 +262,14 @@ const MapComponent = ({x, y, markers, currentX, currentY, category}) => {
     );
   };
 
-  // 마커 생성 및 클릭 이벤트 처리 로직을 포함하는 함수입니다.
+  /**
+   * 마커 생성 및 클릭 이벤트 처리 로직을 포함하는 함수
+   *
+   * @function
+   * @param {Array} markers - 마커 배열
+   * @param {string} category - 마커 카테고리
+   * @returns {string} 생성된 JavaScript 코드
+   */
   const createMarkersScript = (markers, category) => {
     const categoryIcons = {
       fire: 'https://cdn-icons-png.flaticon.com/128/4906/4906569.png', // 예시: 소방서 마커 아이콘

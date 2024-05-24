@@ -12,6 +12,10 @@ import styles from '../styleFolder/SettingStyles'; // 새로운 스타일 파일
 
 /**
  * 설정 화면 컴포넌트
+ *
+ * 프리미엄 서비스, 케이스 구매, 도움말 보기, 문의하기 및 로그아웃 기능을 제공하는 설정 화면입니다.
+ *
+ * @component
  * @param {object} props - 컴포넌트에 전달되는 속성
  * @param {object} props.navigation - 내비게이션 객체
  * @returns {JSX.Element} Setting 컴포넌트
@@ -23,6 +27,7 @@ const Setting = ({navigation}) => {
 
   /**
    * 프리미엄 서비스 모달을 토글하는 함수
+   *
    * @param {boolean} visible - 모달 가시성 여부
    */
   const handleModalToggle = visible => {
@@ -32,6 +37,7 @@ const Setting = ({navigation}) => {
 
   /**
    * 도움말 모달을 토글하는 함수
+   *
    * @param {boolean} visible - 모달 가시성 여부
    */
   const handleModalToggle2 = visible => {
@@ -52,6 +58,7 @@ const Setting = ({navigation}) => {
 
   /**
    * URL 링크를 여는 함수
+   *
    * @param {string} url - 열 URL
    */
   const openLink = url => {

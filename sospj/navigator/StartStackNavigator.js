@@ -13,6 +13,16 @@ import HiddenKeywordSet from '../screens/HiddenKeywordSet';
 
 const Stack = createStackNavigator();
 
+/**
+ * 시작 스택 내비게이터 컴포넌트
+ *
+ * 앱의 시작 화면과 관련된 여러 스크린을 포함하는 스택 네비게이터를 생성합니다.
+ *
+ * @component
+ * @param {object} props - 컴포넌트에 전달되는 속성
+ * @param {object} props.navigation - 네비게이션 객체
+ * @returns {JSX.Element} StartStackNavigator 컴포넌트
+ */
 function StartStackNavigator({navigation}) {
   return (
     <Stack.Navigator initialRouteName="Start">

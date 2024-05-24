@@ -14,6 +14,10 @@ const {width} = Dimensions.get('window'); // 디바이스의 너비를 가져옵
 
 /**
  * 시작 도움말 화면 컴포넌트
+ *
+ * 도움말 이미지를 수평 스크롤로 보여주고, 각종 외부 링크로 연결하는 버튼을 제공하는 컴포넌트입니다.
+ *
+ * @component
  * @param {object} props - 컴포넌트에 전달되는 속성
  * @param {object} props.navigation - 내비게이션 객체
  * @returns {JSX.Element} StartingHelpScreen 컴포넌트
@@ -32,6 +36,7 @@ function StartingHelpScreen({navigation}) {
 
   /**
    * 버튼 클릭 시 링크 열기
+   *
    * @param {string} url - 열 URL
    */
   const openLink = url => {

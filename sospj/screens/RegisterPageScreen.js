@@ -40,7 +40,7 @@ function RegisterPageScreen({navigation}) {
       phone: phoneNumber,
     });
     if (response.sc == 200) {
-      setUser({id:username})
+      setUser({id: username});
       navigation.navigate('RegisterNumber');
     } else {
       Alert.alert('해당 아이디 이미 사용중');
