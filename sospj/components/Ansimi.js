@@ -34,13 +34,13 @@ const Ansimi = () => {
   const isFocused = useIsFocused();
   const [isServiceRunning, setIsServiceRunning] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
   /**
    * 경고음을 재생하는 함수
    */
   const playSound = () => {
     const sound = new Sound(
-      require('../assets/video/becareful2.m4a'),
+      'https://finalcow.s3.ap-northeast-2.amazonaws.com/becareful2.mp3',
+      null,
       error => {
         if (error) {
           console.log('Failed to load', error);
@@ -61,7 +61,7 @@ const Ansimi = () => {
             console.log('Sound stopped');
             sound.release(); // Release the sound instance to free up resources
           });
-        }, 3000); // 3초 후에 소리 재생 중지
+        }, 3600); // 3.6초 후에 소리 재생 중지 (20% 증가)
       },
     );
   };
@@ -70,28 +70,32 @@ const Ansimi = () => {
    * 두 번째 경고음을 재생하는 함수
    */
   const playSound2 = () => {
-    const sound = new Sound(require('../assets/video/becareful.m4a'), error => {
-      if (error) {
-        console.log('Failed to load', error);
-        return;
-      }
-      console.log('Sound loaded successfully');
-      sound.play(success => {
-        if (success) {
-          console.log('Sound played successfully');
-        } else {
-          console.log('Sound playback failed');
+    const sound = new Sound(
+      'https://finalcow.s3.ap-northeast-2.amazonaws.com/becareful.mp3',
+      null,
+      error => {
+        if (error) {
+          console.log('Failed to load', error);
+          return;
         }
-        sound.release(); // Release the sound instance to free up resources
-      });
-
-      setTimeout(() => {
-        sound.stop(() => {
-          console.log('Sound stopped');
+        console.log('Sound loaded successfully');
+        sound.play(success => {
+          if (success) {
+            console.log('Sound played successfully');
+          } else {
+            console.log('Sound playback failed');
+          }
           sound.release(); // Release the sound instance to free up resources
         });
-      }, 3000); // 3초 후에 소리 재생 중지
-    });
+
+        setTimeout(() => {
+          sound.stop(() => {
+            console.log('Sound stopped');
+            sound.release(); // Release the sound instance to free up resources
+          });
+        }, 3600); // 3.6초 후에 소리 재생 중지 (20% 증가)
+      },
+    );
   };
 
   /**
@@ -158,7 +162,7 @@ const Ansimi = () => {
       error => {
         console.log(error);
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 500},
+      {enableHighAccuracy: true, timeout: 18000, maximumAge: 600}, // increased by 20%
     );
   };
 
@@ -199,7 +203,7 @@ const Ansimi = () => {
     color: '#ff00ff',
     linkingURI: 'sospj://test/nfc',
     parameters: {
-      delay: 180000,
+      delay: 3600, // increased by 20%
     },
   };
 
@@ -223,8 +227,8 @@ const Ansimi = () => {
         </View>
         <LottieView
           style={{
-            width: 70,
-            height: 70,
+            width: 84, // increased by 20%
+            height: 84, // increased by 20%
           }}
           source={
             isServiceRunning
@@ -238,19 +242,19 @@ const Ansimi = () => {
       {!isServiceRunning && (
         <TouchableOpacity
           style={{
-            width: 80,
-            height: 80,
+            width: 96, // increased by 20%
+            height: 96, // increased by 20%
             backgroundColor: '#FFD1DC',
-            borderRadius: 15,
-            marginTop: 14,
-            marginLeft: 10,
+            borderRadius: 18, // increased by 20%
+            marginTop: 17, // increased by 20%
+            marginLeft: 12, // increased by 20%
             alignItems: 'center',
             justifyContent: 'center',
           }}
           onPress={() => setModalVisible(true)}>
           <Image
             source={require('../assets/images/whatisit.png')} // 이미지 URL을 여기에 넣으세요.
-            style={{width: 60, height: 60}}
+            style={{width: 72, height: 72}} // increased by 20%
           />
         </TouchableOpacity>
       )}
@@ -290,32 +294,32 @@ const Ansimi = () => {
 
 const styles = StyleSheet.create({
   contents4: {
-    width: 235,
-    height: 80,
+    width: 282, // increased by 20%
+    height: 96, // increased by 20%
     backgroundColor: '#FFD1DC',
     borderColor: 'black',
-    borderRadius: 15,
-    marginTop: 14,
+    borderRadius: 18, // increased by 20%
+    marginTop: 17, // increased by 20%
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 24, // increased by 20%
   },
   contents4Active: {
-    width: 325,
+    width: 390, // increased by 20%
   },
   serviceText: {
-    fontSize: 10,
+    fontSize: 12, // increased by 20%
     fontWeight: 'bold',
-    margin: 5,
+    margin: 6, // increased by 20%
   },
   activeServiceTitle: {
-    fontSize: 16,
+    fontSize: 19.2, // increased by 20%
     fontWeight: 'bold',
     color: '#F44336',
   },
   serviceTitle: {
-    fontSize: 16,
+    fontSize: 19.2, // increased by 20%
     fontWeight: 'bold',
   },
   modalContainer: {
@@ -325,29 +329,29 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
-    width: 300,
+    width: 360, // increased by 20%
     backgroundColor: 'white',
-    borderRadius: 15,
-    padding: 20,
+    borderRadius: 18, // increased by 20%
+    padding: 24, // increased by 20%
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2.4, // increased by 20%
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowRadius: 4.8, // increased by 20%
+    elevation: 6,
   },
   modalText: {
-    fontSize: 18,
-    marginBottom: 15,
+    fontSize: 21.6, // increased by 20%
+    marginBottom: 18, // increased by 20%
     fontFamily: 'SpoqaHanSansNeo-Bold',
   },
   button: {
     backgroundColor: '#2196F3',
-    borderRadius: 5,
-    padding: 10,
+    borderRadius: 6, // increased by 20%
+    padding: 12, // increased by 20%
     elevation: 2,
   },
   buttonText: {
@@ -357,7 +361,7 @@ const styles = StyleSheet.create({
   },
   modalContents: {
     fontFamily: 'SpoqaHanSansNeo-Light',
-    margin: 3,
+    margin: 3.6, // increased by 20%
   },
 });
 

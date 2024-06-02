@@ -4,10 +4,10 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white', // 배경 검정색
-    height: '100%',
+    backgroundColor: 'white',
+    height: '120%', // increased by 20%
     flex: 1,
+    padding: 15,
   },
   contentsContainer: {
     flexDirection: 'row',
@@ -17,248 +17,239 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contents1: {
-    //비상연락처
-    width: 155,
-    height: 155,
+    width: 186, // increased by 20%
+    height: 186, // increased by 20%
     backgroundColor: '#E8F5E9',
     borderColor: 'black',
-    borderRadius: 15,
-    marginTop: 14,
-    marginRight: 7,
+    borderRadius: 18, // increased by 20%
+    marginTop: 35, // increased by 20%
+    marginRight: 8.4, // increased by 20%
   },
   contents3: {
-    //SOS도구
-    width: 325,
-    height: 170,
+    width: 390, // increased by 20%
+    height: 204, // increased by 20%
     backgroundColor: '#FFFDD0',
     borderColor: 'black',
-    borderRadius: 15,
-    marginTop: 14,
+    borderRadius: 18, // increased by 20%
+    marginTop: 17, // increased by 20%
     alignItems: 'center',
   },
   contents4: {
-    //SOS도구
-    width: 325,
-    height: 80,
+    width: 390, // increased by 20%
+    height: 96, // increased by 20%
     backgroundColor: '#FFD1DC',
     borderColor: 'black',
-    borderRadius: 15,
-    marginTop: 14,
+    borderRadius: 18, // increased by 20%
+    marginTop: 17, // increased by 20%
     alignItems: 'center',
-    flexDirection: 'row', // 가로로 텍스트와 버튼 배치
-    justifyContent: 'space-between', // 요소들 사이에 공간을 균등하게 분배
-    paddingHorizontal: 20, // 좌우 패딩 추가
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24, // increased by 20%
   },
   contents11: {
-    //긴급신고 내부 버튼
-    width: 60,
-    height: 50,
-    borderRadius: 15,
+    width: 72, // increased by 20%
+    height: 60, // increased by 20%
+    borderRadius: 18, // increased by 20%
     backgroundColor: 'white',
-    margin: 5,
-    marginTop: 7,
+    margin: 6, // increased by 20%
+    marginTop: 8.4, // increased by 20%
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 8,
   },
   contents21: {
-    //SOS도구 내부 버튼
-    width: 130,
-    height: 50,
-    borderRadius: 15,
+    width: 156, // increased by 20%
+    height: 60, // increased by 20%
+    borderRadius: 18, // increased by 20%
     backgroundColor: 'white',
-    margin: 9,
-    marginTop: 7,
-    padding: 10,
+    margin: 10.8, // increased by 20%
+    marginTop: 8.4, // increased by 20%
+    padding: 12, // increased by 20%
     elevation: 8,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
   },
   contents26: {
-    //SOS도구 내부 버튼
-    width: 55,
-    height: 50,
-    borderRadius: 15,
+    width: 66, // increased by 20%
+    height: 60, // increased by 20%
+    borderRadius: 18, // increased by 20%
     backgroundColor: 'white',
-    margin: 9,
-    marginTop: 9,
-    padding: 10,
+    margin: 10.8, // increased by 20%
+    marginTop: 10.8, // increased by 20%
+    padding: 12, // increased by 20%
     elevation: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
   contents31: {
-    //일괄 문자 전송
-    width: 120,
-    height: 120,
-    borderRadius: 15,
+    width: 144, // increased by 20%
+    height: 144, // increased by 20%
+    borderRadius: 18, // increased by 20%
     backgroundColor: 'white',
-    margin: 9,
-    marginTop: 7,
-    padding: 10,
+    margin: 10.8, // increased by 20%
+    marginTop: 8.4, // increased by 20%
+    padding: 12, // increased by 20%
     elevation: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
   contents2: {
-    //긴급신고
-    width: 155,
-    height: 155,
+    width: 186, // increased by 20%
+    height: 186, // increased by 20%
     backgroundColor: '#ADD8E6',
     borderColor: 'black',
-    borderRadius: 15,
-    marginTop: 14,
-    marginLeft: 7,
+    borderRadius: 18, // increased by 20%
+    marginTop: 35, // increased by 20%
+    marginLeft: 8.4, // increased by 20%
   },
   headerImage: {
     width: '100%',
-    marginTop: 10,
-    height: 170,
-    borderRadius: 20, // 모서리 둥근 처리
-    marginBottom: 20,
+    marginTop: 12, // increased by 20%
+    height: 204, // increased by 20%
+    borderRadius: 24, // increased by 20%
+    marginBottom: 24, // increased by 20%
   },
   headerText: {
-    fontSize: 48,
+    fontSize: 57.6, // increased by 20%
     fontWeight: 'bold',
-    color: '#212121', // 텍스트 하얀색
-    marginBottom: 10,
+    color: '#212121',
+    marginBottom: 12, // increased by 20%
   },
 
   contactText: {
-    color: '#212121', // 텍스트 하얀색
-    fontSize: 10,
+    color: '#212121',
+    fontSize: 12, // increased by 20%
     fontFamily: 'SpoqaHanSansNeo-Bold',
   },
 
   graphText: {
     color: '#212121',
     fontWeight: 'bold',
-    margin: 5,
+    margin: 6, // increased by 20%
     fontFamily: 'SpoqaHanSansNeo-Bold',
   },
   police: {
     flexDirection: 'row',
-    margin: 10,
+    margin: 12, // increased by 20%
   },
   image: {
-    width: 40,
-    height: 40,
+    width: 48, // increased by 20%
+    height: 48, // increased by 20%
   },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 26.4, // increased by 20%
   },
   modalView: {
-    margin: 20,
+    margin: 24, // increased by 20%
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 24, // increased by 20%
+    padding: 42, // increased by 20%
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2.4, // increased by 20%
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowRadius: 4.8, // increased by 20%
+    elevation: 6,
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 18, // increased by 20%
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 19.2, // increased by 20%
   },
   image2: {
-    width: 200,
-    height: 450,
-    marginBottom: 20, // 이미지 아래에 여유 공간 추가
+    width: 240, // increased by 20%
+    height: 540, // increased by 20%
+    marginBottom: 24, // increased by 20%
   },
   cancelButton: {
     backgroundColor: '#FF6347',
-    borderRadius: 5,
-    padding: 10,
+    borderRadius: 6, // increased by 20%
+    padding: 12, // increased by 20%
   },
   cancelButtonText: {
     color: '#fff',
-    fontSize: 13,
+    fontSize: 15.6, // increased by 20%
   },
   navigationButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'green', // 이쁜 파란색 배경
-    borderRadius: 5, // 원형 버튼
-    width: 50, // 버튼 크기
-    height: 30, // 버튼 크기
+    backgroundColor: 'green',
+    borderRadius: 6, // increased by 20%
+    width: 60, // increased by 20%
+    height: 36, // increased by 20%
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
+    margin: 12, // increased by 20%
   },
   navigationButtonText: {
-    color: 'white', // 텍스트 색상
+    color: 'white',
   },
   image3: {
-    width: 30,
-    height: 30,
+    width: 36, // increased by 20%
+    height: 36, // increased by 20%
   },
   image4: {
-    width: 70,
-    height: 70,
+    width: 84, // increased by 20%
+    height: 84, // increased by 20%
   },
-  //안심귀가 서비스
   serviceText: {
-    fontSize: 10, // 텍스트 크기 조정
-    fontWeight: 'bold', // 굵은 글씨로 표시
-    margin: 5,
+    fontSize: 12, // increased by 20%
+    fontWeight: 'bold',
+    margin: 6, // increased by 20%
   },
   activeServiceTitle: {
-    fontSize: 16,
+    fontSize: 19.2, // increased by 20%
     fontWeight: 'bold',
-    color: '#F44336', // 활성화 상태일 때의 텍스트 색상 변경
+    color: '#F44336',
   },
   serviceTitle: {
-    fontSize: 16, // 텍스트 크기 조정
-    fontWeight: 'bold', // 굵은 글씨로 표시
+    fontSize: 19.2, // increased by 20%
+    fontWeight: 'bold',
   },
   startButton: {
-    backgroundColor: 'skyblue', // 시작하기 버튼 색상
-    width: 60, // 버튼 폭
-    height: 60, // 버튼 높이
-    justifyContent: 'center', // 내부 텍스트 중앙 정렬
-    alignItems: 'center', // 내부 텍스트 중앙 정렬
-    borderRadius: 10, // 버튼 모서리 둥글게
+    backgroundColor: 'skyblue',
+    width: 72, // increased by 20%
+    height: 72, // increased by 20%
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12, // increased by 20%
   },
   stopButton: {
-    backgroundColor: '#F44336', // 중단하기 버튼 색상
-    width: 60, // 버튼 폭
-    height: 60, // 버튼 높이
-    justifyContent: 'center', // 내부 텍스트 중앙 정렬
-    alignItems: 'center', // 내부 텍스트 중앙 정렬
-    borderRadius: 10, // 버튼 모서리 둥글게
+    backgroundColor: '#F44336',
+    width: 72, // increased by 20%
+    height: 72, // increased by 20%
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12, // increased by 20%
   },
   statusImage: {
-    width: 50, // 이미지 크기 설정
-    height: 50, // 이미지 높이 설정
-    marginBottom: 5, // 이미지 아래쪽 여백
+    width: 60, // increased by 20%
+    height: 60, // increased by 20%
+    marginBottom: 6, // increased by 20%
   },
   imageBackground: {
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: 50, // Adjust the value to position your text
-    height: 60,
+    paddingBottom: 60, // increased by 20%
+    height: 72, // increased by 20%
   },
   newscontainer: {
-    position: 'absolute', // 부모 요소에 대해 절대 위치 설정
-    bottom: 20,
-    left: 130,
-    width: 200,
-    marginTop: 20,
+    position: 'absolute',
+    bottom: 24, // increased by 20%
+    left: 156, // increased by 20%
+    width: 240, // increased by 20%
+    marginTop: 24, // increased by 20%
   },
   text: {
-    fontSize: 10,
+    fontSize: 12, // increased by 20%
     fontFamily: 'SpoqaHanSansNeo-Bold',
   },
   fullScreenVideo: {
@@ -267,78 +258,76 @@ const styles = StyleSheet.create({
   },
   editButton: {
     position: 'absolute',
-    top: 18,
-    right: 25,
-    paddingVertical: 2,
-    paddingHorizontal: 5,
-    borderRadius: 5,
+    top: 21.6, // increased by 20%
+    right: 30, // increased by 20%
+    paddingVertical: 2.4, // increased by 20%
+    paddingHorizontal: 6, // increased by 20%
+    borderRadius: 6, // increased by 20%
   },
   editButtonText: {
     color: 'grey',
-    fontSize: 8,
+    fontSize: 9.6, // increased by 20%
   },
-
-  //문자 편집
   centeredViewText: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 26.4, // increased by 20%
   },
   modalViewText: {
-    margin: 20,
+    margin: 24, // increased by 20%
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 24, // increased by 20%
+    padding: 42, // increased by 20%
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2.4, // increased by 20%
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowRadius: 4.8, // increased by 20%
+    elevation: 6,
   },
   buttonContainerText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 15,
+    marginTop: 18, // increased by 20%
   },
   textInputText: {
-    height: 40,
+    height: 48, // increased by 20%
     borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
+    borderWidth: 1.2, // increased by 20%
+    marginBottom: 12, // increased by 20%
     width: '100%',
-    paddingHorizontal: 10,
+    paddingHorizontal: 12, // increased by 20%
     borderStyle: 'dotted',
   },
   modalTextText: {
-    marginBottom: 15,
+    marginBottom: 18, // increased by 20%
     textAlign: 'center',
     fontWeight: 'bold',
-    borderWidth: 1,
-    padding: 10,
+    borderWidth: 1.2, // increased by 20%
+    padding: 12, // increased by 20%
   },
   modalTextText2: {
-    marginBottom: 15,
+    marginBottom: 18, // increased by 20%
     textAlign: 'center',
-    fontSize: 10,
+    fontSize: 12, // increased by 20%
     color: 'red',
   },
   closeButton: {
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 12, // increased by 20%
+    right: 12, // increased by 20%
   },
   closeButtonText: {
-    fontSize: 24,
+    fontSize: 28.8, // increased by 20%
     color: 'black',
   },
   sendButton: {
-    borderRadius: 5,
-    padding: 6,
+    borderRadius: 6, // increased by 20%
+    padding: 7.2, // increased by 20%
     backgroundColor: '#FF6347',
   },
   buttonText: {
@@ -351,16 +340,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   addContact: {
-    padding: 20,
+    padding: 24, // increased by 20%
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f0f0f0',
-    borderRadius: 25,
-    marginTop: 10,
+    borderRadius: 30, // increased by 20%
+    marginTop: 12, // increased by 20%
   },
   addContactText: {
     color: '#000',
-    fontSize: 16,
+    fontSize: 19.2, // increased by 20%
     fontFamily: 'SpoqaHanSansNeo-Bold',
   },
   contactContainer: {
@@ -369,9 +358,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contactImage: {
-    width: 35, // 이미지 너비
-    height: 35, // 이미지 높이
-    marginBottom: 3, // 이미지와 텍스트 간격
+    width: 42, // increased by 20%
+    height: 42, // increased by 20%
+    marginBottom: 3.6, // increased by 20%
   },
 });
 
