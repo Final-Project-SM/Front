@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {Calendar} from 'react-native-calendars';
-import MapComponent from '../map/MapComponent2.js'; // MapComponent를 가져오기
+import MapComponent from '../map/MapComponentPathCheck.js'; // MapComponent를 가져오기
 import styles from '../styleFolder/MyPathScreenStyles.js'; // 새로운 스타일 파일 가져오기
 
 import {userAxios} from '../API/requestNode.js';

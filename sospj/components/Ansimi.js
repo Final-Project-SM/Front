@@ -30,7 +30,8 @@ const sleep = time => new Promise(resolve => setTimeout(() => resolve(), time));
  * @returns {JSX.Element} Ansimi 컴포넌트
  */
 const Ansimi = () => {
-  const {user, setUser} = useUser();
+  const [asdf, setAsdf] = useState('1');
+  const {user, setUser} = useUser(); // sos  type 전역변수담아 use effect 실행  type usestate 변수에담아서 끄면
   const isFocused = useIsFocused();
   const [isServiceRunning, setIsServiceRunning] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -111,6 +112,8 @@ const Ansimi = () => {
    */
   const stopService = async () => {
     setIsServiceRunning(false);
+    user.type = false;
+    setUser(user);
     await BackgroundService.stop();
   };
 
@@ -121,8 +124,6 @@ const Ansimi = () => {
     console.log('안심이테스트', user.type);
     if (user.type) {
       startService();
-      user.type = false;
-      setUser(user);
     }
   }, [isFocused]);
 
@@ -150,9 +151,14 @@ const Ansimi = () => {
             uid: uid,
           });
           console.log(request);
-          if (request.sc == 200 && request.total > 50) {
+          console.log(user.type + '유저타입');
+          if (request.sc == 200 && request.total > 50 && user.type == false) {
             playSound();
-          } else if (request.sc == 200 && request.total > 25) {
+          } else if (
+            request.sc == 200 &&
+            request.total > 25 &&
+            user.type == false
+          ) {
             playSound2();
           }
         } catch (err) {

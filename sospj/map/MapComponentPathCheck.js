@@ -10,7 +10,7 @@ import {WebView} from 'react-native-webview';
 import {REACT_APP_KAKKO_KEY} from '@env'; // 환경 변수에서 카카오 API 키 가져오기
 import Geolocation from 'react-native-geolocation-service';
 
-const MapComponent2 = ({x, y, markers}) => {
+const MapComponentPathCheck = ({x, y, markers}) => {
   const [currentLocation, setCurrentLocation] = useState({x, y});
 
   const onMessage = event => {
@@ -37,7 +37,6 @@ const MapComponent2 = ({x, y, markers}) => {
     );
   };
 
-
   const calculateCenter = markers => {
     const total = markers.length;
     const sumCoords = markers.reduce(
@@ -58,10 +57,7 @@ const MapComponent2 = ({x, y, markers}) => {
 
   const createPolylineScript = () => {
     const linePath = markers
-      .map(
-        marker =>
-          `new kakao.maps.LatLng(${marker.lat}, ${marker.lon})`,
-      )
+      .map(marker => `new kakao.maps.LatLng(${marker.lat}, ${marker.lon})`)
 
       .join(',');
 
@@ -186,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(MapComponent2);
+export default memo(MapComponentPathCheck);

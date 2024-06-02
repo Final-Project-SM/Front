@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   contents3: {
     width: 390, // increased by 20%
-    height: 204, // increased by 20%
+    height: 220, // increased by 20%
     backgroundColor: '#FFFDD0',
     borderColor: 'black',
     borderRadius: 18, // increased by 20%
