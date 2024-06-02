@@ -209,7 +209,7 @@ const Ansimi = () => {
     color: '#ff00ff',
     linkingURI: 'sospj://test/nfc',
     parameters: {
-      delay: 3600, // increased by 20%
+      delay: 180000, // increased by 20%
     },
   };
 

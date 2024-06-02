@@ -1,4 +1,4 @@
-import {BACK_API_PATH2} from '@env';
+import {BACK_API_PATH2,AI_PATH} from '@env';
 import axios from 'axios';
 import {getDeviceInfo} from '../util/function/androidId';
 import {getFcmToken} from '../util/function/fcmToken';
@@ -148,6 +148,13 @@ export const userAxios = {
       return {sc: 400};
     }
   },
+  emergency: async data => {
+    try{
+      const request = await axios.post(BACK_API_PATH2 +'/sos/help',data)
+    }catch (err) {
+      return {sc:400}
+    }
+  }
 };
 
 export const nfcAxios = {
@@ -187,3 +194,24 @@ export const fcmAxios = {
     }
   },
 };
+
+export const aiAxios = { 
+  voiceAnalysis: async formData => {
+    console.log("ai서버요청")
+    try {
+      console.log(AI_PATH)
+      const request = await axios.post(
+        AI_PATH+'/predict',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      return request.data
+  }catch(err){
+    console.log(err)
+  }
+}
+}

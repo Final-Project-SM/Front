@@ -17,6 +17,7 @@ import RNFS from 'react-native-fs';
 import {AI_PATH} from '@env';
 import {useUser} from '../components/public/UserContext';
 import {useIsFocused} from '@react-navigation/native';
+import { userAxios,aiAxios } from '../API/requestNode';
 import styles from '../styleFolder/SosScreenStyles'; // 새로운 스타일 파일 가져오기
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
@@ -38,7 +39,7 @@ const SosScreen = ({navigation, route}) => {
   const {user, setUser} = useUser();
   const isFocused = useIsFocused();
   const [type, setType] = useState(
-    route.params.type ? route.params.type : '없는데용 ',
+    route.params.type ? route.params.type : '없음 ',
   );
   const [loading, setLoading] = useState(true);
 
@@ -72,18 +73,11 @@ const SosScreen = ({navigation, route}) => {
           type: 'audio/aac',
         });
         formData.append('id', user.id);
-        console.log('axios');
-        console.log('1');
-        const response = await axios.post(
-          'http://43.202.64.160:5000/predict',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          },
-        );
-        console.log(response.data);
+        const response = await aiAxios.voiceAnalysis(formData)
+        if (response == "위급"){
+          await userAxios.emergency({id:user.id})
+        }
+        
       }, 10000); // 10초를 밀리초로 변환하여 전달
       setTimeout(() => {
         user.type = true;
